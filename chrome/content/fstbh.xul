@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet type="text/css" href="chrome://global/skin/"?>
+<?xml-stylesheet type="text/css" href="chrome://fstbh/content/fstbh.css"?>
+<?xml-stylesheet type="text/css" href="chrome://fstbh/content/bindings.css" ?>
+
+<overlay id="fstbh"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+	<script type="application/x-javascript" src="fstbh.js" />
+
+	<deck id="tab-view-deck">
+		<vbox id="browser-panel">
+			<vbox id="com_sppad_fstbh_topChromeStackElement" insertafter="browser">
+				<vbox id="com_sppad_fstbh_topChromeWrapper" flex="0" />
+				<vbox flex="1" />
+			</vbox>
+		</vbox>
+	</deck>
+</overlay>

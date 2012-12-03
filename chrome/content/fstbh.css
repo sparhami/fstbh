@@ -1,0 +1,37 @@
+@import url("chrome://global/skin/");
+
+window[inFullscreen] #browser-panel {
+	display: -moz-stack;
+}
+
+window[inFullscreen] #navigator-toolbox:hover {
+	margin-top: 0px !important;
+}
+
+window[inFullscreen] #navigator-toolbox {
+	-moz-transition-property: margin-top;
+	-moz-transition-delay: 0s;
+	-moz-transition-duration: 0.2s;  
+	-moz-transition-timing-function: linear;
+}
+
+window:not([inFullscreen]) #com_sppad_fstbh_topChromeStackElement {
+	-moz-box-ordinal-group: 0;
+}
+
+#com_sppad_fstbh_topChromeWrapper {
+	pointer-events: all;
+}
+
+#browser,
+#com_sppad_fstbh_topChromeStackElement {
+	display: -moz-box !important;
+}
+
+#com_sppad_fstbh_topChromeStackElement {
+	pointer-events: none;
+}
+
+window[inFullscreen] #browser-panel > * {
+	display: none;
+}

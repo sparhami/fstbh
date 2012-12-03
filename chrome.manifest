@@ -1,0 +1,3 @@
+content 	fstbh 					chrome/content/
+	
+overlay chrome://browser/content/browser.xul chrome://fstbh/content/fstbh.xul
