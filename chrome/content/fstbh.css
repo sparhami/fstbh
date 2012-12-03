@@ -9,10 +9,10 @@ window[inFullscreen] #navigator-toolbox:hover {
 }
 
 window[inFullscreen] #navigator-toolbox {
-	-moz-transition-property: margin-top;
-	-moz-transition-delay: 0s;
-	-moz-transition-duration: 0.2s;  
-	-moz-transition-timing-function: linear;
+	transition-property: margin-top;
+	transition-delay: 0s;
+	transition-duration: 0.2s;  
+	transition-timing-function: linear;
 }
 
 window:not([inFullscreen]) #com_sppad_fstbh_topChromeStackElement {
