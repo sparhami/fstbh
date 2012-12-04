@@ -42,7 +42,7 @@ com.sppad.fstbh.PrefListener = function(branch_name, callback) {
   let prefService = Components.classes["@mozilla.org/preferences-service;1"]  
     .getService(Components.interfaces.nsIPrefService);  
   this._branch = prefService.getBranch(branch_name);  
-  this._branch.QueryInterface(Components.interfaces.nsIPrefBranch2);  
+  this._branch.QueryInterface(Components.interfaces.nsIPrefBranch);  
   this._callback = callback;  
 }  
   
