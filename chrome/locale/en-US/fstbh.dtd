@@ -1,6 +1,6 @@
 <!ENTITY com.sppad.fstbh.preferences.title "Fullscreen Toolbar Hover Preferences">
 
 
-<!ENTITY preference.generalPrefPane.label "Transition delay (milliseconds)">
+<!ENTITY preference.generalPrefPane.label "General">
 <!ENTITY preference.transitionDuration.label "Transition time (milliseconds)">
 <!ENTITY preference.transitionDelay.label "Transition delay (milliseconds)">
