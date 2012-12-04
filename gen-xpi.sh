@@ -10,7 +10,7 @@ artifactName=${buildTarget}-${version}.${buildExtension}
 
 rm -rf ${buildDir}/${buildTarget}-*.${buildExtension}
 mkdir -p ${buildDir}
-zip -x install.rdf gen-xpi.sh -r ${buildDir}/${artifactName} *
+zip -x install.rdf license.txt README gen-xpi.sh -r ${buildDir}/${artifactName} *
 
 sed "s;\$VERSION;${version};g" install.rdf > ${buildDir}/install.rdf
 pushd ${buildDir}

@@ -7,6 +7,8 @@
 <overlay id="fstbh"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
+	<script type="application/x-javascript" src="utils.js" />
+	<script type="application/x-javascript" src="preferences/preferences.js" />
 	<script type="application/x-javascript" src="fstbh.js" />
 
 	<deck id="tab-view-deck">

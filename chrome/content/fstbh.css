@@ -1,5 +1,7 @@
 @import url("chrome://global/skin/");
 
+@import url("chrome://fstbh/skin/fstbh.css");
+
 window[inFullscreen] #browser-panel {
 	display: -moz-stack;
 }
@@ -10,8 +12,6 @@ window[inFullscreen] #navigator-toolbox:hover {
 
 window[inFullscreen] #navigator-toolbox {
 	transition-property: margin-top;
-	transition-delay: 0s;
-	transition-duration: 0.2s;  
 	transition-timing-function: linear;
 }
 
