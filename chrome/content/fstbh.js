@@ -9,13 +9,36 @@ com.sppad.fstbh.Main = new function() {
 
     const MILLISECONDS_PER_SECOND = 1000;
     
+    this.moveNavigatorToolbox = function() {
+        let nav = document.getElementById('navigator-toolbox');
+        let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+        
+        // save these, need to them back
+        let palette = nav.palette;
+        let toolbarset = nav.toolbarset;
+        let customToolbarCount = nav.customToolbarCount;
+        let externalToolbars = nav.externalToolbars;
+        
+        // do the move
+        wrapper.appendChild(nav);
+        
+        /*
+         * Need to set back the fields from the navigator-toolbox, since they
+         * don't appear to stay when moving the node.
+         */
+        nav.palette = palette;
+        nav.toolbarset = toolbarset;
+        nav.customToolbarCount = customToolbarCount;
+        nav.externalToolbars = externalToolbars;
+        
+    };
+    
     this.setTransitionDuration = function(value) {
         let transitionDuration = (value / MILLISECONDS_PER_SECOND) + 's';
         
         let nav = document.getElementById('navigator-toolbox');
         nav.style.transitionDuration = transitionDuration;
     };
-    
     
     this.setTransitionDelay = function(value) {
         let transitionDelay = (value / MILLISECONDS_PER_SECOND) + 's';
@@ -54,23 +77,19 @@ com.sppad.fstbh.Main = new function() {
         this.prefChanged('transitionDelay', com.sppad.fstbh.CurrentPrefs['transitionDelay']);
         this.prefChanged('transitionDuration', com.sppad.fstbh.CurrentPrefs['transitionDuration']);
     };
-
+    
     this.setup = function() {
         
         com.sppad.fstbh.Preferences.addListener(this);
         
         this.loadPreferences();
+        this.moveNavigatorToolbox();
     };
 
 };
 
 window.addEventListener("load", function() {
-
-    let nav = document.getElementById('navigator-toolbox');
-    let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-
-    wrapper.appendChild(nav);
-
+    
     com.sppad.fstbh.Main.setup();
 
 }, false);
