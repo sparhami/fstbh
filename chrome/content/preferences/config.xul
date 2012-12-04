@@ -4,37 +4,23 @@
 
 <?xml-stylesheet href="config.css" type="text/css"?>
 
-<!DOCTYPE prefwindow [
-<!ENTITY % mainDTD SYSTEM "chrome://fstbh/locale/fstbh.dtd">
-%mainDTD;
-]>
+<!DOCTYPE prefwindow SYSTEM "chrome://fstbh/locale/fstbh.dtd">
 
 <prefwindow title="&com.sppad.fstbh.preferences.title;" id="fstbh-preferences-window"
-	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
-	<prefpane id="com_sppad_fstbh_GeneralPrefPane" label="&preference.generalPrefPane.label;">
-		<preferences>
-			<preference id="extensions.fstbh.transitionDuration" name="extensions.fstbh.transitionDuration"
-				type="int" />
-			<preference id="extensions.fstbh.transitionDelay" name="extensions.fstbh.transitionDelay"
-				type="int" />
-		</preferences>
-
-		<groupbox>
-			<grid>
-				<columns>
-					<column />
-					<column />
-				</columns>
-				<rows>
-					<row>
-						<caption label="&preference.transitionDuration.label;" />
-						<textbox id="com_sppad_fstbh_preference_transitionDuration" type="number"
-							min="0" max="1000" preference="extensions.fstbh.transitionDuration" />
-					</row>
-				</rows>
-			</grid>
-		</groupbox>
-	</prefpane>
-
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <prefpane id="com_sppad_fstbh_GeneralPrefPane" label="&preference.generalPrefPane.label;">
+    <preferences>
+      <preference id="extensions.fstbh.transitionDuration" name="extensions.fstbh.transitionDuration"
+        type="int" />
+      <preference id="extensions.fstbh.transitionDelay" name="extensions.fstbh.transitionDelay"
+        type="int" />
+    </preferences>
+    <groupbox>
+      <hbox align="center">
+        <label value="&preference.transitionDuration.label;" />
+        <textbox id="com_sppad_fstbh_preference_transitionDuration" type="number"
+          min="0" max="1000" width="50" preference="extensions.fstbh.transitionDuration" />
+      </hbox>
+    </groupbox>
+  </prefpane>
 </prefwindow>
