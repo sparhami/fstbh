@@ -13,6 +13,8 @@ window[inFullscreen] #navigator-toolbox:hover {
 window[inFullscreen] #navigator-toolbox {
 	transition-property: margin-top;
 	transition-timing-function: linear;
+	
+	background-position: right top !important;
 }
 
 window:not([inFullscreen]) #com_sppad_fstbh_topChromeStackElement {

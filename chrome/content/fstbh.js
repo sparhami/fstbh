@@ -11,9 +11,6 @@ com.sppad.fstbh.Main = new function() {
     
     let self = this;
     
-    /* Used for saving the nav style, in case any is set, for when we exit fullscreen */
-    self.navStyle = '';
-    
     this.moveNavigatorToolbox = function() {
         let nav = document.getElementById('navigator-toolbox');
         let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
@@ -45,20 +42,32 @@ com.sppad.fstbh.Main = new function() {
      */
     this.fullscreenChange = function() {
         
-        let mainWindow = document.getElementById('main-window');
-        let nav = document.getElementById('navigator-toolbox');
-        
         // Event occurs before the fullscreen is set, so take the opposite
         let enter = !window.fullScreen;
-        let currentStyle = nav.getAttribute('style');
         
-        if(enter) {
-            self.navStyle = currentStyle;
-            nav.setAttribute('style', currentStyle + mainWindow.getAttribute('style'));
-        } else {
-            nav.setAttribute('style',   self.navStyle);
-        }
+        if(enter)
+            this.setupPersona();
+        else
+            this.clearoutPersona();
         
+    };
+    
+    this.setupPersona = function() {
+        let mainWindow = document.getElementById('main-window');
+        let element = document.getElementById('navigator-toolbox');
+        
+        element.style.color =  mainWindow.style.backgroundImage;
+        element.style.backgroundColor =  mainWindow.style.backgroundColor;
+        element.style.backgroundImage =  mainWindow.style.backgroundImage;
+        
+    };
+    
+    this.clearoutPersona = function() {
+        let element = document.getElementById('navigator-toolbox');
+        
+        element.style.color =  '';
+        element.style.backgroundColor = '';
+        element.style.backgroundImage = '';
     };
     
     this.setTransitionDuration = function(value) {
@@ -123,4 +132,3 @@ window.addEventListener("load", function() {
 window.addEventListener("fullscreen", function () {
     com.sppad.fstbh.Main.fullscreenChange();
 }, false);
-
