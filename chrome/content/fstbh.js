@@ -11,6 +11,8 @@ com.sppad.fstbh.Main = new function() {
     
     let self = this;
     
+    self.titleChangedTabs = new Array();
+    
     this.moveNavigatorToolbox = function() {
         let nav = document.getElementById('navigator-toolbox');
         let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
@@ -52,6 +54,34 @@ com.sppad.fstbh.Main = new function() {
         
     };
     
+    this.evalutateTitleChangeState = function() {
+        
+        let container = gBrowser.tabContainer;
+        let titleChangedCount = 0;
+        let pinnedTitleChangedCount = 0;
+        
+        for(let i = 0; i < container.itemCount; i++) {
+                let tab = container.getItemAtIndex(i);
+                let pinned = tab.hasAttribute('pinned');
+                let titlechanged = tab.hasAttribute('titlechanged');
+                
+                if(titlechanged)
+                    titleChangedCount++;
+                if(titlechanged && pinned)
+                    pinnedTitleChangedCount++;
+         }
+        
+        let node = document.getElementById('com_sppad_fstbh_topChromeStackElement');
+        node.setAttribute("titlechange", titleChangedCount > 0);
+        node.setAttribute("pinnedTitlechange", pinnedTitleChangedCount > 0);
+        
+    };
+    
+    this.setTitleChangeBehavior = function(mode) {
+        let node = document.getElementById('com_sppad_fstbh_topChromeStackElement');
+        node.setAttribute("titleChangeBehavior", mode);
+    };
+    
     this.setupPersona = function() {
         let mainWindow = document.getElementById('main-window');
         let element = document.getElementById('navigator-toolbox');
@@ -89,6 +119,12 @@ com.sppad.fstbh.Main = new function() {
         switch (aEvent.type) {
             case com.sppad.fstbh.Preferences.EVENT_PREFERENCE_CHANGED:
                 return this.prefChanged(aEvent.name, aEvent.value);
+            case  'TabSelect':
+            case  'TabClose':
+            case  'TabAttrModified':
+            case  'TabPinned':
+            case  'TabUnpinned':
+                return this.evalutateTitleChangeState();
             default:
                 return;
         }
@@ -104,6 +140,9 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'transitionDelay':
                 this.setTransitionDelay(value);
+                break;
+            case 'showWhenTitleChanged':
+                this.setTitleChangeBehavior(value);
                 break;
             default:
                 break;
@@ -132,11 +171,20 @@ com.sppad.fstbh.Main = new function() {
     this.loadPreferences = function() {
         this.prefChanged('transitionDelay', com.sppad.fstbh.CurrentPrefs['transitionDelay']);
         this.prefChanged('transitionDuration', com.sppad.fstbh.CurrentPrefs['transitionDuration']);
+        this.prefChanged('showWhenTitleChanged', com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged']);
     };
     
     this.setup = function() {
         
+        let container = window.gBrowser.tabContainer;
+        
         com.sppad.fstbh.Preferences.addListener(this);
+        container.addEventListener("TabSelect", this, false);
+        container.addEventListener("TabClose", this, false);
+        container.addEventListener("TabAttrModified", this, false);
+        container.addEventListener("TabPinned", this, false);
+        container.addEventListener("TabUnpinned", this, false);
+        
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)

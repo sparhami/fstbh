@@ -1,6 +1,13 @@
 <!ENTITY com.sppad.fstbh.preferences.title "Fullscreen Toolbar Hover Preferences">
 
-
+<!ENTITY preference.note.label "Note">
 <!ENTITY preference.generalPrefPane.label "General">
+
+<!ENTITY preference.timing.label "Timing">
 <!ENTITY preference.transitionDuration.label "Transition time (milliseconds)">
 <!ENTITY preference.transitionDelay.label "Transition delay (milliseconds)">
+
+<!ENTITY preference.showWhenTitleChanged.label "Show toolbar when there is a title change event (notification)">
+<!ENTITY preference.showWhenTitleChanged.never.label "Never">
+<!ENTITY preference.showWhenTitleChanged.pinned.label "Only when the tabs are pinned">
+<!ENTITY preference.showWhenTitleChanged.any.label "Always">

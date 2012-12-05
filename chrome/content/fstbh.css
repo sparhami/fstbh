@@ -1,11 +1,11 @@
 @import url("chrome://global/skin/");
 
-@import url("chrome://fstbh/skin/fstbh.css");
-
 window[inFullscreen] #browser-panel {
 	display: -moz-stack;
 }
 
+window[inFullscreen] #com_sppad_fstbh_topChromeStackElement[titleChangeBehavior="any"][titlechange=true]  #navigator-toolbox,
+window[inFullscreen] #com_sppad_fstbh_topChromeStackElement[titleChangeBehavior="pinned"][pinnedTitlechange=true]  #navigator-toolbox,
 window[inFullscreen] #navigator-toolbox:hover {
 	margin-top: 0px !important;
 }

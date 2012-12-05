@@ -23,6 +23,9 @@ com.sppad.fstbh.PREFS = {
   
   // transition time, milliseconds
   transitionDuration: 200,
+  
+  // One of never, pinned, any
+  showWhenTitleChanged: 'never',
 };
 
 

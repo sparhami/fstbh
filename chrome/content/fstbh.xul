@@ -11,6 +11,12 @@
 	<script type="application/x-javascript" src="preferences/preferences.js" />
 	<script type="application/x-javascript" src="fstbh.js" />
 
+	<window>
+		<stringbundleset>
+			<stringbundle id="com_sppad_fstbh_tabstrings" src="chrome://browser/locale/tabbrowser.properties" />
+		</stringbundleset>
+	</window>
+
 	<deck id="tab-view-deck">
 		<vbox id="browser-panel">
 			<vbox id="com_sppad_fstbh_topChromeStackElement" insertafter="browser">
