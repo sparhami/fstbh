@@ -9,11 +9,16 @@ com.sppad.fstbh.Main = new function() {
 
     const MILLISECONDS_PER_SECOND = 1000;
     
+    let self = this;
+    
+    /* Used for saving the nav style, in case any is set, for when we exit fullscreen */
+    self.navStyle = '';
+    
     this.moveNavigatorToolbox = function() {
         let nav = document.getElementById('navigator-toolbox');
         let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
         
-        // save these, need to them back
+        // save these, need to add them back
         let palette = nav.palette;
         let toolbarset = nav.toolbarset;
         let customToolbarCount = nav.customToolbarCount;
@@ -30,6 +35,29 @@ com.sppad.fstbh.Main = new function() {
         nav.toolbarset = toolbarset;
         nav.customToolbarCount = customToolbarCount;
         nav.externalToolbars = externalToolbars;
+    };
+    
+    /**
+     * This is used for setting the style attribute on #navigator-toolbox in
+     * order to apply the persona background image and text color. The 
+     * limitation is that if the persona changes while in fullscreen, the
+     * change will not be seen until exiting fullscreen.
+     */
+    this.fullscreenChange = function() {
+        
+        let mainWindow = document.getElementById('main-window');
+        let nav = document.getElementById('navigator-toolbox');
+        
+        // Event occurs before the fullscreen is set, so take the opposite
+        let enter = !window.fullScreen;
+        let currentStyle = nav.getAttribute('style');
+        
+        if(enter) {
+            self.navStyle = currentStyle;
+            nav.setAttribute('style', currentStyle + mainWindow.getAttribute('style'));
+        } else {
+            nav.setAttribute('style',   self.navStyle);
+        }
         
     };
     
@@ -89,7 +117,10 @@ com.sppad.fstbh.Main = new function() {
 };
 
 window.addEventListener("load", function() {
-    
     com.sppad.fstbh.Main.setup();
-
 }, false);
+
+window.addEventListener("fullscreen", function () {
+    com.sppad.fstbh.Main.fullscreenChange();
+}, false);
+
