@@ -109,6 +109,25 @@ com.sppad.fstbh.Main = new function() {
                 break;
         }
     };
+    
+    /*
+     * Used for listening to persona change events.
+     * 
+     * TODO - No guarantee that we are the last to get this event. Currently
+     * relying on the fact that the LightweightThemeConsumer goes first and
+     * applies the appropriate style to the window. Tried creating my own
+     * LightweightThemeConsumer to update navigator-toolbox instead, but that
+     * broke the browser's.
+     */
+    this.observe = function (aSubject, aTopic, aData) {
+        if (aTopic != "lightweight-theme-styling-update")
+          return;
+
+        // Only want to apply when in fullscreen, want to have browser handle
+        // persona as usual otherwise.
+        if(window.fullScreen)
+            this.setupPersona();
+    };
 
     this.loadPreferences = function() {
         this.prefChanged('transitionDelay', com.sppad.fstbh.CurrentPrefs['transitionDelay']);
@@ -119,8 +138,13 @@ com.sppad.fstbh.Main = new function() {
         
         com.sppad.fstbh.Preferences.addListener(this);
         
+        Components.classes["@mozilla.org/observer-service;1"]
+            .getService(Components.interfaces.nsIObserverService)
+            .addObserver(this, "lightweight-theme-styling-update", false);
+        
         this.loadPreferences();
         this.moveNavigatorToolbox();
+        
     };
 
 };
