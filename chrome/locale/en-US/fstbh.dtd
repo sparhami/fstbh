@@ -1,6 +1,5 @@
 <!ENTITY com.sppad.fstbh.preferences.title "Fullscreen Toolbar Hover Preferences">
 
-<!ENTITY preference.note.label "Note">
 <!ENTITY preference.generalPrefPane.label "General">
 
 <!ENTITY preference.timing.label "Timing">
