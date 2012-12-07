@@ -9,8 +9,6 @@
 		<preferences>
 			<preference id="extensions.fstbh.transitionDuration" name="extensions.fstbh.transitionDuration"
 				type="int" />
-			<preference id="extensions.fstbh.transitionDelay" name="extensions.fstbh.transitionDelay"
-				type="int" />
 			<preference id="extensions.fstbh.showWhenTitleChanged" name="extensions.fstbh.showWhenTitleChanged"
 				type="string" />
 		</preferences>
@@ -19,7 +17,7 @@
 				<caption label="&preference.timing.label;" />
 				<hbox align="center">
 					<label value="&preference.transitionDuration.label;" />
-					<textbox id="com_sppad_fstbh_preference_transitionDuration" type="number"
+					<textbox type="number"
 						min="0" max="1000" width="64" preference="extensions.fstbh.transitionDuration" />
 				</hbox>
 			</vbox>
