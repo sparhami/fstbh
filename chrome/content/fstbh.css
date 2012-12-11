@@ -1,5 +1,7 @@
 @import url("chrome://global/skin/");
 
+@import url("chrome://fstbh/skin/fstbh.css");
+
 window[inFullscreen] #browser-panel {
 	display: -moz-stack;
 }

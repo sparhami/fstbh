@@ -1,0 +1,9 @@
+
+
+/*
+ * Remove the clip-path set as it prevents user from clicking on the URL bar and does not work while add-on is active anyway.
+ * Addon causes the part of the URL bar behind the large back button to show through when it should be clipped out.
+ */
+window:not([chromehidden~=toolbar]) #navigator-toolbox[iconsize=large][mode=icons] > :-moz-any(#nav-bar[currentset*="unified-back-forward-button,urlbar-container"],#nav-bar:not([currentset])) > #unified-back-forward-button[forwarddisabled] + #urlbar-container {
+  clip-path: none !important;
+}
