@@ -84,7 +84,7 @@ com.sppad.fstbh.Main = new function() {
                 pinnedTitleChangedCount++;
         }
         
-        let node = document.getElementById('com_sppad_fstbh_topChromeStackElement');
+        let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
         node.setAttribute("titlechange", titleChangedCount > 0);
         node.setAttribute("pinnedTitlechange", pinnedTitleChangedCount > 0);
         
@@ -123,7 +123,7 @@ com.sppad.fstbh.Main = new function() {
      *            The attribute value to apply for titleChangeBehavior
      */
     this.setTitleChangeBehavior = function(mode) {
-        let node = document.getElementById('com_sppad_fstbh_topChromeStackElement');
+        let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
         node.setAttribute("titleChangeBehavior", mode);
     };
     

@@ -6,8 +6,8 @@ window[inFullscreen] #browser-panel {
 	display: -moz-stack;
 }
 
-window[inFullscreen] #com_sppad_fstbh_topChromeStackElement[titleChangeBehavior="any"][titlechange=true]  #navigator-toolbox,
-window[inFullscreen] #com_sppad_fstbh_topChromeStackElement[titleChangeBehavior="pinned"][pinnedTitlechange=true]  #navigator-toolbox,
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="any"][titlechange=true]  #navigator-toolbox,
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="pinned"][pinnedTitlechange=true]  #navigator-toolbox,
 window[inFullscreen] #navigator-toolbox:hover {
 	margin-top: 0px !important;
 }
@@ -19,21 +19,13 @@ window[inFullscreen] #navigator-toolbox {
 	background-position: right top !important;
 }
 
-window:not([inFullscreen]) #com_sppad_fstbh_topChromeStackElement {
+window:not([inFullscreen]) #com_sppad_fstbh_topChromeWrapper {
 	-moz-box-ordinal-group: 0;
 }
 
-#com_sppad_fstbh_topChromeWrapper {
-	pointer-events: all;
-}
-
 #browser,
-#com_sppad_fstbh_topChromeStackElement {
+#com_sppad_fstbh_topChromeWrapper {
 	display: -moz-box !important;
-}
-
-#com_sppad_fstbh_topChromeStackElement {
-	pointer-events: none;
 }
 
 window[inFullscreen] #browser-panel > * {

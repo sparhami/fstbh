@@ -13,9 +13,7 @@
 
 	<deck id="tab-view-deck">
 		<vbox id="browser-panel">
-			<vbox id="com_sppad_fstbh_topChromeStackElement" insertafter="browser">
-				<vbox id="com_sppad_fstbh_topChromeWrapper" top="0" />
-			</vbox>
+			<vbox id="com_sppad_fstbh_topChromeWrapper" top="0" insertafter="browser" />
 		</vbox>
 	</deck>
 </overlay>
