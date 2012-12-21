@@ -11,8 +11,11 @@ com.sppad.fstbh.Main = new function() {
     
     let self = this;
     
-    self.titleChangedTabs = new Array();
-    
+    /**
+     * Move the navigator-toolbox to be inside our wrapper. Want to wrap it so
+     * that we can make it appear at the top of the window when the parent is
+     * set to stack.
+     */
     this.moveNavigatorToolbox = function() {
         let nav = document.getElementById('navigator-toolbox');
         let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
@@ -38,9 +41,9 @@ com.sppad.fstbh.Main = new function() {
     
     /**
      * This is used for setting the style attribute on #navigator-toolbox in
-     * order to apply the persona background image and text color. The 
-     * limitation is that if the persona changes while in fullscreen, the
-     * change will not be seen until exiting fullscreen.
+     * order to apply the persona background image and text color. The
+     * limitation is that if the persona changes while in fullscreen, the change
+     * will not be seen until exiting fullscreen.
      */
     this.fullscreenChange = function() {
         
@@ -54,22 +57,32 @@ com.sppad.fstbh.Main = new function() {
         
     };
     
+    /**
+     * Counts the number of tabs with a title change event. Used for showing the
+     * navigator toolbox in fullscreen mode when there is a pending
+     * notification.
+     */
     this.evalutateTitleChangeState = function() {
+        
+        // Not doing anything on title change, so no need to evaluate the state
+        // of the tabs
+        if(com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged'] == "never")
+            return;
         
         let container = gBrowser.tabContainer;
         let titleChangedCount = 0;
         let pinnedTitleChangedCount = 0;
         
         for(let i = 0; i < container.itemCount; i++) {
-                let tab = container.getItemAtIndex(i);
-                let pinned = tab.hasAttribute('pinned');
-                let titlechanged = tab.hasAttribute('titlechanged');
-                
-                if(titlechanged)
-                    titleChangedCount++;
-                if(titlechanged && pinned)
-                    pinnedTitleChangedCount++;
-         }
+            let tab = container.getItemAtIndex(i);
+            let pinned = tab.hasAttribute('pinned');
+            let titlechanged = tab.hasAttribute('titlechanged');
+            
+            if(titlechanged)
+                titleChangedCount++;
+            if(titlechanged && pinned)
+                pinnedTitleChangedCount++;
+        }
         
         let node = document.getElementById('com_sppad_fstbh_topChromeStackElement');
         node.setAttribute("titlechange", titleChangedCount > 0);
@@ -77,11 +90,10 @@ com.sppad.fstbh.Main = new function() {
         
     };
     
-    this.setTitleChangeBehavior = function(mode) {
-        let node = document.getElementById('com_sppad_fstbh_topChromeStackElement');
-        node.setAttribute("titleChangeBehavior", mode);
-    };
-    
+    /**
+     * Applies the persona image to the navigator-toolbox. Only want to do this
+     * while in fullscreen.
+     */
     this.setupPersona = function() {
         let mainWindow = document.getElementById('main-window');
         let element = document.getElementById('navigator-toolbox');
@@ -92,6 +104,10 @@ com.sppad.fstbh.Main = new function() {
         
     };
     
+    /**
+     * Removes the persona image from the navigator-toolbox. Want to do this
+     * when exiting fullscreen.
+     */
     this.clearoutPersona = function() {
         let element = document.getElementById('navigator-toolbox');
         
@@ -100,6 +116,24 @@ com.sppad.fstbh.Main = new function() {
         element.style.backgroundImage = '';
     };
     
+    /**
+     * Sets the behavior for title change by applying an attribute used by CSS.
+     * 
+     * @param mode
+     *            The attribute value to apply for titleChangeBehavior
+     */
+    this.setTitleChangeBehavior = function(mode) {
+        let node = document.getElementById('com_sppad_fstbh_topChromeStackElement');
+        node.setAttribute("titleChangeBehavior", mode);
+    };
+    
+    /**
+     * Sets the transition duration, or how long the slide-out animation takes
+     * to complete.
+     * 
+     * @param value
+     *            The amount of time, in milliseconds.
+     */
     this.setTransitionDuration = function(value) {
         let transitionDuration = (value / MILLISECONDS_PER_SECOND) + 's';
         
@@ -107,6 +141,14 @@ com.sppad.fstbh.Main = new function() {
         nav.style.transitionDuration = transitionDuration;
     };
     
+    /**
+     * Sets the transition duration, or how long to wait before starting the
+     * slide-out animation. TODO - want this to only apply to slide-out and not
+     * slide in, then expose it via preferences.
+     * 
+     * @param value
+     *            The amount of time, in milliseconds.
+     */
     this.setTransitionDelay = function(value) {
         let transitionDelay = (value / MILLISECONDS_PER_SECOND) + 's';
         
@@ -143,6 +185,7 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'showWhenTitleChanged':
                 this.setTitleChangeBehavior(value);
+                this.evalutateTitleChangeState();
                 break;
             default:
                 break;
@@ -176,9 +219,9 @@ com.sppad.fstbh.Main = new function() {
     
     this.setup = function() {
         
-        let container = window.gBrowser.tabContainer;
-        
         com.sppad.fstbh.Preferences.addListener(this);
+        
+        let container = window.gBrowser.tabContainer;
         container.addEventListener("TabSelect", this, false);
         container.addEventListener("TabClose", this, false);
         container.addEventListener("TabAttrModified", this, false);
@@ -194,11 +237,32 @@ com.sppad.fstbh.Main = new function() {
         this.moveNavigatorToolbox();
         
     };
+    
+    this.cleanup = function() {
+        
+        Components.classes["@mozilla.org/observer-service;1"]
+            .getService(Components.interfaces.nsIObserverService)
+            .removeObserver(this, "lightweight-theme-styling-update");
+
+        let container = window.gBrowser.tabContainer;
+        container.removeEventListener("TabSelect", this);
+        container.removeEventListener("TabClose", this);
+        container.removeEventListener("TabAttrModified", this);
+        container.removeEventListener("TabPinned", this);
+        container.removeEventListener("TabUnpinned", this);
+        
+        com.sppad.fstbh.Preferences.removeListener(this);
+        
+    };
 
 };
 
 window.addEventListener("load", function() {
     com.sppad.fstbh.Main.setup();
+}, false);
+
+window.addEventListener("unload", function() {
+    com.sppad.fstbh.Main.cleanup();
 }, false);
 
 window.addEventListener("fullscreen", function () {

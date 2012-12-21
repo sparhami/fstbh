@@ -54,18 +54,6 @@ com.sppad.fstbh.Utils = (function() {
 				dump(output);
 			}
 		},
-
-		/**
-         * Removes all children from the given node.
-         * 
-         * @param node
-         *            The node to remove from
-         */
-		removeAllChildren: function(node) {
-			while (node.childNodes.length >= 1)
-				node.removeChild(node.firstChild);
-		},
-		
 		
 		/**
          * Removes the first instance of an object in the array
@@ -79,20 +67,6 @@ com.sppad.fstbh.Utils = (function() {
 					return array.splice(i, 1);
 			
 			return null;
-		},
-		
-        /**
-         * Finds the index for a given object.
-         * 
-         * @param obj
-         *            The object to locate.
-         */
-		getIndexInArray: function(array, obj) {
-	          for(let i = 0; i < array.length; i++)
-	              if (array[i] == obj)
-                      return i;
-              
-	          return -1;
 		},
 	}
 })();
