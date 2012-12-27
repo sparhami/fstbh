@@ -263,6 +263,7 @@ window.addEventListener("load", function() {
 
 window.addEventListener("unload", function() {
     com.sppad.fstbh.Main.cleanup();
+    com.sppad.fstbh.Preferences.cleanup();
 }, false);
 
 window.addEventListener("fullscreen", function () {

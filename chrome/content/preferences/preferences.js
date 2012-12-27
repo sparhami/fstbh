@@ -228,6 +228,10 @@ com.sppad.fstbh.Preferences = new function() {
 		      
 	      	this._preferencesWindow.focus();  
 	    },  
+	    
+        cleanup : function() {
+            self._myListener.unregister();
+        },
 
 	    addListener: function(listener, type) { self._eventSupport.addListener(listener, type); },
 	    removeListener: function(listener, type) { self._eventSupport.removeListener(listener, type); },
