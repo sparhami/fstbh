@@ -12,6 +12,21 @@ com.sppad.fstbh.Main = new function() {
     let self = this;
     
     /**
+     * Applies an attribute to a DOM node, prefixed with com_sppad_fstbh_ to
+     * avoid clashing with other addons.
+     * 
+     * @param id
+     *            The ID of the DOM node to apply the attribute on
+     * @param name
+     *            The attribute name
+     * @param value
+     *            The attribute value
+     */
+    this.applyAttribute = function(id, name, value) {
+        document.getElementById(id).setAttribute("com_sppad_fstbh_" + name, value);
+    },
+    
+    /**
      * Move the navigator-toolbox to be inside our wrapper. Want to wrap it so
      * that we can make it appear at the top of the window when the parent is
      * set to stack.
@@ -177,6 +192,7 @@ com.sppad.fstbh.Main = new function() {
         com.sppad.fstbh.Utils.dump("pref change: " + name + " -> " + value + "\n");
 
         switch (name) {
+            
             case 'transitionDuration':
                 this.setTransitionDuration(value);
                 break;
@@ -187,6 +203,8 @@ com.sppad.fstbh.Main = new function() {
                 this.setTitleChangeBehavior(value);
                 this.evalutateTitleChangeState();
                 break;
+            case 'style.browserBottomBox':
+                this.applyAttribute('browser-bottombox', 'backgroundStyle', value);
             default:
                 break;
         }
@@ -215,6 +233,7 @@ com.sppad.fstbh.Main = new function() {
         this.prefChanged('transitionDelay', com.sppad.fstbh.CurrentPrefs['transitionDelay']);
         this.prefChanged('transitionDuration', com.sppad.fstbh.CurrentPrefs['transitionDuration']);
         this.prefChanged('showWhenTitleChanged', com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged']);
+        this.prefChanged('style.browserBottomBox', com.sppad.fstbh.CurrentPrefs['style.browserBottomBox']);
     };
     
     this.setup = function() {

@@ -17,8 +17,8 @@
 				<caption label="&preference.timing.label;" />
 				<hbox align="center">
 					<label value="&preference.transitionDuration.label;" />
-					<textbox type="number"
-						min="0" max="1000" width="64" preference="extensions.fstbh.transitionDuration" />
+					<textbox type="number" min="0" max="1000" width="64"
+						preference="extensions.fstbh.transitionDuration" />
 				</hbox>
 			</vbox>
 			<vbox>
@@ -29,6 +29,23 @@
 					<radio value="never" label="&preference.showWhenTitleChanged.never.label;" />
 					<radio value="pinned" label="&preference.showWhenTitleChanged.pinned.label;" />
 					<radio value="any" label="&preference.showWhenTitleChanged.any.label;" />
+				</radiogroup>
+			</vbox>
+		</groupbox>
+	</prefpane>
+	<prefpane id="com_sppad_fstbh_StylePrefPane" label="&preference.stylePrefPane.label;">
+		<preferences>
+			<preference id="extensions.fstbh.style.browserBottomBox" name="extensions.fstbh.style.browserBottomBox"
+				type="string" />
+		</preferences>
+		<groupbox>
+			<vbox>
+				<caption label="&preference.style.browserBottomBox.label;" />
+
+				<radiogroup preference="extensions.fstbh.style.browserBottomBox"
+					orient="vertical">
+					<radio value="transparent" label="&preference.style.browserBottomBox.transparent.label;" />
+					<radio value="default" label="&preference.style.browserBottomBox.default.label;" />
 				</radiogroup>
 			</vbox>
 		</groupbox>

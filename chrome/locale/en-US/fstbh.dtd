@@ -1,6 +1,7 @@
 <!ENTITY com.sppad.fstbh.preferences.title "Fullscreen Toolbar Hover Preferences">
 
 <!ENTITY preference.generalPrefPane.label "General">
+<!ENTITY preference.stylePrefPane.label "Style">
 
 <!ENTITY preference.timing.label "Timing">
 <!ENTITY preference.transitionDuration.label "Transition time (milliseconds)">
@@ -10,3 +11,7 @@
 <!ENTITY preference.showWhenTitleChanged.never.label "Never">
 <!ENTITY preference.showWhenTitleChanged.pinned.label "Only when the tabs are pinned">
 <!ENTITY preference.showWhenTitleChanged.any.label "Always">
+
+<!ENTITY preference.style.browserBottomBox.label "Bottom box style while in fullscreen">
+<!ENTITY preference.style.browserBottomBox.transparent.label "Transparent">
+<!ENTITY preference.style.browserBottomBox.default.label "Default">

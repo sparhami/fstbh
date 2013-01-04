@@ -26,6 +26,11 @@ com.sppad.fstbh.PREFS = {
   
   // One of never, pinned, any
   showWhenTitleChanged: 'never',
+  
+  style: {
+      // One of default, transparent
+      browserBottomBox: 'transparent',
+  },
 };
 
 

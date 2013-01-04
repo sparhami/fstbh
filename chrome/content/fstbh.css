@@ -23,8 +23,9 @@ window:not([inFullscreen]) #com_sppad_fstbh_topChromeWrapper {
 	-moz-box-ordinal-group: 0;
 }
 
-#browser,
-#com_sppad_fstbh_topChromeWrapper {
+window[inFullscreen] #browser,
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper,
+window[inFullscreen] #browser-bottombox {
 	display: -moz-box !important;
 }
 

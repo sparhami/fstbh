@@ -1,1 +1,10 @@
 @import url("chrome://fstbh-platform/skin/fstbh.css");
+
+window[inFullscreen] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] {
+	background-color: rgba(0, 0, 0, .45) !important;
+	background-image: -moz-linear-gradient(top, rgba(132, 132, 132, .3) 0%, rgba(149, 149, 149, .3) 85%, rgba(0, 0, 0, .1) 100%) !important;
+}
+
+window[inFullscreen] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] [disabled="true"] {
+	color: rgb(195, 195, 195) !important;
+}
