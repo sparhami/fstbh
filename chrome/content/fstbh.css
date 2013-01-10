@@ -12,6 +12,11 @@ window[inFullscreen] #navigator-toolbox:hover {
 	margin-top: 0px !important;
 }
 
+/* Make sure any margin-top set from the javascript style doesn't take effect when not in fullscreen */
+window:not([inFullscreen]) #browser {
+	margin-top: 0 !important;
+}
+
 window[inFullscreen] #navigator-toolbox {
 	transition-property: margin-top;
 	transition-timing-function: linear;
@@ -35,19 +40,16 @@ window[inFullscreen] #browser-panel > * {
 
 window[inFullscreen] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"] #navigator-toolbox,
 window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"] #navigator-toolbox {	
+	/* It looks odd if the slide in animation plays due to the margin-top offset on #browser */
 	transition-property: none;
 	margin-top: 0px !important;
 }
 
 window[inFullscreen] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"] #navigator-toolbox[style~="margin-top:"]:not(:hover) > :not(#TabsToolbar),
 window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"] #navigator-toolbox[style~="margin-top:"]:not(:hover) > :not(#TabsToolbar) {
+	/* Don't use visibility or display as it changes the behavior when trying to use f6 or ctrl-l */
 	height: 0 !important;
 	max-height: 0 !important;
 	min-height: 0 !important;
 	overflow: hidden;
 }
-
-window:not([inFullscreen]) #browser {
-	margin-top: 0 !important;
-}
-
