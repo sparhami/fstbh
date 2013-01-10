@@ -12,6 +12,7 @@ com.sppad.fstbh.Main = new function() {
     let self = this;
     
     self.tabCount = 0;
+    self.evaluateTimer = null;
     
     /**
      * Applies an attribute to a DOM node, prefixed with com_sppad_fstbh_ to
@@ -86,25 +87,30 @@ com.sppad.fstbh.Main = new function() {
         if(com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged'] == "never")
             return;
         
-        let container = gBrowser.tabContainer;
-        let titleChangedCount = 0;
-        let pinnedTitleChangedCount = 0;
         
-        for(let i = 0; i < container.itemCount; i++) {
-            let tab = container.getItemAtIndex(i);
-            let pinned = tab.hasAttribute('pinned');
-            let titlechanged = tab.hasAttribute('titlechanged');
+        window.clearTimeout(self.evaluateTimer);
+        
+        // Delay so that tab attributes will have been set
+        self.evaluateTimer = window.setTimeout(function() {
+            let container = gBrowser.tabContainer;
+            let titleChangedCount = 0;
+            let pinnedTitleChangedCount = 0;
             
-            if(titlechanged)
-                titleChangedCount++;
-            if(titlechanged && pinned)
-                pinnedTitleChangedCount++;
-        }
-        
-        let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-        node.setAttribute("titlechange", titleChangedCount > 0);
-        node.setAttribute("pinnedTitlechange", pinnedTitleChangedCount > 0);
-        
+            for(let i = 0; i < container.itemCount; i++) {
+                let tab = container.getItemAtIndex(i);
+                let pinned = tab.hasAttribute('pinned');
+                let titlechanged = tab.hasAttribute('titlechanged');
+                
+                if(titlechanged)
+                    titleChangedCount++;
+                if(titlechanged && pinned)
+                    pinnedTitleChangedCount++;
+            }
+            
+            let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            node.setAttribute("titlechange", titleChangedCount > 0);
+            node.setAttribute("pinnedTitlechange", pinnedTitleChangedCount > 0);
+        }, 10);
     };
     
     this.updateTabCount = function(offset) {
@@ -297,7 +303,6 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.setup = function() {
-        
         com.sppad.fstbh.Preferences.addListener(this);
         
         let container = window.gBrowser.tabContainer;
@@ -333,7 +338,6 @@ com.sppad.fstbh.Main = new function() {
         container.removeEventListener("TabUnpinned", this);
         
         com.sppad.fstbh.Preferences.removeListener(this);
-        
     };
 
 };
