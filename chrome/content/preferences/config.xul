@@ -11,6 +11,8 @@
 				type="int" />
 			<preference id="extensions.fstbh.showWhenTitleChanged" name="extensions.fstbh.showWhenTitleChanged"
 				type="string" />
+			<preference id="extensions.fstbh.showTabsToolbar" name="extensions.fstbh.showTabsToolbar"
+				type="string" />
 		</preferences>
 		<groupbox>
 			<vbox>
@@ -29,6 +31,15 @@
 					<radio value="never" label="&preference.showWhenTitleChanged.never.label;" />
 					<radio value="pinned" label="&preference.showWhenTitleChanged.pinned.label;" />
 					<radio value="any" label="&preference.showWhenTitleChanged.any.label;" />
+				</radiogroup>
+			</vbox>
+			<vbox>
+				<caption label="&preference.showTabsToolbar.label;" />
+
+				<radiogroup preference="extensions.fstbh.showTabsToolbar" orient="vertical">
+					<radio value="hoverOnly" label="&preference.showTabsToolbar.hoverOnly.label;" />
+					<radio value="multipleTabs" label="&preference.showTabsToolbar.multipleTabs.label;" />
+					<radio value="always" label="&preference.showTabsToolbar.always.label;" />
 				</radiogroup>
 			</vbox>
 		</groupbox>

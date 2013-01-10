@@ -15,3 +15,8 @@
 <!ENTITY preference.style.browserBottomBox.label "Bottom box style while in fullscreen">
 <!ENTITY preference.style.browserBottomBox.transparent.label "Transparent">
 <!ENTITY preference.style.browserBottomBox.default.label "Default">
+
+<!ENTITY preference.showTabsToolbar.label "Show tabs">
+<!ENTITY preference.showTabsToolbar.hoverOnly.label "Only on mouseover">
+<!ENTITY preference.showTabsToolbar.multipleTabs.label "When multiple tabs are open">
+<!ENTITY preference.showTabsToolbar.always.label "Always">

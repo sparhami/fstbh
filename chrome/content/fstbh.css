@@ -32,3 +32,22 @@ window[inFullscreen] #browser-bottombox {
 window[inFullscreen] #browser-panel > * {
 	display: none;
 }
+
+window[inFullscreen] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"] #navigator-toolbox,
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"] #navigator-toolbox {	
+	transition-property: none;
+	margin-top: 0px !important;
+}
+
+window[inFullscreen] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"] #navigator-toolbox[style~="margin-top:"]:not(:hover) > :not(#TabsToolbar),
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"] #navigator-toolbox[style~="margin-top:"]:not(:hover) > :not(#TabsToolbar) {
+	height: 0 !important;
+	max-height: 0 !important;
+	min-height: 0 !important;
+	overflow: hidden;
+}
+
+window:not([inFullscreen]) #browser {
+	margin-top: 0 !important;
+}
+

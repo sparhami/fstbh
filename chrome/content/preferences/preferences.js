@@ -31,6 +31,9 @@ com.sppad.fstbh.PREFS = {
       // One of default, transparent
       browserBottomBox: 'transparent',
   },
+  
+  // One of hoverOnly, multipleTabs, always
+  showTabsToolbar: 'hoverOnly',
 };
 
 

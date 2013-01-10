@@ -11,6 +11,8 @@ com.sppad.fstbh.Main = new function() {
     
     let self = this;
     
+    self.tabCount = 0;
+    
     /**
      * Applies an attribute to a DOM node, prefixed with com_sppad_fstbh_ to
      * avoid clashing with other addons.
@@ -105,6 +107,13 @@ com.sppad.fstbh.Main = new function() {
         
     };
     
+    this.updateTabCount = function(offset) {
+        self.tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
+        this.applyAttribute('browser-panel', 'tabCount', self.tabCount);
+        
+        this.offsetBrowser();
+    }
+    
     /**
      * Applies the persona image to the navigator-toolbox. Only want to do this
      * while in fullscreen.
@@ -140,6 +149,12 @@ com.sppad.fstbh.Main = new function() {
     this.setTitleChangeBehavior = function(mode) {
         let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
         node.setAttribute("titleChangeBehavior", mode);
+        
+        let browser = document.getElementById('browser');
+        let tabsToolbar = document.getElementById('TabsToolbar');
+        
+        let offset = tabsToolbar.boxObject.height;
+        browser.style.marginTop = offset + "px";
     };
     
     /**
@@ -171,19 +186,60 @@ com.sppad.fstbh.Main = new function() {
         nav.style.transitionDelay = transitionDelay;
     };
 
+    /**
+     * Sets the showTabsToolbar mode.
+     * 
+     * @param value
+     *            The mode for showTabsToolbar
+     */
+    this.setShowTabsToolbar = function(value) {
+        let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+        node.setAttribute("showTabsToolbar", value);
+        
+        this.offsetBrowser();
+    }
+    
+    /**
+     * Offsets / un-offsets the browser by setting a top margin. This is done so
+     * that we can stay as display stack and always show TabsToolbar without
+     * covering page content. This is used when the showTabsToolbar is set to
+     * always or multipleTabs.
+     */
+    this.offsetBrowser = function() {
+        let browser = document.getElementById('browser');
+        let tabsToolbar = document.getElementById('TabsToolbar');
+        
+        let offset = tabsToolbar.boxObject.height;
+        let mode = com.sppad.fstbh.CurrentPrefs['showTabsToolbar'];
+        
+        if(mode == "always" || (mode == "multipleTabs" && self.tabCount > 1)) {
+            browser.style.marginTop = offset + "px";
+        } else {
+            browser.style.marginTop = "";
+        }
+    }
+    
     this.handleEvent = function(aEvent) {
 
         switch (aEvent.type) {
             case com.sppad.fstbh.Preferences.EVENT_PREFERENCE_CHANGED:
-                return this.prefChanged(aEvent.name, aEvent.value);
-            case  'TabSelect':
-            case  'TabClose':
-            case  'TabAttrModified':
-            case  'TabPinned':
-            case  'TabUnpinned':
-                return this.evalutateTitleChangeState();
+                this.prefChanged(aEvent.name, aEvent.value);
+                break;
+            case 'TabClose':
+                this.updateTabCount(true);
+                this.evalutateTitleChangeState();
+                break;
+            case 'TabOpen':
+                this.updateTabCount();
+                break;
+            case 'TabSelect':
+            case 'TabAttrModified':
+            case 'TabPinned':
+            case 'TabUnpinned':
+                this.evalutateTitleChangeState();
+                break;
             default:
-                return;
+                break;
         }
         
     };
@@ -205,6 +261,9 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'style.browserBottomBox':
                 this.applyAttribute('browser-bottombox', 'backgroundStyle', value);
+            case 'showTabsToolbar':
+                this.setShowTabsToolbar(value);
+                break;
             default:
                 break;
         }
@@ -234,6 +293,7 @@ com.sppad.fstbh.Main = new function() {
         this.prefChanged('transitionDuration', com.sppad.fstbh.CurrentPrefs['transitionDuration']);
         this.prefChanged('showWhenTitleChanged', com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged']);
         this.prefChanged('style.browserBottomBox', com.sppad.fstbh.CurrentPrefs['style.browserBottomBox']);
+        this.prefChanged('showTabsToolbar', com.sppad.fstbh.CurrentPrefs['showTabsToolbar']);
     };
     
     this.setup = function() {
@@ -243,6 +303,7 @@ com.sppad.fstbh.Main = new function() {
         let container = window.gBrowser.tabContainer;
         container.addEventListener("TabSelect", this, false);
         container.addEventListener("TabClose", this, false);
+        container.addEventListener("TabOpen", this, false);
         container.addEventListener("TabAttrModified", this, false);
         container.addEventListener("TabPinned", this, false);
         container.addEventListener("TabUnpinned", this, false);
@@ -254,7 +315,7 @@ com.sppad.fstbh.Main = new function() {
         
         this.loadPreferences();
         this.moveNavigatorToolbox();
-        
+        this.updateTabCount();
     };
     
     this.cleanup = function() {
@@ -266,6 +327,7 @@ com.sppad.fstbh.Main = new function() {
         let container = window.gBrowser.tabContainer;
         container.removeEventListener("TabSelect", this);
         container.removeEventListener("TabClose", this);
+        container.removeEventListener("TabOpen", this);
         container.removeEventListener("TabAttrModified", this);
         container.removeEventListener("TabPinned", this);
         container.removeEventListener("TabUnpinned", this);
