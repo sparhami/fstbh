@@ -155,12 +155,6 @@ com.sppad.fstbh.Main = new function() {
     this.setTitleChangeBehavior = function(mode) {
         let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
         node.setAttribute("titleChangeBehavior", mode);
-        
-        let browser = document.getElementById('browser');
-        let tabsToolbar = document.getElementById('TabsToolbar');
-        
-        let offset = tabsToolbar.boxObject.height;
-        browser.style.marginTop = offset + "px";
     };
     
     /**
