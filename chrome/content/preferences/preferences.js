@@ -34,6 +34,9 @@ com.sppad.fstbh.PREFS = {
   
   // One of hoverOnly, multipleTabs, always
   showTabsToolbar: 'hoverOnly',
+  
+  // One of hover, never
+  showPersonalToolbar: 'never',
 };
 
 

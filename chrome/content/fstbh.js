@@ -196,8 +196,71 @@ com.sppad.fstbh.Main = new function() {
         let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
         node.setAttribute("showTabsToolbar", value);
         
+        let menuitem = document.getElementById('com_sppad_fstbh_fullscreenTabs');
+        if(value == 'always')
+            menuitem.setAttribute('checked', 'true');
+        else
+            menuitem.removeAttribute('checked');
+        
         this.offsetBrowser();
-    }
+    };
+    
+    /**
+     * Sets the preference for showTabsToolbar based on the context menuitem
+     * state.
+     */
+    this.setFullscreenTabs = function() {
+        let menuitem = document.getElementById('com_sppad_fstbh_fullscreenTabs');
+        let checked = menuitem.hasAttribute('checked');
+        
+        com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', checked ? 'always' : 'hoverOnly');
+    };
+    
+    /**
+     * Sets the showPersonalToolbar mode.
+     * 
+     * @param value
+     *            The mode for showPersonalToolbar
+     */
+    this.setShowPersonalToolbar = function(value) {
+        let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+        node.setAttribute("showPersonalToolbar", value);
+        
+        let menuitem = document.getElementById('com_sppad_fstbh_fullscreenPersonalToolbar');
+        if(value == 'hover')
+            menuitem.setAttribute('checked', 'true');
+        else
+            menuitem.removeAttribute('checked');
+        
+        /*
+         * This is to set PersonalToolbar visible in case it is hidden (and has
+         * been hidden since application start). If it hasn't been opened yet,
+         * then the items will not be displayed and the PersonalToolbar will be
+         * blank.
+         */
+        if(value == 'hover') {
+            let toolbar = document.getElementById('PersonalToolbar');
+            let hiding = toolbar.getAttribute('collapsed') == 'true';
+            
+            // Show it and set it back to hiding.
+            if(hiding) {
+                setToolbarVisibility(toolbar, true);
+                setToolbarVisibility(toolbar, false);
+            }
+        }
+
+    };
+    
+    /**
+     * Sets the preference for showPersonalToolbar based on the context menuitem
+     * state.
+     */
+    this.setFullscreenPersonalToolbar = function() {
+        let menuitem = document.getElementById('com_sppad_fstbh_fullscreenPersonalToolbar');
+        let checked = menuitem.hasAttribute('checked');
+        
+        com.sppad.fstbh.Preferences.setPreference('showPersonalToolbar', checked ? 'hover' : 'never');
+    };
     
     /**
      * Offsets / un-offsets the browser by setting a top margin. This is done so
@@ -265,6 +328,9 @@ com.sppad.fstbh.Main = new function() {
             case 'showTabsToolbar':
                 this.setShowTabsToolbar(value);
                 break;
+            case 'showPersonalToolbar':
+                this.setShowPersonalToolbar(value);
+                break;
             default:
                 break;
         }
@@ -295,6 +361,7 @@ com.sppad.fstbh.Main = new function() {
         this.prefChanged('showWhenTitleChanged', com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged']);
         this.prefChanged('style.browserBottomBox', com.sppad.fstbh.CurrentPrefs['style.browserBottomBox']);
         this.prefChanged('showTabsToolbar', com.sppad.fstbh.CurrentPrefs['showTabsToolbar']);
+        this.prefChanged('showPersonalToolbar', com.sppad.fstbh.CurrentPrefs['showPersonalToolbar']);
     };
     
     this.setup = function() {

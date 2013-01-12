@@ -1,4 +1,8 @@
 <!ENTITY com.sppad.fstbh.preferences.title "Fullscreen Toolbar Hover Preferences">
+<!ENTITY com.sppad.fstbh.fullscreenTabs.label "Always Show Tabs">
+<!ENTITY com.sppad.fstbh.fullscreenTabs.accesskey "S">
+<!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.label "Show Bookmarks Toolbar">
+<!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.accesskey "B">
 
 <!ENTITY preference.generalPrefPane.label "General">
 <!ENTITY preference.stylePrefPane.label "Style">
@@ -16,7 +20,11 @@
 <!ENTITY preference.style.browserBottomBox.transparent.label "Transparent">
 <!ENTITY preference.style.browserBottomBox.default.label "Default">
 
-<!ENTITY preference.showTabsToolbar.label "Show tabs">
+<!ENTITY preference.showTabsToolbar.label "Show Tabs">
 <!ENTITY preference.showTabsToolbar.hoverOnly.label "Only on mouseover">
 <!ENTITY preference.showTabsToolbar.multipleTabs.label "When multiple tabs are open">
 <!ENTITY preference.showTabsToolbar.always.label "Always">
+
+<!ENTITY preference.showPersonalToolbar.label "Show Personal Toolbar (Bookmarks Toolbar)">
+<!ENTITY preference.showPersonalToolbar.hover.label "When mouse is over top toolbars">
+<!ENTITY preference.showPersonalToolbar.never.label "Never">

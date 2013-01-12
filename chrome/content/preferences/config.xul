@@ -13,6 +13,8 @@
 				type="string" />
 			<preference id="extensions.fstbh.showTabsToolbar" name="extensions.fstbh.showTabsToolbar"
 				type="string" />
+			<preference id="extensions.fstbh.showPersonalToolbar" name="extensions.fstbh.showPersonalToolbar"
+				type="string" />
 		</preferences>
 		<groupbox>
 			<vbox>
@@ -40,6 +42,15 @@
 					<radio value="hoverOnly" label="&preference.showTabsToolbar.hoverOnly.label;" />
 					<radio value="multipleTabs" label="&preference.showTabsToolbar.multipleTabs.label;" />
 					<radio value="always" label="&preference.showTabsToolbar.always.label;" />
+				</radiogroup>
+			</vbox>
+			<vbox>
+				<caption label="&preference.showPersonalToolbar.label;" />
+
+				<radiogroup preference="extensions.fstbh.showPersonalToolbar"
+					orient="vertical">
+					<radio value="hover" label="&preference.showPersonalToolbar.hover.label;" />
+					<radio value="never" label="&preference.showPersonalToolbar.never.label;" />
 				</radiogroup>
 			</vbox>
 		</groupbox>

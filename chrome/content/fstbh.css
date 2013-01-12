@@ -8,8 +8,12 @@ window[inFullscreen] #browser-panel {
 
 window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="any"][titlechange=true]  #navigator-toolbox,
 window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="pinned"][pinnedTitlechange=true]  #navigator-toolbox,
-window[inFullscreen] #navigator-toolbox:hover {
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper:hover #navigator-toolbox {
 	margin-top: 0px !important;
+}
+
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper {
+	min-height: 1px !important;
 }
 
 /* Make sure any margin-top set from the javascript style doesn't take effect when not in fullscreen */
@@ -53,3 +57,18 @@ window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"]
 	min-height: 0 !important;
 	overflow: hidden;
 }
+
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showPersonalToolbar="hover"] #PersonalToolbar {
+	visibility: visible !important;
+	display: -moz-box;
+}
+
+
+#autohide-context menuitem.autohide-context-menuitem {
+	-moz-box-ordinal-group: 0;
+}
+
+#autohide-context -moz-any(menuitem, menuseparator):not(.autohide-context-menuitem) {
+	-moz-box-ordinal-group: 1;
+}
+

@@ -4,6 +4,8 @@
 <?xml-stylesheet type="text/css" href="chrome://fstbh/content/fstbh.css"?>
 <?xml-stylesheet type="text/css" href="chrome://fstbh/content/bindings.css" ?>
 
+<!DOCTYPE overlay SYSTEM "chrome://fstbh/locale/fstbh.dtd">
+
 <overlay id="fstbh"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
@@ -17,4 +19,13 @@
 			<vbox id="browser-bottombox" bottom="0" />
 		</vbox>
 	</deck>
+
+	<menupopup id="autohide-context">
+		<menuitem class="autohide-context-menuitem" id="com_sppad_fstbh_fullscreenTabs"
+			type="checkbox" label="&com.sppad.fstbh.fullscreenTabs.label;" accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setFullscreenTabs();" />
+		<menuitem class="autohide-context-menuitem" id="com_sppad_fstbh_fullscreenPersonalToolbar"
+			type="checkbox" label="&com.sppad.fstbh.fullscreenPersonalToolbar.label;"
+			accesskey="&com.sppad.fstbh.fullscreenPersonalToolbar.accesskey;" oncommand="com.sppad.fstbh.Main.setFullscreenPersonalToolbar();" />
+	</menupopup>
 </overlay>
