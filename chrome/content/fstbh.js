@@ -261,6 +261,7 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'style.browserBottomBox':
                 this.applyAttribute('browser-bottombox', 'backgroundStyle', value);
+                break;
             case 'showTabsToolbar':
                 this.setShowTabsToolbar(value);
                 break;
