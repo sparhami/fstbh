@@ -6,8 +6,8 @@ window[inFullscreen] #browser-panel {
 	display: -moz-stack;
 }
 
-window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="any"][titlechange=true]  #navigator-toolbox,
-window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="pinned"][pinnedTitlechange=true]  #navigator-toolbox,
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="any"][titlechange="true"]  #navigator-toolbox,
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="pinned"][pinnedTitlechange="true"]  #navigator-toolbox,
 window[inFullscreen] #com_sppad_fstbh_topChromeWrapper:hover #navigator-toolbox {
 	margin-top: 0px !important;
 }

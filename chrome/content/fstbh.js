@@ -27,7 +27,7 @@ com.sppad.fstbh.Main = new function() {
      */
     this.applyAttribute = function(id, name, value) {
         document.getElementById(id).setAttribute("com_sppad_fstbh_" + name, value);
-    },
+    };
     
     /**
      * Move the navigator-toolbox to be inside our wrapper. Want to wrap it so
@@ -248,7 +248,6 @@ com.sppad.fstbh.Main = new function() {
                 setToolbarVisibility(toolbar, false);
             }
         }
-
     };
     
     /**
@@ -280,7 +279,7 @@ com.sppad.fstbh.Main = new function() {
         } else {
             browser.style.marginTop = "";
         }
-    }
+    };
     
     this.handleEvent = function(aEvent) {
 
