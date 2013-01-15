@@ -161,16 +161,19 @@ com.sppad.fstbh.Main = new function() {
             navToolbox.style.backgroundImage = '';
         }
         
-        if(maximized && applyInMaximized)
+        // Stomp over Firefox's implementation as it doesn't work correctly when
+        // tabs are set to always show.
+        // if(maximized && applyInMaximized)
+        if(applied)
             this.ShowNavBoxHandler.setup();
         else
             this.ShowNavBoxHandler.cleanup();
     };
     
     /**
-     * Need to handle mouse over in non-fullscreen. Cannot just use
-     * hover because 1. want to support going above the top of the screen and
-     * keeping menu open and 2. want to stay open on context menu.
+     * Need to handle mouse over in non-fullscreen. Cannot just use hover
+     * because 1. want to support going above the top of the screen and keeping
+     * menu open and 2. want to stay open on context menu.
      */
     this.ShowNavBoxHandler = new function() {
             
