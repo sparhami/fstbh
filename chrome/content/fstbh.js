@@ -177,16 +177,16 @@ com.sppad.fstbh.Main = new function() {
      */
     this.ShowNavBoxHandler = new function() {
             
-        let self = this;    
+        let self = this;   
+        self.open = false;
             
         this.setup = function() {
             // browser.fullscreen.animateUp = 0 // or 1
-            
             let mainWindow = document.getElementById('main-window');
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             
             mainWindow.addEventListener('mouseleave', self.mouseleaveWindow, false);
-            wrapper.addEventListener('mouseenter', self.mouseenter, false);
+            wrapper.addEventListener('mouseover', self.mouseenter, false);
         };
         
         this.cleanup = function() {
@@ -194,10 +194,11 @@ com.sppad.fstbh.Main = new function() {
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             
             wrapper.removeAttribute('toggle');
+            self.open = false;
             
             mainWindow.removeEventListener('mousemove', self.mousemove);
             mainWindow.removeEventListener('mouseleave', self.mouseleaveWindow);
-            wrapper.removeEventListener('mouseenter', self.mouseenter);
+            wrapper.removeEventListener('mouseover', self.mouseenter);
             wrapper.removeEventListener('popupshowing', self.popupshowing);
             wrapper.removeEventListener('popuphiding', self.popuphiding);
         };
@@ -210,26 +211,16 @@ com.sppad.fstbh.Main = new function() {
             self.popupOpen = true;
         };
         
-        this.popuphiding = function() {
+        this.popuphiding = function(event) {
             self.popupOpen = false;
             
             // If we're not open, nothing to do
-            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-            if(!wrapper.hasAttribute('toggle'))
-                return;
-            
-            // We're open, check if we are far enough down that we need to close
-            let navToolbox = document.getElementById('navigator-toolbox');
-            
-            let y = self.lastY;
-            let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
-                
-            if(y > tripPoint)
-                self.forceClose();
+            if(self.open)
+                this.mousemove(event);
         };
         
-        this.mouseleaveWindow = function(mouseEvent) {
-            let y = mouseEvent.screenY;
+        this.mouseleaveWindow = function(event) {
+            let y = event.screenY;
             
             let mainWindow = document.getElementById('main-window');
             let tripPoint = mainWindow.boxObject.screenY; 
@@ -238,12 +229,9 @@ com.sppad.fstbh.Main = new function() {
                 self.forceOpen();
         };
         
-        this.mousemove = function(mouseEvent) {
-            let y = mouseEvent.screenY;
+        this.mousemove = function(event) {
+            let y = event.screenY;
             
-            // Save for if/when the popup closes in case we aren't over the nav
-            // box
-            self.lastY = y;
             // Popup is open, don't close
             if(self.popupOpen)
                 return;
@@ -256,11 +244,15 @@ com.sppad.fstbh.Main = new function() {
         };
         
         this.forceOpen = function() {
+            if(self.open)
+                return;
+            
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let mainWindow = document.getElementById('main-window');
             let navToolbox = document.getElementById('navigator-toolbox');
             
             wrapper.setAttribute('toggle', 'true');
+            self.open = true;
             
             mainWindow.removeEventListener('mousemove', self.mousemove);
             mainWindow.addEventListener('mousemove', self.mousemove, false);
@@ -274,6 +266,7 @@ com.sppad.fstbh.Main = new function() {
             let navToolbox = document.getElementById('navigator-toolbox');
             
             wrapper.removeAttribute('toggle');
+            self.open = false;
             navToolbox.style.marginTop = -(navToolbox.getBoundingClientRect().height - 1) + "px";
             
             mainWindow.removeEventListener('mousemove', self.mousemove);
