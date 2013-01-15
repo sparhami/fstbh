@@ -13,6 +13,82 @@ com.sppad.fstbh.Main = new function() {
     
     self.tabCount = 0;
     self.evaluateTimer = null;
+    self.applied = false;
+    
+    this.handleEvent = function(aEvent) {
+
+        switch (aEvent.type) {
+            case com.sppad.fstbh.Preferences.EVENT_PREFERENCE_CHANGED:
+                this.prefChanged(aEvent.name, aEvent.value);
+                break;
+            case 'TabClose':
+                this.updateTabCount(true);
+                this.evalutateTitleChangeState();
+                break;
+            case 'TabOpen':
+                this.updateTabCount();
+                break;
+            case 'TabSelect':
+            case 'TabAttrModified':
+            case 'TabPinned':
+            case 'TabUnpinned':
+                this.evalutateTitleChangeState();
+                break;
+            default:
+                break;
+        }
+        
+    };
+
+    this.prefChanged = function(name, value) {
+        com.sppad.fstbh.Utils.dump("pref change: " + name + " -> " + value + "\n");
+
+        switch (name) {
+            
+            case 'transitionDuration':
+                this.setTransitionDuration(value);
+                break;
+            case 'transitionDelay':
+                this.setTransitionDelay(value);
+                break;
+            case 'showWhenTitleChanged':
+                this.setTitleChangeBehavior(value);
+                this.evalutateTitleChangeState();
+                break;
+            case 'style.browserBottomBox':
+                this.applyAttribute('browser-bottombox', 'backgroundStyle', value);
+                break;
+            case 'showTabsToolbar':
+                this.setShowTabsToolbar(value);
+                break;
+            case 'showPersonalToolbar':
+                this.setShowPersonalToolbar(value);
+                break;
+            case 'maximizedMode':
+                this.updateAppliedStatus();
+                break;
+            default:
+                break;
+        }
+    };
+    
+    /*
+     * Used for listening to persona change events.
+     * 
+     * TODO - No guarantee that we are the last to get this event. Currently
+     * relying on the fact that the LightweightThemeConsumer goes first and
+     * applies the appropriate style to the window. Tried creating my own
+     * LightweightThemeConsumer to update navigator-toolbox instead, but that
+     * broke the browser's.
+     */
+    this.observe = function (aSubject, aTopic, aData) {
+        if (aTopic != "lightweight-theme-styling-update")
+          return;
+
+        // Only want to apply when the addon is applied
+        if(self.applied)
+            this.setupPersona();
+    };
     
     /**
      * Applies an attribute to a DOM node, prefixed with com_sppad_fstbh_ to
@@ -57,22 +133,85 @@ com.sppad.fstbh.Main = new function() {
         nav.externalToolbars = externalToolbars;
     };
     
-    /**
-     * This is used for setting the style attribute on #navigator-toolbox in
-     * order to apply the persona background image and text color. The
-     * limitation is that if the persona changes while in fullscreen, the change
-     * will not be seen until exiting fullscreen.
-     */
-    this.fullscreenChange = function() {
+    this.updateAppliedStatus = function() {
         
-        // Event occurs before the fullscreen is set, so take the opposite
-        let enter = !window.fullScreen;
+        let sizemode = window.windowState;
+        let fullscreen = sizemode == window.STATE_FULLSCREEN ;
+        let maximized = sizemode == window.STATE_MAXIMIZED;
+        let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
         
-        if(enter)
-            this.setupPersona();
-        else
-            this.clearoutPersona();
+        self.applied = fullscreen || (maximized && applyInMaximized);
+        this.applyAttribute('main-window', 'applied', self.applied);
         
+        let mainWindow = document.getElementById('main-window');
+        let navToolbox = document.getElementById('navigator-toolbox');
+        let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+        
+        if(self.applied) {
+            mainWindow.addEventListener('mouseleave', com.sppad.fstbh.Main.mouseleaveWindow, false);
+            wrapper.addEventListener('mouseenter', com.sppad.fstbh.Main.mouseenter, false);
+      
+            navToolbox.style.color = mainWindow.style.backgroundImage;
+            navToolbox.style.backgroundColor = mainWindow.style.backgroundColor;
+            navToolbox.style.backgroundImage = mainWindow.style.backgroundImage;
+        } else {
+            mainWindow.removeEventListener('mousemove', com.sppad.fstbh.Main.mousemove);
+            mainWindow.removeEventListener('mouseleave', com.sppad.fstbh.Main.mouseleaveWindow);
+            wrapper.removeEventListener('mouseenter', com.sppad.fstbh.Main.mouseenter);
+      
+            navToolbox.style.color = '';
+            navToolbox.style.backgroundColor = '';
+            navToolbox.style.backgroundImage = '';
+        }
+    };
+    
+    this.mouseenter = function() {
+        if(self.applied)
+            com.sppad.fstbh.Main.forceOpen();
+    };
+   
+    this.mouseleaveWindow = function(mouseEvent) {
+        if(self.applied && com.sppad.fstbh.Main.compareTripPoint(mouseEvent) < 0)
+            com.sppad.fstbh.Main.forceOpen();
+    };
+    
+    this.mousemove = function(mouseEvent) {
+        if(com.sppad.fstbh.Main.compareTripPoint(mouseEvent) > 0)
+            com.sppad.fstbh.Main.forceClose();
+    };
+    
+    this.compareTripPoint = function(mouseEvent) {
+        let navToolbox = document.getElementById('navigator-toolbox');
+        
+        let y = mouseEvent.screenY;
+        let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
+      
+        return y - tripPoint;
+    };
+    
+    this.forceOpen = function() {
+        
+        let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+        let mainWindow = document.getElementById('main-window');
+        let navToolbox = document.getElementById('navigator-toolbox');
+        
+        wrapper.setAttribute('toggle', 'true');
+        
+        mainWindow.removeEventListener('mousemove', com.sppad.fstbh.Main.mousemove);
+        mainWindow.addEventListener('mousemove', com.sppad.fstbh.Main.mousemove, false);
+    };
+    
+    this.forceClose = function() {
+        dump("be trippin' yo\n");
+        
+        let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+        let mainWindow = document.getElementById('main-window');
+        let navToolbox = document.getElementById('navigator-toolbox');
+        
+        wrapper.removeAttribute('toggle');
+        navToolbox.style.marginTop = -(navToolbox.getBoundingClientRect().height - 1) + "px";
+        
+        mainWindow.removeEventListener('mousemove', com.sppad.fstbh.Main.mousemove);
     };
     
     /**
@@ -118,32 +257,6 @@ com.sppad.fstbh.Main = new function() {
         this.applyAttribute('browser-panel', 'tabCount', self.tabCount);
         
         this.offsetBrowser();
-    }
-    
-    /**
-     * Applies the persona image to the navigator-toolbox. Only want to do this
-     * while in fullscreen.
-     */
-    this.setupPersona = function() {
-        let mainWindow = document.getElementById('main-window');
-        let element = document.getElementById('navigator-toolbox');
-        
-        element.style.color =  mainWindow.style.backgroundImage;
-        element.style.backgroundColor =  mainWindow.style.backgroundColor;
-        element.style.backgroundImage =  mainWindow.style.backgroundImage;
-        
-    };
-    
-    /**
-     * Removes the persona image from the navigator-toolbox. Want to do this
-     * when exiting fullscreen.
-     */
-    this.clearoutPersona = function() {
-        let element = document.getElementById('navigator-toolbox');
-        
-        element.style.color =  '';
-        element.style.backgroundColor = '';
-        element.style.backgroundImage = '';
     };
     
     /**
@@ -205,16 +318,6 @@ com.sppad.fstbh.Main = new function() {
         this.offsetBrowser();
     };
     
-    /**
-     * Sets the preference for showTabsToolbar based on the context menuitem
-     * state.
-     */
-    this.setFullscreenTabs = function() {
-        let menuitem = document.getElementById('com_sppad_fstbh_fullscreenTabs');
-        let checked = menuitem.hasAttribute('checked');
-        
-        com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', checked ? 'always' : 'hoverOnly');
-    };
     
     /**
      * Sets the showPersonalToolbar mode.
@@ -251,15 +354,31 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
+     * Sets the preference for showTabsToolbar based on the context menuitem
+     * state.
+     */
+    this.setFullscreenTabs = function(source) {
+        let checked = source.hasAttribute('checked');
+        com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', checked ? 'always' : 'hoverOnly');
+    };
+    
+    /**
      * Sets the preference for showPersonalToolbar based on the context menuitem
      * state.
      */
-    this.setFullscreenPersonalToolbar = function() {
-        let menuitem = document.getElementById('com_sppad_fstbh_fullscreenPersonalToolbar');
-        let checked = menuitem.hasAttribute('checked');
-        
+    this.setFullscreenPersonalToolbar = function(source) {
+        let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('showPersonalToolbar', checked ? 'hover' : 'never');
     };
+    
+    /**
+     * Sets maximized mode.
+     */
+    this.setAlmostFullscreen = function(source) {
+        let checked = source.hasAttribute('checked');
+        com.sppad.fstbh.Preferences.setPreference('maximizedMode', checked ? 'hover' : 'normal');
+    };
+    
     
     /**
      * Offsets / un-offsets the browser by setting a top margin. This is done so
@@ -281,79 +400,6 @@ com.sppad.fstbh.Main = new function() {
         }
     };
     
-    this.handleEvent = function(aEvent) {
-
-        switch (aEvent.type) {
-            case com.sppad.fstbh.Preferences.EVENT_PREFERENCE_CHANGED:
-                this.prefChanged(aEvent.name, aEvent.value);
-                break;
-            case 'TabClose':
-                this.updateTabCount(true);
-                this.evalutateTitleChangeState();
-                break;
-            case 'TabOpen':
-                this.updateTabCount();
-                break;
-            case 'TabSelect':
-            case 'TabAttrModified':
-            case 'TabPinned':
-            case 'TabUnpinned':
-                this.evalutateTitleChangeState();
-                break;
-            default:
-                break;
-        }
-        
-    };
-
-    this.prefChanged = function(name, value) {
-        com.sppad.fstbh.Utils.dump("pref change: " + name + " -> " + value + "\n");
-
-        switch (name) {
-            
-            case 'transitionDuration':
-                this.setTransitionDuration(value);
-                break;
-            case 'transitionDelay':
-                this.setTransitionDelay(value);
-                break;
-            case 'showWhenTitleChanged':
-                this.setTitleChangeBehavior(value);
-                this.evalutateTitleChangeState();
-                break;
-            case 'style.browserBottomBox':
-                this.applyAttribute('browser-bottombox', 'backgroundStyle', value);
-                break;
-            case 'showTabsToolbar':
-                this.setShowTabsToolbar(value);
-                break;
-            case 'showPersonalToolbar':
-                this.setShowPersonalToolbar(value);
-                break;
-            default:
-                break;
-        }
-    };
-    
-    /*
-     * Used for listening to persona change events.
-     * 
-     * TODO - No guarantee that we are the last to get this event. Currently
-     * relying on the fact that the LightweightThemeConsumer goes first and
-     * applies the appropriate style to the window. Tried creating my own
-     * LightweightThemeConsumer to update navigator-toolbox instead, but that
-     * broke the browser's.
-     */
-    this.observe = function (aSubject, aTopic, aData) {
-        if (aTopic != "lightweight-theme-styling-update")
-          return;
-
-        // Only want to apply when in fullscreen, want to have browser handle
-        // persona as usual otherwise.
-        if(window.fullScreen)
-            this.setupPersona();
-    };
-
     this.loadPreferences = function() {
         this.prefChanged('transitionDelay', com.sppad.fstbh.CurrentPrefs['transitionDelay']);
         this.prefChanged('transitionDuration', com.sppad.fstbh.CurrentPrefs['transitionDuration']);
@@ -361,6 +407,7 @@ com.sppad.fstbh.Main = new function() {
         this.prefChanged('style.browserBottomBox', com.sppad.fstbh.CurrentPrefs['style.browserBottomBox']);
         this.prefChanged('showTabsToolbar', com.sppad.fstbh.CurrentPrefs['showTabsToolbar']);
         this.prefChanged('showPersonalToolbar', com.sppad.fstbh.CurrentPrefs['showPersonalToolbar']);
+        this.prefChanged('maximizedMode', com.sppad.fstbh.CurrentPrefs['maximizedMode']);
     };
     
     this.setup = function() {
@@ -373,7 +420,6 @@ com.sppad.fstbh.Main = new function() {
         container.addEventListener("TabAttrModified", this, false);
         container.addEventListener("TabPinned", this, false);
         container.addEventListener("TabUnpinned", this, false);
-        
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
@@ -412,6 +458,6 @@ window.addEventListener("unload", function() {
     com.sppad.fstbh.Preferences.cleanup();
 }, false);
 
-window.addEventListener("fullscreen", function () {
-    com.sppad.fstbh.Main.fullscreenChange();
+window.addEventListener("sizemodechange", function () {
+    com.sppad.fstbh.Main.updateAppliedStatus();
 }, false);

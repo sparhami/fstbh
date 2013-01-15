@@ -37,6 +37,9 @@ com.sppad.fstbh.PREFS = {
   
   // One of hover, never
   showPersonalToolbar: 'never',
+  
+  // One of hover, normal
+  maximizedMode: 'normal'
 };
 
 

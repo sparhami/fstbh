@@ -20,12 +20,24 @@
 		</vbox>
 	</deck>
 
+	<menupopup id="toolbar-context-menu">
+		<menuitem type="checkbox" label="&com.sppad.fstbh.maximizedHover.label;"
+			accesskey="&com.sppad.fstbh.maximizedHover.accesskey;" oncommand="com.sppad.fstbh.Main.setAlmostFullscreen(this);"
+			ordinal="0" />
+		<menuitem type="checkbox" label="&com.sppad.fstbh.fullscreenTabs.label;"
+			accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;" oncommand="com.sppad.fstbh.Main.setFullscreenTabs(this);"
+			ordinal="0" />
+		<menuitem type="checkbox" label="&com.sppad.fstbh.fullscreenPersonalToolbar.label;"
+			accesskey="&com.sppad.fstbh.fullscreenPersonalToolbar.accesskey;" oncommand="com.sppad.fstbh.Main.setFullscreenPersonalToolbar(this);"
+			ordinal="0" />
+	</menupopup>
+
 	<menupopup id="autohide-context">
-		<menuitem class="autohide-context-menuitem" id="com_sppad_fstbh_fullscreenTabs"
-			type="checkbox" label="&com.sppad.fstbh.fullscreenTabs.label;" accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setFullscreenTabs();" />
-		<menuitem class="autohide-context-menuitem" id="com_sppad_fstbh_fullscreenPersonalToolbar"
-			type="checkbox" label="&com.sppad.fstbh.fullscreenPersonalToolbar.label;"
-			accesskey="&com.sppad.fstbh.fullscreenPersonalToolbar.accesskey;" oncommand="com.sppad.fstbh.Main.setFullscreenPersonalToolbar();" />
+		<menuitem id="com_sppad_fstbh_fullscreenTabs" type="checkbox"
+			label="&com.sppad.fstbh.fullscreenTabs.label;" accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setFullscreenTabs(this);" ordinal="0" />
+		<menuitem id="com_sppad_fstbh_fullscreenPersonalToolbar" type="checkbox"
+			label="&com.sppad.fstbh.fullscreenPersonalToolbar.label;" accesskey="&com.sppad.fstbh.fullscreenPersonalToolbar.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setFullscreenPersonalToolbar(this);" ordinal="0" />
 	</menupopup>
 </overlay>
