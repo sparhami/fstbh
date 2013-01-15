@@ -3,7 +3,7 @@
 <!ENTITY com.sppad.fstbh.maximizedHover.accesskey "M">
 <!ENTITY com.sppad.fstbh.fullscreenTabs.label "Always Show Tabs">
 <!ENTITY com.sppad.fstbh.fullscreenTabs.accesskey "S">
-<!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.label "Show Bookmarks Toolbar">
+<!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.label "Bookmarks Toolbar">
 <!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.accesskey "B">
 
 <!ENTITY preference.generalPrefPane.label "General">
@@ -27,6 +27,6 @@
 <!ENTITY preference.showTabsToolbar.multipleTabs.label "When multiple tabs are open">
 <!ENTITY preference.showTabsToolbar.always.label "Always">
 
-<!ENTITY preference.showPersonalToolbar.label "Show Personal Toolbar (Bookmarks Toolbar)">
-<!ENTITY preference.showPersonalToolbar.hover.label "When mouse is over top toolbars">
-<!ENTITY preference.showPersonalToolbar.never.label "Never">
+<!ENTITY preference.maximizedMode.label "Toolbar behavior when maximized">
+<!ENTITY preference.maximizedMode.hover.label "Hover over page">
+<!ENTITY preference.maximizedMode.normal.label "Normal (don't hover)">

@@ -59,7 +59,8 @@ window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTab
 	overflow: hidden;
 }
 
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showPersonalToolbar="hover"] #PersonalToolbar {
+/** Want Firefox's version to take effect when not in fullscreen */
+window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showPersonalToolbar="hover"] #PersonalToolbar {
 	visibility: visible !important;
 	display: -moz-box;
 }
@@ -73,4 +74,8 @@ window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showPer
 	height: 1px;
 	min-height: 1px;
 	max-height: 1px;
+}
+
+window:not([sizemode="maximized"]) .maximizedHoverContextItem {
+	display: none;
 }

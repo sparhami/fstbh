@@ -21,15 +21,13 @@
 	</deck>
 
 	<menupopup id="toolbar-context-menu">
-		<menuitem type="checkbox" label="&com.sppad.fstbh.maximizedHover.label;"
+		<menuitem id="com_sppad_fstbh_tcm_maximizedModeContextItem" class="maximizedHoverContextItem" type="checkbox" label="&com.sppad.fstbh.maximizedHover.label;"
 			accesskey="&com.sppad.fstbh.maximizedHover.accesskey;" oncommand="com.sppad.fstbh.Main.setAlmostFullscreen(this);"
 			ordinal="0" />
-		<menuitem type="checkbox" label="&com.sppad.fstbh.fullscreenTabs.label;"
+		<menuitem id="com_sppad_fstbh_tcm_showTabsContextIem" class="maximizedHoverContextItem" type="checkbox" label="&com.sppad.fstbh.fullscreenTabs.label;"
 			accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;" oncommand="com.sppad.fstbh.Main.setFullscreenTabs(this);"
 			ordinal="0" />
-		<menuitem type="checkbox" label="&com.sppad.fstbh.fullscreenPersonalToolbar.label;"
-			accesskey="&com.sppad.fstbh.fullscreenPersonalToolbar.accesskey;" oncommand="com.sppad.fstbh.Main.setFullscreenPersonalToolbar(this);"
-			ordinal="0" />
+		<menuseparator class="maximizedHoverContextItem" ordinal="0" />
 	</menupopup>
 
 	<menupopup id="autohide-context">

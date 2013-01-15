@@ -13,7 +13,6 @@ com.sppad.fstbh.Main = new function() {
     
     self.tabCount = 0;
     self.evaluateTimer = null;
-    self.applied = false;
     
     this.handleEvent = function(aEvent) {
 
@@ -65,7 +64,7 @@ com.sppad.fstbh.Main = new function() {
                 this.setShowPersonalToolbar(value);
                 break;
             case 'maximizedMode':
-                this.updateAppliedStatus();
+                this.setMaximizedMode(value);
                 break;
             default:
                 break;
@@ -86,7 +85,7 @@ com.sppad.fstbh.Main = new function() {
           return;
 
         // Only want to apply when the addon is applied
-        if(self.applied)
+        if(applied)
             this.setupPersona();
     };
     
@@ -139,81 +138,148 @@ com.sppad.fstbh.Main = new function() {
         let fullscreen = sizemode == window.STATE_FULLSCREEN ;
         let maximized = sizemode == window.STATE_MAXIMIZED;
         let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
+
+        let applied = fullscreen || (maximized && applyInMaximized);
+        this.applyAttribute('main-window', 'applied', applied);
         
-        self.applied = fullscreen || (maximized && applyInMaximized);
-        this.applyAttribute('main-window', 'applied', self.applied);
-        
+        let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
         let mainWindow = document.getElementById('main-window');
         let navToolbox = document.getElementById('navigator-toolbox');
         let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
         
-        if(self.applied) {
-            mainWindow.addEventListener('mouseleave', com.sppad.fstbh.Main.mouseleaveWindow, false);
-            wrapper.addEventListener('mouseenter', com.sppad.fstbh.Main.mouseenter, false);
-      
+        showTabsContextItem.setAttribute('disabled', !applyInMaximized);
+        
+        if(applied) {
             navToolbox.style.color = mainWindow.style.backgroundImage;
             navToolbox.style.backgroundColor = mainWindow.style.backgroundColor;
             navToolbox.style.backgroundImage = mainWindow.style.backgroundImage;
+            
+            this.offsetBrowser();
         } else {
-            mainWindow.removeEventListener('mousemove', com.sppad.fstbh.Main.mousemove);
-            mainWindow.removeEventListener('mouseleave', com.sppad.fstbh.Main.mouseleaveWindow);
-            wrapper.removeEventListener('mouseenter', com.sppad.fstbh.Main.mouseenter);
-      
             navToolbox.style.color = '';
             navToolbox.style.backgroundColor = '';
             navToolbox.style.backgroundImage = '';
         }
+        
+        if(maximized && applyInMaximized)
+            this.ShowNavBoxHandler.setup();
+        else
+            this.ShowNavBoxHandler.cleanup();
     };
     
-    this.mouseenter = function() {
-        if(self.applied)
-            com.sppad.fstbh.Main.forceOpen();
-    };
-   
-    this.mouseleaveWindow = function(mouseEvent) {
-        if(self.applied && com.sppad.fstbh.Main.compareTripPoint(mouseEvent) < 0)
-            com.sppad.fstbh.Main.forceOpen();
+    /**
+     * Need to handle mouse over in non-fullscreen. Cannot just use
+     * hover because 1. want to support going above the top of the screen and
+     * keeping menu open and 2. want to stay open on context menu.
+     */
+    this.ShowNavBoxHandler = new function() {
+            
+        let self = this;    
+            
+        this.setup = function() {
+            // browser.fullscreen.animateUp = 0 // or 1
+            
+            let mainWindow = document.getElementById('main-window');
+            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            
+            mainWindow.addEventListener('mouseleave', self.mouseleaveWindow, false);
+            wrapper.addEventListener('mouseenter', self.mouseenter, false);
+        };
+        
+        this.cleanup = function() {
+            let mainWindow = document.getElementById('main-window');
+            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            
+            wrapper.removeAttribute('toggle');
+            
+            mainWindow.removeEventListener('mousemove', self.mousemove);
+            mainWindow.removeEventListener('mouseleave', self.mouseleaveWindow);
+            wrapper.removeEventListener('mouseenter', self.mouseenter);
+            wrapper.removeEventListener('popupshowing', self.popupshowing);
+            wrapper.removeEventListener('popuphiding', self.popuphiding);
+        };
+            
+        this.mouseenter = function() {
+            self.forceOpen();
+        };
+     
+        this.popupshowing = function() {
+            self.popupOpen = true;
+        };
+        
+        this.popuphiding = function() {
+            self.popupOpen = false;
+            
+            // If we're not open, nothing to do
+            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            if(!wrapper.hasAttribute('toggle'))
+                return;
+            
+            // We're open, check if we are far enough down that we need to close
+            let navToolbox = document.getElementById('navigator-toolbox');
+            
+            let y = self.lastY;
+            let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
+                
+            if(y > tripPoint)
+                self.forceClose();
+        };
+        
+        this.mouseleaveWindow = function(mouseEvent) {
+            let y = mouseEvent.screenY;
+            
+            let mainWindow = document.getElementById('main-window');
+            let tripPoint = mainWindow.boxObject.screenY; 
+          
+            if(y < tripPoint)
+                self.forceOpen();
+        };
+        
+        this.mousemove = function(mouseEvent) {
+            let y = mouseEvent.screenY;
+            
+            // Save for if/when the popup closes in case we aren't over the nav
+            // box
+            self.lastY = y;
+            // Popup is open, don't close
+            if(self.popupOpen)
+                return;
+            
+            let navToolbox = document.getElementById('navigator-toolbox');
+            let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
+            
+            if(y > tripPoint)
+                self.forceClose();
+        };
+        
+        this.forceOpen = function() {
+            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            let mainWindow = document.getElementById('main-window');
+            let navToolbox = document.getElementById('navigator-toolbox');
+            
+            wrapper.setAttribute('toggle', 'true');
+            
+            mainWindow.removeEventListener('mousemove', self.mousemove);
+            mainWindow.addEventListener('mousemove', self.mousemove, false);
+            document.addEventListener('popupshowing', self.popupshowing, false);
+            document.addEventListener('popuphiding', self.popuphiding, false);
+        };
+        
+        this.forceClose = function() {
+            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            let mainWindow = document.getElementById('main-window');
+            let navToolbox = document.getElementById('navigator-toolbox');
+            
+            wrapper.removeAttribute('toggle');
+            navToolbox.style.marginTop = -(navToolbox.getBoundingClientRect().height - 1) + "px";
+            
+            mainWindow.removeEventListener('mousemove', self.mousemove);
+            document.removeEventListener('popupshowing', self.popupshowing);
+            document.removeEventListener('popuphiding', self.popuphiding);
+        };
     };
     
-    this.mousemove = function(mouseEvent) {
-        if(com.sppad.fstbh.Main.compareTripPoint(mouseEvent) > 0)
-            com.sppad.fstbh.Main.forceClose();
-    };
-    
-    this.compareTripPoint = function(mouseEvent) {
-        let navToolbox = document.getElementById('navigator-toolbox');
-        
-        let y = mouseEvent.screenY;
-        let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
-      
-        return y - tripPoint;
-    };
-    
-    this.forceOpen = function() {
-        
-        let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-        let mainWindow = document.getElementById('main-window');
-        let navToolbox = document.getElementById('navigator-toolbox');
-        
-        wrapper.setAttribute('toggle', 'true');
-        
-        mainWindow.removeEventListener('mousemove', com.sppad.fstbh.Main.mousemove);
-        mainWindow.addEventListener('mousemove', com.sppad.fstbh.Main.mousemove, false);
-    };
-    
-    this.forceClose = function() {
-        dump("be trippin' yo\n");
-        
-        let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-        let mainWindow = document.getElementById('main-window');
-        let navToolbox = document.getElementById('navigator-toolbox');
-        
-        wrapper.removeAttribute('toggle');
-        navToolbox.style.marginTop = -(navToolbox.getBoundingClientRect().height - 1) + "px";
-        
-        mainWindow.removeEventListener('mousemove', com.sppad.fstbh.Main.mousemove);
-    };
-    
+  
     /**
      * Counts the number of tabs with a title change event. Used for showing the
      * navigator toolbox in fullscreen mode when there is a pending
@@ -351,6 +417,18 @@ com.sppad.fstbh.Main = new function() {
                 setToolbarVisibility(toolbar, false);
             }
         }
+    };
+    
+
+    this.setMaximizedMode = function(value) {
+        
+        let menuitem = document.getElementById('com_sppad_fstbh_tcm_maximizedModeContextItem');
+        if(value == 'hover')
+            menuitem.setAttribute('checked', 'true');
+        else
+            menuitem.removeAttribute('checked');
+        
+        this.updateAppliedStatus();
     };
     
     /**
