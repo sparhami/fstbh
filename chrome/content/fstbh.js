@@ -194,6 +194,8 @@ com.sppad.fstbh.Main = new function() {
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             
             // Causes hiding if there are no rules to cause it not to.
+            wrapper.removeAttribute('toggle');
+            self.opened = false;
             self.setTopOffset();
             
             document.addEventListener("keypress", self.keyevent, false);
