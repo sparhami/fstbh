@@ -6,42 +6,56 @@ window[com_sppad_fstbh_applied="true"] #browser-panel {
 	display: -moz-stack;
 }
 
+/* Rules for showing when applied */
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="any"][titlechange="true"]  #navigator-toolbox,
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="pinned"][pinnedTitlechange="true"]  #navigator-toolbox,
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[toggle] #navigator-toolbox {
+window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[toggle] #navigator-toolbox,
+window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[inputFocused] #navigator-toolbox {
 	margin-top: 0px !important;
 }
 
+/* Make sure that we can always be hovered / moused into */
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper {
 	min-height: 1px !important;
 }
 
-/* Make sure any margin-top set from the javascript style doesn't take effect when not in fullscreen */
+/* Make sure any margin-top set from the javascript style doesn't take effect 
+ * when not applied
+ */
 window:not([com_sppad_fstbh_applied="true"]) #browser,
 window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
 	margin-top: 0 !important;
 }
 
+
 window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
+	/* Transition properties. The duration and delay are set from javascript */
 	transition-property: margin-top;
 	transition-timing-function: linear;
 	
+	/* For themes */
 	background-position: right top !important;
 }
 
+/* Make sure navigator toolbox is on top, since we put it farther down to
+ * appear on top of the browser due to stack ordering.
+ */
 window:not([com_sppad_fstbh_applied="true"]) #com_sppad_fstbh_topChromeWrapper {
 	-moz-box-ordinal-group: 0;
 }
 
+/* To not get hit by rule below setting display: none */
 window[com_sppad_fstbh_applied="true"] #browser,
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper,
 window[com_sppad_fstbh_applied="true"] #browser-bottombox {
 	display: -moz-box !important;
 }
 
+/* Default, hide anything not used since we are -moz-stack and it will prevent mouse events */
 window[com_sppad_fstbh_applied="true"] #browser-panel > * {
 	display: none;
 }
+
 
 window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"] #navigator-toolbox,
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"] #navigator-toolbox {	
@@ -50,8 +64,12 @@ window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTab
 	margin-top: 0px !important;
 }
 
-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"]:not([toggle]) #navigator-toolbox[style~="margin-top:"] > :not(#TabsToolbar),
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"]:not([toggle]) #navigator-toolbox[style~="margin-top:"] > :not(#TabsToolbar) {
+
+/* Rules for showing non-Tab toolbars when either always or multitabs is set.
+ * Basically, show either when hovering or something is focused.
+ */
+window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"]:not([toggle]):not([inputFocused]) #navigator-toolbox > :not(#TabsToolbar),
+window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"]:not([toggle]):not([inputFocused]) #navigator-toolbox > :not(#TabsToolbar) {
 	/* Don't use visibility or display as it changes the behavior when trying to use f6 or ctrl-l */
 	height: 0 !important;
 	max-height: 0 !important;
@@ -59,21 +77,16 @@ window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTab
 	overflow: hidden;
 }
 
-/** Want Firefox's version to take effect when not in fullscreen */
+/* Want Firefox's version to take effect when not in fullscreen */
 window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showPersonalToolbar="hover"] #PersonalToolbar {
 	visibility: visible !important;
 	display: -moz-box;
 }
 
+/* Want to appear on top of the other context menu items */
 #toolbar-context-menu -moz-any(menuitem, menuseparator),
 #autohide-context -moz-any(menuitem, menuseparator) {
 	-moz-box-ordinal-group: 1;
-}
-
-#com_sppad_fstbh_toggler[show="true"] {
-	height: 1px;
-	min-height: 1px;
-	max-height: 1px;
 }
 
 window:not([sizemode="maximized"]) .maximizedHoverContextItem {

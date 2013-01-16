@@ -171,9 +171,17 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Need to handle mouse over in non-fullscreen. Cannot just use hover
-     * because 1. want to support going above the top of the screen and keeping
-     * menu open and 2. want to stay open on context menu.
+     * Handles showing nav box due to mouse or focus events both in fullscreen
+     * and maximized mode. The only reason for also doing this in fullscreen is
+     * that if the option for tabs always opened is set, the built in Firefox
+     * handling doesn't work correctly.
+     * 
+     * This handles:
+     * <ul>
+     * <li>Showing when going above the top of the browser</li>
+     * <li>Staying open when a context menu or other popup is open</li>
+     * <li>Showing on input field (such as nav-bar or search bar) focus</li>
+     * </ul>
      */
     this.ShowNavBoxHandler = new function() {
             
@@ -185,8 +193,14 @@ com.sppad.fstbh.Main = new function() {
             let mainWindow = document.getElementById('main-window');
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             
+            // Causes hiding if there are no rules to cause it not to.
+            self.setTopOffset();
+            
+            document.addEventListener("keypress", self.keyevent, false);
             mainWindow.addEventListener('mouseleave', self.mouseleaveWindow, false);
             wrapper.addEventListener('mouseover', self.mouseenter, false);
+            wrapper.addEventListener('focus', self.checkfocus, true);
+            wrapper.addEventListener('blur', self.checkfocus, true);
         };
         
         this.cleanup = function() {
@@ -196,15 +210,60 @@ com.sppad.fstbh.Main = new function() {
             wrapper.removeAttribute('toggle');
             self.open = false;
             
+            // Make sure to try to unregister any callbacks we may have
+            // registered.
+            document.removeEventListener("keypress", self.keyevent);
             mainWindow.removeEventListener('mousemove', self.mousemove);
             mainWindow.removeEventListener('mouseleave', self.mouseleaveWindow);
             wrapper.removeEventListener('mouseover', self.mouseenter);
             wrapper.removeEventListener('popupshowing', self.popupshowing);
             wrapper.removeEventListener('popuphiding', self.popuphiding);
+            wrapper.removeEventListener('focus', self.checkfocus);
+            wrapper.removeEventListener('blur', self.checkfocus);
+        };
+        
+        /**
+         * Handle escape: set focus to false to hide nav-bar and others and also
+         * clear the focus from the focused item.
+         */
+        this.keyevent = function(event) {
+            if(self.focused && (event.keyCode == event.DOM_VK_ESCAPE)) {
+                self.setfocus(false);
+                document.commandDispatcher.focusedElement = null;
+            }
+        };
+        
+        /**
+         * Checks if an item is focused so that we can know if we should display
+         * or not on that basis.
+         */
+        this.checkfocus = function(event) {
+          let cd = document.commandDispatcher;
+          let inputFocused = cd.focusedElement &&
+              cd.focusedElement.ownerDocument == document &&
+              cd.focusedElement.localName == "input";
+          
+          self.setfocus(inputFocused == true);
+        };
+        
+        /**
+         * Sets the focused state, causing the navigator toolbox to show via CSS
+         * rule.
+         */
+        this.setfocus = function(focus) {
+            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            if(focus) {
+                wrapper.setAttribute('inputFocused', 'true');
+            } else {
+                wrapper.removeAttribute('inputFocused');
+                self.setTopOffset();
+            }
+            
+            self.focused = focus;
         };
             
         this.mouseenter = function() {
-            self.forceOpen();
+            self.open();
         };
      
         this.popupshowing = function() {
@@ -214,11 +273,14 @@ com.sppad.fstbh.Main = new function() {
         this.popuphiding = function(event) {
             self.popupOpen = false;
             
-            // If we're not open, nothing to do
+            // If we're open, re-evaluate if we should be open or not
             if(self.open)
-                this.mousemove(event);
+                self.mousemove(event);
         };
         
+        /**
+         * Tracks if the mouse goes out the top of the window to stay showing.
+         */
         this.mouseleaveWindow = function(event) {
             let y = event.screenY;
             
@@ -226,7 +288,7 @@ com.sppad.fstbh.Main = new function() {
             let tripPoint = mainWindow.boxObject.screenY; 
           
             if(y < tripPoint)
-                self.forceOpen();
+                self.open();
         };
         
         this.mousemove = function(event) {
@@ -240,10 +302,16 @@ com.sppad.fstbh.Main = new function() {
             let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
             
             if(y > tripPoint)
-                self.forceClose();
+                self.close();
         };
         
-        this.forceOpen = function() {
+        /*
+         * Causes the navigator toolbox to show by setting the toggle attribute.
+         * Also sets up listeners to stay open on context menu to stay open and
+         * mouse move for eventually closing.
+         */
+        this.open = function() {
+            // If called twice, don't want to do anything
             if(self.open)
                 return;
             
@@ -260,18 +328,29 @@ com.sppad.fstbh.Main = new function() {
             document.addEventListener('popuphiding', self.popuphiding, false);
         };
         
-        this.forceClose = function() {
+        /**
+         * Causes the navigator toolbox to close by removing the toggle
+         * attribute. Can still be showing if the inputFocused attribute is set
+         * though.
+         * 
+         * Also re-calculates the top offset in case the size has changed.
+         */
+        this.close = function() {
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let mainWindow = document.getElementById('main-window');
-            let navToolbox = document.getElementById('navigator-toolbox');
             
             wrapper.removeAttribute('toggle');
             self.open = false;
-            navToolbox.style.marginTop = -(navToolbox.getBoundingClientRect().height - 1) + "px";
-            
+            self.setTopOffset();
+       
             mainWindow.removeEventListener('mousemove', self.mousemove);
             document.removeEventListener('popupshowing', self.popupshowing);
             document.removeEventListener('popuphiding', self.popuphiding);
+        };
+        
+        this.setTopOffset = function() {
+            let navToolbox = document.getElementById('navigator-toolbox');
+            navToolbox.style.marginTop = -(navToolbox.getBoundingClientRect().height - 1) + "px";
         };
     };
     
@@ -371,11 +450,13 @@ com.sppad.fstbh.Main = new function() {
         let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
         node.setAttribute("showTabsToolbar", value);
         
-        let menuitem = document.getElementById('com_sppad_fstbh_fullscreenTabs');
-        if(value == 'always')
-            menuitem.setAttribute('checked', 'true');
-        else
-            menuitem.removeAttribute('checked');
+        let contextItems = ['com_sppad_fstbh_tcm_showTabsContextIem', 'com_sppad_fstbh_fullscreenTabs'];
+        contextItems.forEach(function(id) {
+            if(value == 'always')
+                document.getElementById(id).setAttribute('checked', 'true');
+            else
+                document.getElementById(id).removeAttribute('checked');
+        });
         
         this.offsetBrowser();
     };
