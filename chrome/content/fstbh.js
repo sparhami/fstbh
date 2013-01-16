@@ -187,6 +187,7 @@ com.sppad.fstbh.Main = new function() {
             
         let self = this;   
         self.opened = false;
+        self.hover = false;
             
         this.setup = function() {
             // browser.fullscreen.animateUp = 0 // or 1
@@ -196,11 +197,13 @@ com.sppad.fstbh.Main = new function() {
             // Causes hiding if there are no rules to cause it not to.
             wrapper.removeAttribute('toggle');
             self.opened = false;
+            self.hover = false;
             self.setTopOffset();
             
             document.addEventListener("keypress", self.keyevent, false);
             mainWindow.addEventListener('mouseleave', self.mouseleaveWindow, false);
-            wrapper.addEventListener('mouseover', self.mouseenter, false);
+            wrapper.addEventListener('mouseenter', self.mouseenter, false);
+            wrapper.addEventListener('mouseleave', self.mouseleave, false);
             wrapper.addEventListener('focus', self.checkfocus, true);
             wrapper.addEventListener('blur', self.checkfocus, true);
         };
@@ -211,17 +214,19 @@ com.sppad.fstbh.Main = new function() {
             
             wrapper.removeAttribute('toggle');
             self.opened = false;
+            self.hover = false;
             
             // Make sure to try to unregister any callbacks we may have
             // registered.
             document.removeEventListener("keypress", self.keyevent);
-            mainWindow.removeEventListener('mousemove', self.mousemove);
             mainWindow.removeEventListener('mouseleave', self.mouseleaveWindow);
-            wrapper.removeEventListener('mouseover', self.mouseenter);
-            wrapper.removeEventListener('popupshowing', self.popupshowing);
-            wrapper.removeEventListener('popuphiding', self.popuphiding);
+            wrapper.removeEventListener('mouseenter', self.mouseenter);
+            wrapper.removeEventListener('mouseleave', self.mouseleave);
             wrapper.removeEventListener('focus', self.checkfocus);
             wrapper.removeEventListener('blur', self.checkfocus);
+            
+            document.removeEventListener('popupshowing', self.popupshowing);
+            document.removeEventListener('popuphiding', self.popuphiding);
         };
         
         /**
@@ -265,7 +270,18 @@ com.sppad.fstbh.Main = new function() {
         };
             
         this.mouseenter = function() {
+            self.hover = true;
             self.setOpened();
+        };
+        
+        this.mouseleave = function() {
+            self.hover = false;
+            
+            // Popup is open, don't close
+            if(self.popupOpen)
+                return;
+            
+            self.setClosed();
         };
      
         this.popupshowing = function() {
@@ -276,13 +292,7 @@ com.sppad.fstbh.Main = new function() {
             self.popupOpen = false;
             
             // If we're open, re-evaluate if we should be open or not
-            if(!self.opened)
-                return;
-                
-            let navToolbox = document.getElementById('navigator-toolbox');
-            let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
-            
-            if(self.lastY && (self.lastY > tripPoint))
+            if(self.opened && !self.hover)
                 self.setClosed();
         };
         
@@ -297,20 +307,6 @@ com.sppad.fstbh.Main = new function() {
           
             if(y < tripPoint)
                 self.setOpened();
-        };
-        
-        this.mousemove = function(event) {
-            self.lastY = event.screenY;
-            
-            // Popup is open, don't close
-            if(self.popupOpen)
-                return;
-            
-            let navToolbox = document.getElementById('navigator-toolbox');
-            let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
-            
-            if(self.lastY > tripPoint)
-                self.setClosed();
         };
         
         /*
@@ -330,8 +326,6 @@ com.sppad.fstbh.Main = new function() {
             wrapper.setAttribute('toggle', 'true');
             self.opened = true;
             
-            mainWindow.removeEventListener('mousemove', self.mousemove);
-            mainWindow.addEventListener('mousemove', self.mousemove, false);
             document.addEventListener('popupshowing', self.popupshowing, false);
             document.addEventListener('popuphiding', self.popuphiding, false);
         };
@@ -351,7 +345,6 @@ com.sppad.fstbh.Main = new function() {
             self.opened = false;
             self.setTopOffset();
        
-            mainWindow.removeEventListener('mousemove', self.mousemove);
             document.removeEventListener('popupshowing', self.popupshowing);
             document.removeEventListener('popuphiding', self.popuphiding);
         };
