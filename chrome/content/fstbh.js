@@ -186,7 +186,7 @@ com.sppad.fstbh.Main = new function() {
     this.ShowNavBoxHandler = new function() {
             
         let self = this;   
-        self.open = false;
+        self.opened = false;
             
         this.setup = function() {
             // browser.fullscreen.animateUp = 0 // or 1
@@ -208,7 +208,7 @@ com.sppad.fstbh.Main = new function() {
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             
             wrapper.removeAttribute('toggle');
-            self.open = false;
+            self.opened = false;
             
             // Make sure to try to unregister any callbacks we may have
             // registered.
@@ -263,7 +263,7 @@ com.sppad.fstbh.Main = new function() {
         };
             
         this.mouseenter = function() {
-            self.open();
+            self.setOpened();
         };
      
         this.popupshowing = function() {
@@ -274,8 +274,14 @@ com.sppad.fstbh.Main = new function() {
             self.popupOpen = false;
             
             // If we're open, re-evaluate if we should be open or not
-            if(self.open)
-                self.mousemove(event);
+            if(!self.opened)
+                return;
+                
+            let navToolbox = document.getElementById('navigator-toolbox');
+            let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
+            
+            if(self.lastY && (self.lastY > tripPoint))
+                self.setClosed();
         };
         
         /**
@@ -288,11 +294,11 @@ com.sppad.fstbh.Main = new function() {
             let tripPoint = mainWindow.boxObject.screenY; 
           
             if(y < tripPoint)
-                self.open();
+                self.setOpened();
         };
         
         this.mousemove = function(event) {
-            let y = event.screenY;
+            self.lastY = event.screenY;
             
             // Popup is open, don't close
             if(self.popupOpen)
@@ -301,8 +307,8 @@ com.sppad.fstbh.Main = new function() {
             let navToolbox = document.getElementById('navigator-toolbox');
             let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
             
-            if(y > tripPoint)
-                self.close();
+            if(self.lastY > tripPoint)
+                self.setClosed();
         };
         
         /*
@@ -310,9 +316,9 @@ com.sppad.fstbh.Main = new function() {
          * Also sets up listeners to stay open on context menu to stay open and
          * mouse move for eventually closing.
          */
-        this.open = function() {
+        this.setOpened = function() {
             // If called twice, don't want to do anything
-            if(self.open)
+            if(self.opened)
                 return;
             
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
@@ -320,7 +326,7 @@ com.sppad.fstbh.Main = new function() {
             let navToolbox = document.getElementById('navigator-toolbox');
             
             wrapper.setAttribute('toggle', 'true');
-            self.open = true;
+            self.opened = true;
             
             mainWindow.removeEventListener('mousemove', self.mousemove);
             mainWindow.addEventListener('mousemove', self.mousemove, false);
@@ -335,12 +341,12 @@ com.sppad.fstbh.Main = new function() {
          * 
          * Also re-calculates the top offset in case the size has changed.
          */
-        this.close = function() {
+        this.setClosed = function() {
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let mainWindow = document.getElementById('main-window');
             
             wrapper.removeAttribute('toggle');
-            self.open = false;
+            self.opened = false;
             self.setTopOffset();
        
             mainWindow.removeEventListener('mousemove', self.mousemove);
