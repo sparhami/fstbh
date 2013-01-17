@@ -84,9 +84,26 @@ com.sppad.fstbh.Main = new function() {
         if (aTopic != "lightweight-theme-styling-update")
           return;
 
-        // Only want to apply when the addon is applied
-        if(applied)
-            this.setupPersona();
+        // Only want to apply when the addon is self.applied
+        if(self.applied)
+            self.setupTheme();
+    };
+    
+    this.setupTheme = function() {
+        let navToolbox = document.getElementById('navigator-toolbox');
+        
+        navToolbox.style.color = mainWindow.style.backgroundImage;
+        navToolbox.style.backgroundColor = mainWindow.style.backgroundColor;
+        navToolbox.style.backgroundImage = mainWindow.style.backgroundImage;
+    };
+    
+    
+    this.clearTheme = function() {
+        let navToolbox = document.getElementById('navigator-toolbox');
+        
+        navToolbox.style.color = '';
+        navToolbox.style.backgroundColor = '';
+        navToolbox.style.backgroundImage = '';
     };
     
     /**
@@ -139,41 +156,32 @@ com.sppad.fstbh.Main = new function() {
         let maximized = sizemode == window.STATE_MAXIMIZED;
         let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
 
-        let applied = fullscreen || (maximized && applyInMaximized);
-        this.applyAttribute('main-window', 'applied', applied);
+        self.applied = fullscreen || (maximized && applyInMaximized);
+        self.applyAttribute('main-window', 'self.applied', self.applied);
         
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
-        let mainWindow = document.getElementById('main-window');
-        let navToolbox = document.getElementById('navigator-toolbox');
-        let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-        
         showTabsContextItem.setAttribute('disabled', !applyInMaximized);
         
-        if(applied) {
-            navToolbox.style.color = mainWindow.style.backgroundImage;
-            navToolbox.style.backgroundColor = mainWindow.style.backgroundColor;
-            navToolbox.style.backgroundImage = mainWindow.style.backgroundImage;
-            
-            this.offsetBrowser();
+        if(self.applied) {
+            self.setupTheme();
+            self.offsetBrowser();
         } else {
-            navToolbox.style.color = '';
-            navToolbox.style.backgroundColor = '';
-            navToolbox.style.backgroundImage = '';
+            self.clearTheme();
         }
         
         // Stomp over Firefox's implementation as it doesn't work correctly when
         // tabs are set to always show.
         // if(maximized && applyInMaximized)
-        if(applied)
-            this.ShowNavBoxHandler.setup();
+        if(self.applied)
+            self.ShowNavBoxHandler.setup();
         else
-            this.ShowNavBoxHandler.cleanup();
+            self.ShowNavBoxHandler.cleanup();
     };
     
     /**
-     * Handles showing nav box due to mouse or focus events both in fullscreen
-     * and maximized mode. The only reason for also doing this in fullscreen is
-     * that if the option for tabs always opened is set, the built in Firefox
+     * Handles showing nav box due to mouse or focus events in maximized mode
+     * and fullscreen. The only reason for also doing this in fullscreen is that
+     * if the option for tabs always opened is set, the built in Firefox
      * handling doesn't work correctly.
      * 
      * This handles:
@@ -200,7 +208,7 @@ com.sppad.fstbh.Main = new function() {
             
             document.addEventListener("keypress", self.keyevent, false);
             mainWindow.addEventListener('mouseleave', self.mouseleaveWindow, false);
-            wrapper.addEventListener('mouseover', self.mouseenter, false);
+            wrapper.addEventListener('mouseenter', self.mouseenter, false);
             wrapper.addEventListener('focus', self.checkfocus, true);
             wrapper.addEventListener('blur', self.checkfocus, true);
         };
@@ -217,7 +225,7 @@ com.sppad.fstbh.Main = new function() {
             document.removeEventListener("keypress", self.keyevent);
             mainWindow.removeEventListener('mousemove', self.mousemove);
             mainWindow.removeEventListener('mouseleave', self.mouseleaveWindow);
-            wrapper.removeEventListener('mouseover', self.mouseenter);
+            wrapper.removeEventListener('mouseenter', self.mouseenter);
             wrapper.removeEventListener('popupshowing', self.popupshowing);
             wrapper.removeEventListener('popuphiding', self.popuphiding);
             wrapper.removeEventListener('focus', self.checkfocus);
