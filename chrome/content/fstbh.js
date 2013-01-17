@@ -84,13 +84,14 @@ com.sppad.fstbh.Main = new function() {
         if (aTopic != "lightweight-theme-styling-update")
           return;
 
-        // Only want to apply when the addon is self.applied
+        // Only want to apply when the addon is applied
         if(self.applied)
             self.setupTheme();
     };
     
     this.setupTheme = function() {
         let navToolbox = document.getElementById('navigator-toolbox');
+        let mainWindow = document.getElementById('main-window');
         
         navToolbox.style.color = mainWindow.style.backgroundImage;
         navToolbox.style.backgroundColor = mainWindow.style.backgroundColor;
@@ -157,7 +158,7 @@ com.sppad.fstbh.Main = new function() {
         let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
 
         self.applied = fullscreen || (maximized && applyInMaximized);
-        self.applyAttribute('main-window', 'self.applied', self.applied);
+        self.applyAttribute('main-window', 'applied', self.applied);
         
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
         showTabsContextItem.setAttribute('disabled', !applyInMaximized);
