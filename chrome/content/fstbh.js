@@ -150,14 +150,36 @@ com.sppad.fstbh.Main = new function() {
         nav.externalToolbars = externalToolbars;
     };
     
-    this.updateAppliedStatus = function() {
+    /**
+     * When tranistioning from non-maximized mode to maximized-mode with hover
+     * set, the calculation for margin-bottom of #titlebar on Windows doesn't
+     * work correctly. Instead of being -23px or so, it ends up as being
+     * something like 40-60px.
+     * <p>
+     * Tried setting margin-bottom via CSS to 0 and change topChromeWrapper to
+     * have -marginTop, but there are a couple of issues with that.
+     */
+    this.windowsTitlebarWorkaround = function(apply) {
+        let titlebar = document.getElementById('titlebar');
         
+        // No #titlebar DOM node = nothing to do.
+        if(!titlebar)
+            return;
+        
+        let offset = apply ? titlebar.boxObject.screenY + titlebar.boxObject.height : 0;
+        titlebar.setAttribute('com_sppad_fstbh_workaround', offset);
+    };
+    
+    this.updateAppliedStatus = function() {
+
         let sizemode = window.windowState;
         let fullscreen = sizemode == window.STATE_FULLSCREEN ;
         let maximized = sizemode == window.STATE_MAXIMIZED;
         let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
 
         self.applied = fullscreen || (maximized && applyInMaximized);
+        
+        self.windowsTitlebarWorkaround(maximized && applyInMaximized);
         self.applyAttribute('main-window', 'applied', self.applied);
         
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
@@ -170,20 +192,14 @@ com.sppad.fstbh.Main = new function() {
             self.clearTheme();
         }
         
-        // Stomp over Firefox's implementation as it doesn't work correctly when
-        // tabs are set to always show.
-        // if(maximized && applyInMaximized)
+        self.ShowNavBoxHandler.setTopOffset();
+        self.ShowNavBoxHandler.cleanup();
         if(self.applied)
             self.ShowNavBoxHandler.setup();
-        else
-            self.ShowNavBoxHandler.cleanup();
     };
     
     /**
-     * Handles showing nav box due to mouse or focus events in maximized mode
-     * and fullscreen. The only reason for also doing this in fullscreen is that
-     * if the option for tabs always opened is set, the built in Firefox
-     * handling doesn't work correctly.
+     * Handles showing nav box due to mouse or focus events in maximized mode.
      * 
      * This handles:
      * <ul>
@@ -205,7 +221,6 @@ com.sppad.fstbh.Main = new function() {
             // Causes hiding if there are no rules to cause it not to.
             wrapper.removeAttribute('toggle');
             self.opened = false;
-            self.setTopOffset();
             
             document.addEventListener("keypress", self.keyevent, false);
             mainWindow.addEventListener('mouseleave', self.mouseleaveWindow, false);
@@ -371,7 +386,6 @@ com.sppad.fstbh.Main = new function() {
         };
     };
     
-  
     /**
      * Counts the number of tabs with a title change event. Used for showing the
      * navigator toolbox in fullscreen mode when there is a pending

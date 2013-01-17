@@ -1,5 +1,6 @@
 @import url("chrome://global/skin/");
 
+@import url("workarounds.css");
 @import url("chrome://fstbh/skin/fstbh.css");
 
 window[com_sppad_fstbh_applied="true"] #browser-panel {
@@ -10,6 +11,7 @@ window[com_sppad_fstbh_applied="true"] #browser-panel {
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="any"][titlechange="true"]  #navigator-toolbox,
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="pinned"][pinnedTitlechange="true"]  #navigator-toolbox,
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[toggle] #navigator-toolbox,
+window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper:hover #navigator-toolbox,
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[inputFocused] #navigator-toolbox {
 	margin-top: 0px !important;
 }
@@ -68,8 +70,8 @@ window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTab
 /* Rules for showing non-Tab toolbars when either always or multitabs is set.
  * Basically, show either when hovering or something is focused.
  */
-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"]:not([toggle]):not([inputFocused]) #navigator-toolbox > :not(#TabsToolbar),
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"]:not([toggle]):not([inputFocused]) #navigator-toolbox > :not(#TabsToolbar) {
+window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"]:not([toggle]):not([inputFocused]):not(:hover) #navigator-toolbox > :not(#TabsToolbar),
+window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"]:not([toggle]):not([inputFocused]):not(:hover) #navigator-toolbox > :not(#TabsToolbar) {
 	/* Don't use visibility or display as it changes the behavior when trying to use f6 or ctrl-l */
 	height: 0 !important;
 	max-height: 0 !important;
