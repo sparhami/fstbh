@@ -90,21 +90,18 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.setupTheme = function() {
-        let navToolbox = document.getElementById('navigator-toolbox');
         let mainWindow = document.getElementById('main-window');
         
-        navToolbox.style.color = mainWindow.style.backgroundImage;
-        navToolbox.style.backgroundColor = mainWindow.style.backgroundColor;
-        navToolbox.style.backgroundImage = mainWindow.style.backgroundImage;
+        gNavToolbox.style.color = mainWindow.style.backgroundImage;
+        gNavToolbox.style.backgroundColor = mainWindow.style.backgroundColor;
+        gNavToolbox.style.backgroundImage = mainWindow.style.backgroundImage;
     };
     
     
     this.clearTheme = function() {
-        let navToolbox = document.getElementById('navigator-toolbox');
-        
-        navToolbox.style.color = '';
-        navToolbox.style.backgroundColor = '';
-        navToolbox.style.backgroundImage = '';
+        gNavToolbox.style.color = '';
+        gNavToolbox.style.backgroundColor = '';
+        gNavToolbox.style.backgroundImage = '';
     };
     
     /**
@@ -128,36 +125,41 @@ com.sppad.fstbh.Main = new function() {
      * set to stack.
      */
     this.moveNavigatorToolbox = function() {
-        let nav = document.getElementById('navigator-toolbox');
         let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
         
         // save these, need to add them back
-        let palette = nav.palette;
-        let toolbarset = nav.toolbarset;
-        let customToolbarCount = nav.customToolbarCount;
-        let externalToolbars = nav.externalToolbars;
+        let palette = gNavToolbox.palette;
+        let toolbarset = gNavToolbox.toolbarset;
+        let customToolbarCount = gNavToolbox.customToolbarCount;
+        let externalToolbars = gNavToolbox.externalToolbars;
         
         // do the move
-        wrapper.appendChild(nav);
+        wrapper.appendChild(gNavToolbox);
         
         /*
          * Need to set back the fields from the navigator-toolbox, since they
          * don't appear to stay when moving the node.
          */
-        nav.palette = palette;
-        nav.toolbarset = toolbarset;
-        nav.customToolbarCount = customToolbarCount;
-        nav.externalToolbars = externalToolbars;
+        gNavToolbox.palette = palette;
+        gNavToolbox.toolbarset = toolbarset;
+        gNavToolbox.customToolbarCount = customToolbarCount;
+        gNavToolbox.externalToolbars = externalToolbars;
     };
     
     /**
-     * When tranistioning from non-maximized mode to maximized-mode with hover
-     * set, the calculation for margin-bottom of #titlebar on Windows doesn't
-     * work correctly. Instead of being -23px or so, it ends up as being
-     * something like 40-60px.
+     * This only applies to Windows.
      * <p>
-     * Tried setting margin-bottom via CSS to 0 and change topChromeWrapper to
-     * have -marginTop, but there are a couple of issues with that.
+     * When tranistioning from non-maximized mode to maximized-mode with hover
+     * set, the calculation for margin-bottom of #titlebar doesn't work
+     * correctly. Instead of being -23px or something like that, it ends up as
+     * being something like positive 40-60px.
+     * <p>
+     * The browser code will calculate it sometime after this function, so we
+     * can't set style.marginTop on the titlebar since it will be overwritten.
+     * Instead use a CSS rule to apply the correct value.
+     * <p>
+     * Forcing it to zero via CSS and setting a negative margin-top on the
+     * wrapper style does not work correctly in all situations.
      */
     this.windowsTitlebarWorkaround = function(apply) {
         let titlebar = document.getElementById('titlebar');
@@ -185,17 +187,15 @@ com.sppad.fstbh.Main = new function() {
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
         showTabsContextItem.setAttribute('disabled', !applyInMaximized);
         
+        self.ShowNavBoxHandler.cleanup();
+        
         if(self.applied) {
             self.setupTheme();
             self.offsetBrowser();
+            self.ShowNavBoxHandler.setup();
         } else {
             self.clearTheme();
         }
-        
-        self.ShowNavBoxHandler.setTopOffset();
-        self.ShowNavBoxHandler.cleanup();
-        if(self.applied)
-            self.ShowNavBoxHandler.setup();
     };
     
     /**
@@ -214,38 +214,29 @@ com.sppad.fstbh.Main = new function() {
         self.opened = false;
             
         this.setup = function() {
-            // browser.fullscreen.animateUp = 0 // or 1
             let mainWindow = document.getElementById('main-window');
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-            
-            // Causes hiding if there are no rules to cause it not to.
-            wrapper.removeAttribute('toggle');
-            self.opened = false;
             
             document.addEventListener("keypress", self.keyevent, false);
             mainWindow.addEventListener('mouseleave', self.mouseleaveWindow, false);
             wrapper.addEventListener('mouseenter', self.mouseenter, false);
             wrapper.addEventListener('focus', self.checkfocus, true);
             wrapper.addEventListener('blur', self.checkfocus, true);
+            
+            self.setClosed();
         };
         
         this.cleanup = function() {
             let mainWindow = document.getElementById('main-window');
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             
-            wrapper.removeAttribute('toggle');
-            self.opened = false;
-            
-            // Make sure to try to unregister any callbacks we may have
-            // registered.
             document.removeEventListener("keypress", self.keyevent);
-            mainWindow.removeEventListener('mousemove', self.mousemove);
             mainWindow.removeEventListener('mouseleave', self.mouseleaveWindow);
             wrapper.removeEventListener('mouseenter', self.mouseenter);
-            wrapper.removeEventListener('popupshowing', self.popupshowing);
-            wrapper.removeEventListener('popuphiding', self.popuphiding);
             wrapper.removeEventListener('focus', self.checkfocus);
             wrapper.removeEventListener('blur', self.checkfocus);
+            
+            self.setClosed();
         };
         
         /**
@@ -253,10 +244,8 @@ com.sppad.fstbh.Main = new function() {
          * clear the focus from the focused item.
          */
         this.keyevent = function(event) {
-            if(self.focused && (event.keyCode == event.DOM_VK_ESCAPE)) {
-                self.setfocus(false);
+            if(self.focused && (event.keyCode == event.DOM_VK_ESCAPE))
                 document.commandDispatcher.focusedElement = null;
-            }
         };
         
         /**
@@ -278,61 +267,62 @@ com.sppad.fstbh.Main = new function() {
          */
         this.setfocus = function(focus) {
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-            if(focus) {
+           
+            if(focus)
                 wrapper.setAttribute('inputFocused', 'true');
-            } else {
+            else
                 wrapper.removeAttribute('inputFocused');
-                self.setTopOffset();
-            }
             
             self.focused = focus;
+            self.setTopOffset();
         };
             
         this.mouseenter = function() {
             self.setOpened();
         };
      
-        this.popupshowing = function() {
+        this.popupshown = function() {
             self.popupOpen = true;
         };
         
-        this.popuphiding = function(event) {
+        this.popuphidden = function(event) {
             self.popupOpen = false;
             
             // If we're open, re-evaluate if we should be open or not
             if(!self.opened)
                 return;
                 
-            let navToolbox = document.getElementById('navigator-toolbox');
-            let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
-            
+            let tripPoint = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
             if(self.lastY && (self.lastY > tripPoint))
                 self.setClosed();
         };
         
         /**
          * Tracks if the mouse goes out the top of the window to stay showing.
+         * This is in case the mouse is moved too fast and an enter event never
+         * fires.
          */
         this.mouseleaveWindow = function(event) {
             let y = event.screenY;
             
+            // Only show if going out of the top
             let mainWindow = document.getElementById('main-window');
             let tripPoint = mainWindow.boxObject.screenY; 
-          
             if(y < tripPoint)
                 self.setOpened();
         };
         
-        this.mousemove = function(event) {
+        /**
+         * Checks the mouse position to see if the toolbars should be hidden.
+         */
+        this.checkMousePosition = function(event) {
             self.lastY = event.screenY;
             
             // Popup is open, don't close
             if(self.popupOpen)
                 return;
             
-            let navToolbox = document.getElementById('navigator-toolbox');
-            let tripPoint = navToolbox.boxObject.screenY + navToolbox.boxObject.height; 
-            
+            let tripPoint = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
             if(self.lastY > tripPoint)
                 self.setClosed();
         };
@@ -343,21 +333,19 @@ com.sppad.fstbh.Main = new function() {
          * mouse move for eventually closing.
          */
         this.setOpened = function() {
-            // If called twice, don't want to do anything
             if(self.opened)
                 return;
             
-            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-            let mainWindow = document.getElementById('main-window');
-            let navToolbox = document.getElementById('navigator-toolbox');
-            
-            wrapper.setAttribute('toggle', 'true');
             self.opened = true;
             
-            mainWindow.removeEventListener('mousemove', self.mousemove);
-            mainWindow.addEventListener('mousemove', self.mousemove, false);
-            document.addEventListener('popupshowing', self.popupshowing, false);
-            document.addEventListener('popuphiding', self.popuphiding, false);
+            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            let mainWindow = document.getElementById('main-window');
+            
+            wrapper.setAttribute('toggle', 'true');
+            
+            mainWindow.addEventListener('mousemove', self.checkMousePosition, false);
+            document.addEventListener('popupshown', self.popupshown, false);
+            document.addEventListener('popuphidden', self.popuphidden, false);
         };
         
         /**
@@ -368,21 +356,29 @@ com.sppad.fstbh.Main = new function() {
          * Also re-calculates the top offset in case the size has changed.
          */
         this.setClosed = function() {
+            self.opened = false;
+            
+            /*
+             * If closing via context menu option, popuphidden listener will be
+             * removed before the event fires and this will never be set
+             * otherwise.
+             */
+            self.popupOpen = false;
+            
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let mainWindow = document.getElementById('main-window');
             
             wrapper.removeAttribute('toggle');
-            self.opened = false;
-            self.setTopOffset();
        
-            mainWindow.removeEventListener('mousemove', self.mousemove);
-            document.removeEventListener('popupshowing', self.popupshowing);
-            document.removeEventListener('popuphiding', self.popuphiding);
+            mainWindow.removeEventListener('mousemove', self.checkMousePosition);
+            document.removeEventListener('popupshown', self.popupshown);
+            document.removeEventListener('popuphidden', self.popuphidden);
+            
+            self.setTopOffset();
         };
         
         this.setTopOffset = function() {
-            let navToolbox = document.getElementById('navigator-toolbox');
-            navToolbox.style.marginTop = -(navToolbox.getBoundingClientRect().height - 1) + "px";
+            gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height - 1) + "px";
         };
     };
     
@@ -536,7 +532,7 @@ com.sppad.fstbh.Main = new function() {
         else
             menuitem.removeAttribute('checked');
         
-        this.updateAppliedStatus();
+        self.updateAppliedStatus();
     };
     
     /**
