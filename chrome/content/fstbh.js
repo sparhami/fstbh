@@ -243,8 +243,8 @@ com.sppad.fstbh.Main = new function() {
          * Handle escape: set focus to false to hide nav-bar and others and also
          * clear the focus from the focused item.
          */
-        this.keyevent = function(event) {
-            if(self.focused && (event.keyCode == event.DOM_VK_ESCAPE))
+        this.keyevent = function(aEvent) {
+            if(self.focused && (aEvent.keyCode == aEvent.DOM_VK_ESCAPE))
                 document.commandDispatcher.focusedElement = null;
         };
         
@@ -252,7 +252,7 @@ com.sppad.fstbh.Main = new function() {
          * Checks if an item is focused so that we can know if we should display
          * or not on that basis.
          */
-        this.checkfocus = function(event) {
+        this.checkfocus = function(aEvent) {
           let cd = document.commandDispatcher;
           let inputFocused = cd.focusedElement &&
               cd.focusedElement.ownerDocument == document &&
@@ -281,11 +281,19 @@ com.sppad.fstbh.Main = new function() {
             self.setOpened();
         };
      
-        this.popupshown = function() {
+        this.popupshown = function(aEvent) {
+            let targetName = aEvent.target.localName;
+            if(targetName == "tooltip" || targetName == "window")
+                return;
+            
             self.popupOpen = true;
         };
         
-        this.popuphidden = function(event) {
+        this.popuphidden = function(aEvent) {
+            let targetName = aEvent.target.localName;
+            if(targetName == "tooltip" || targetName == "window")
+                return;
+            
             self.popupOpen = false;
             
             // If we're open, re-evaluate if we should be open or not
@@ -302,8 +310,8 @@ com.sppad.fstbh.Main = new function() {
          * This is in case the mouse is moved too fast and an enter event never
          * fires.
          */
-        this.mouseleaveWindow = function(event) {
-            let y = event.screenY;
+        this.mouseleaveWindow = function(aEvent) {
+            let y = aEvent.screenY;
             
             // Only show if going out of the top
             let mainWindow = document.getElementById('main-window');
@@ -315,8 +323,8 @@ com.sppad.fstbh.Main = new function() {
         /**
          * Checks the mouse position to see if the toolbars should be hidden.
          */
-        this.checkMousePosition = function(event) {
-            self.lastY = event.screenY;
+        this.checkMousePosition = function(aEvent) {
+            self.lastY = aEvent.screenY;
             
             // Popup is open, don't close
             if(self.popupOpen)
