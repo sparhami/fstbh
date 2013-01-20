@@ -50,7 +50,7 @@ com.sppad.fstbh.Addon = new function() {
 
     this.applicationObserver = {
         observe : function(aSubject, aTopic, aData) {
-            if (aTopic == "quit-application")
+            if (aTopic == "quit-application" && self.beingUninstalled)
                 self.restoreBrowserPreferences();
         }
     };
