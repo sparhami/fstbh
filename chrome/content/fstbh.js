@@ -175,7 +175,7 @@ com.sppad.fstbh.Main = new function() {
     this.updateAppliedStatus = function() {
 
         let sizemode = window.windowState;
-        let fullscreen = sizemode == window.STATE_FULLSCREEN ;
+        let fullscreen = sizemode == window.STATE_FULLSCREEN;
         let maximized = sizemode == window.STATE_MAXIMIZED;
         let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
 
@@ -240,8 +240,8 @@ com.sppad.fstbh.Main = new function() {
         };
         
         /**
-         * Handle escape: set focus to false to hide nav-bar and others and also
-         * clear the focus from the focused item.
+         * Handle escape: clear the focused item if we are focused so that we
+         * can hide.
          */
         this.keyevent = function(aEvent) {
             if(self.focused && (aEvent.keyCode == aEvent.DOM_VK_ESCAPE))
@@ -335,7 +335,7 @@ com.sppad.fstbh.Main = new function() {
                 self.setClosed();
         };
         
-        /*
+        /**
          * Causes the navigator toolbox to show by setting the toggle attribute.
          * Also sets up listeners to stay open on context menu to stay open and
          * mouse move for eventually closing.
@@ -495,7 +495,6 @@ com.sppad.fstbh.Main = new function() {
         
         this.offsetBrowser();
     };
-    
     
     /**
      * Sets the showPersonalToolbar mode.
