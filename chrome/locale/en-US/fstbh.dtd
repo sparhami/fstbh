@@ -19,6 +19,13 @@
 <!ENTITY preference.showWhenTitleChanged.pinned.label "Only for pinned tabs">
 <!ENTITY preference.showWhenTitleChanged.any.label "For any tab">
 
+<!ENTITY preference.showEvents.label "Display on Events">
+<!ENTITY preference.showEvents.showOnTabOpen.label "Tab Opened">
+<!ENTITY preference.showEvents.showOnTabClose.label "Tab Closed">
+<!ENTITY preference.showEvents.showOnTabSelect.label "Tab Selected">
+<!ENTITY preference.showEvents.showOnLocationChange.label "Location Changed">
+<!ENTITY preference.showEvents.delay.label "Time to stay open, not including delay (milliseconds)">
+
 <!ENTITY preference.style.browserBottomBox.label "Bottom box style while in fullscreen">
 <!ENTITY preference.style.browserBottomBox.transparent.label "Transparent">
 <!ENTITY preference.style.browserBottomBox.default.label "Default">

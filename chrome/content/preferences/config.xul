@@ -51,12 +51,22 @@
 			</vbox>
 		</groupbox>
 	</prefpane>
-	
-	
+
+
 	<prefpane id="com_sppad_fstbh_EventsPrefPane" label="&preference.eventsPrefPane.label;">
 		<preferences>
 			<preference id="extensions.fstbh.showWhenTitleChanged" name="extensions.fstbh.showWhenTitleChanged"
 				type="string" />
+			<preference id="extensions.fstbh.showEvents.showOnTabOpen" name="extensions.fstbh.showEvents.showOnTabOpen"
+				type="bool" />
+			<preference id="extensions.fstbh.showEvents.showOnTabClose" name="extensions.fstbh.showEvents.showOnTabClose"
+				type="bool" />
+			<preference id="extensions.fstbh.showEvents.showOnTabSelect" name="extensions.fstbh.showEvents.showOnTabSelect"
+				type="bool" />
+			<preference id="extensions.fstbh.showEvents.showOnLocationChange"
+				name="extensions.fstbh.showEvents.showOnLocationChange" type="bool" />
+			<preference id="extensions.fstbh.showEvents.delay" name="extensions.fstbh.showEvents.delay"
+				type="int" />
 		</preferences>
 		<groupbox>
 			<vbox>
@@ -69,10 +79,28 @@
 					<radio value="any" label="&preference.showWhenTitleChanged.any.label;" />
 				</radiogroup>
 			</vbox>
+			<vbox>
+				<caption label="&preference.showEvents.label;" />
+
+				<checkbox label="&preference.showEvents.showOnTabOpen.label;"
+					preference="extensions.fstbh.showEvents.showOnTabOpen" />
+				<checkbox label="&preference.showEvents.showOnTabClose.label;"
+					preference="extensions.fstbh.showEvents.showOnTabClose" />
+				<checkbox label="&preference.showEvents.showOnTabSelect.label;"
+					preference="extensions.fstbh.showEvents.showOnTabSelect" />
+				<checkbox label="&preference.showEvents.showOnLocationChange.label;"
+					preference="extensions.fstbh.showEvents.showOnLocationChange" />
+
+				<hbox align="center">
+					<label value="&preference.showEvents.delay.label;" flex="1" />
+					<textbox type="number" min="100" max="10000" width="80"
+						preference="extensions.fstbh.showEvents.delay" />
+				</hbox>
+			</vbox>
 		</groupbox>
 	</prefpane>
-	
-	
+
+
 	<prefpane id="com_sppad_fstbh_StylePrefPane" label="&preference.stylePrefPane.label;">
 		<preferences>
 			<preference id="extensions.fstbh.style.browserBottomBox" name="extensions.fstbh.style.browserBottomBox"

@@ -15,7 +15,6 @@ com.sppad.fstbh.Main = new function() {
     self.evaluateTimer = null;
     
     this.handleEvent = function(aEvent) {
-
         switch (aEvent.type) {
             case com.sppad.fstbh.Preferences.EVENT_PREFERENCE_CHANGED:
                 this.prefChanged(aEvent.name, aEvent.value);
@@ -203,6 +202,7 @@ com.sppad.fstbh.Main = new function() {
      * <ul>
      * <li>Showing when hovering</li>
      * <li>Showing when going above the top of the browser</li>
+     * <li>Showing when one of the show events triggers</li>
      * <li>Staying open when a context menu or other popup is open</li>
      * <li>Showing on input field (such as nav-bar or search bar) focus</li>
      * </ul>
@@ -214,17 +214,26 @@ com.sppad.fstbh.Main = new function() {
         self.hovering = false;
         self.focused = false;    
         self.popupOpen = false;
+        self.tabEvent = false;
+        self.tabEventDelayTimer = null;
+        self.lastUri = null;
         
         this.setup = function() {
             let mainWindow = document.getElementById('main-window');
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            let container = window.gBrowser.tabContainer;
             
             document.addEventListener("keypress", self.keyevent, false);
             mainWindow.addEventListener('mouseleave', self.mouseleaveWindow, false);
             wrapper.addEventListener('mouseenter', self.mouseenter, false);
             wrapper.addEventListener('focus', self.checkfocus, true);
             wrapper.addEventListener('blur', self.checkfocus, true);
+            container.addEventListener("TabSelect", this, false);
+            container.addEventListener("TabClose", this, false);
+            container.addEventListener("TabOpen", this, false);
+            gBrowser.addProgressListener(this);
             
+            self.lastUri = null;
             self.hovering = false;
             self.popupOpen = false;
             self.updateOpenedStatus();
@@ -233,16 +242,61 @@ com.sppad.fstbh.Main = new function() {
         this.cleanup = function() {
             let mainWindow = document.getElementById('main-window');
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
+            let container = window.gBrowser.tabContainer;
             
             document.removeEventListener("keypress", self.keyevent);
             mainWindow.removeEventListener('mouseleave', self.mouseleaveWindow);
             wrapper.removeEventListener('mouseenter', self.mouseenter);
             wrapper.removeEventListener('focus', self.checkfocus);
             wrapper.removeEventListener('blur', self.checkfocus);
+            container.removeEventListener("TabSelect", this);
+            container.removeEventListener("TabClose", this);
+            container.removeEventListener("TabOpen", this);
+            gBrowser.removeProgressListener(this);
             
             self.hovering = false;
             self.popupOpen = false;
             self.updateOpenedStatus();
+        };
+        
+        this.handleEvent = function(aEvent) {
+            let type = aEvent.type;
+            let cp = com.sppad.fstbh.CurrentPrefs;
+            
+            if((type == 'TabClose' && cp['showEvents.shoOnTabClose']) ||
+               (type == 'TabOpen' && cp['showEvents.showOnTabOpen']) || 
+               (type == 'TabSelect' && cp['showEvents.showOnTabSelect']))
+            {
+                self.showEvent();
+            }
+        };
+        
+        // nsIWebProgressListener
+        this.QueryInterface = XPCOMUtils.generateQI(['nsIWebProgressListener', 'nsISupportsWeakReference']),
+                                               
+        this.onLocationChange = function(aProgress, aRequest, aURI) {
+            if(com.sppad.fstbh.CurrentPrefs['showEvents.showOnLocationChange'])
+                self.showEvent();
+        };
+    
+        this.onStateChange = function() {};
+        this.onProgressChange = function() {};
+        this.onStatusChange = function() {};
+        this.onSecurityChange = function() {};
+        
+        /**
+         * Causes the toolbars to show to due to a show event briefly before
+         * hiding again.
+         */
+        this.showEvent = function() {
+            self.tabEvent = true;
+            self.updateOpenedStatus();
+
+            window.clearTimeout(self.tabEventDelayTimer);
+            self.tabEventDelayTimer = window.setTimeout(function() {
+                self.tabEvent = false;
+                self.updateOpenedStatus();
+            }, com.sppad.fstbh.CurrentPrefs['showEvents.delay']);
         };
         
         /**
@@ -322,7 +376,7 @@ com.sppad.fstbh.Main = new function() {
         };
         
         this.updateOpenedStatus = function() {
-            if(self.hovering || self.focused || self.popupOpen)
+            if(self.hovering || self.focused || self.popupOpen || self.tabEvent)
                 self.setOpened();
             else
                 self.setClosed();
@@ -390,7 +444,8 @@ com.sppad.fstbh.Main = new function() {
         
         window.clearTimeout(self.evaluateTimer);
         
-        // Delay so that tab attributes will have been set
+        // Delay so that tab attributes will have been set. Also prevents us
+        // from evaluating the state too often.
         self.evaluateTimer = window.setTimeout(function() {
             let container = gBrowser.tabContainer;
             let titleChangedCount = 0;
@@ -410,7 +465,7 @@ com.sppad.fstbh.Main = new function() {
             let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             node.setAttribute("titlechange", titleChangedCount > 0);
             node.setAttribute("pinnedTitlechange", pinnedTitleChangedCount > 0);
-        }, 10);
+        }, 200);
     };
     
     this.updateTabCount = function(offset) {

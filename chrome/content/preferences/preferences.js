@@ -27,6 +27,23 @@ com.sppad.fstbh.PREFS = {
   // One of never, pinned, any
   showWhenTitleChanged: 'never',
   
+  showEvents: {
+      // show when tab is opened (foreground or background)
+      showOnTabOpen: false,
+      
+      // show when tab is closed
+      showOnTabClose: false,
+      
+      // show when tab is selected
+      showOnTabSelect: true,
+      
+      // show when location bar is changed (URI)
+      showOnLocationChange: false,
+      
+      // delay for staying open, milliseconds
+      delay: 1500,
+  },
+  
   style: {
       // One of default, transparent
       browserBottomBox: 'transparent',
