@@ -18,7 +18,7 @@ com.sppad.fstbh.PREFS = {
   // internal only
   debug: false,
   
-  // transition delay, milliseconds
+  // transition delay, milliseconds - only applies for slide out animation
   transitionDelay: 0,
   
   // transition time, milliseconds
@@ -41,6 +41,7 @@ com.sppad.fstbh.PREFS = {
   // One of hover, normal
   maximizedMode: 'normal',
       
+  // The saved value of the animateUp browser preference, for restoring later
   animateUp_saved: -1,
 };
 

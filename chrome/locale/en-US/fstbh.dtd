@@ -11,7 +11,7 @@
 
 <!ENTITY preference.timing.label "Timing">
 <!ENTITY preference.transitionDuration.label "Transition time (milliseconds)">
-<!ENTITY preference.transitionDelay.label "Transition delay (milliseconds)">
+<!ENTITY preference.transitionDelay.label "Delay before hiding (milliseconds)">
 
 <!ENTITY preference.showWhenTitleChanged.label "Show toolbar when there is a title change event (notification)">
 <!ENTITY preference.showWhenTitleChanged.never.label "Never">

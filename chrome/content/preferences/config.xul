@@ -9,6 +9,8 @@
 		<preferences>
 			<preference id="extensions.fstbh.transitionDuration" name="extensions.fstbh.transitionDuration"
 				type="int" />
+			<preference id="extensions.fstbh.transitionDelay" name="extensions.fstbh.transitionDelay"
+				type="int" />
 			<preference id="extensions.fstbh.showWhenTitleChanged" name="extensions.fstbh.showWhenTitleChanged"
 				type="string" />
 			<preference id="extensions.fstbh.showTabsToolbar" name="extensions.fstbh.showTabsToolbar"
@@ -25,6 +27,11 @@
 					<label value="&preference.transitionDuration.label;" />
 					<textbox type="number" min="0" max="1000" width="64"
 						preference="extensions.fstbh.transitionDuration" />
+				</hbox>
+				<hbox align="center">
+					<label value="&preference.transitionDelay.label;" />
+					<textbox type="number" min="0" max="10000" width="80"
+						preference="extensions.fstbh.transitionDelay" />
 				</hbox>
 			</vbox>
 			<vbox>
