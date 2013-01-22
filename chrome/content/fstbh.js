@@ -36,14 +36,12 @@ com.sppad.fstbh.Main = new function() {
             default:
                 break;
         }
-        
     };
 
     this.prefChanged = function(name, value) {
         com.sppad.fstbh.Utils.dump("pref change: " + name + " -> " + value + "\n");
 
         switch (name) {
-            
             case 'transitionDuration':
                 this.setTransitionDuration(value);
                 break;
@@ -179,8 +177,6 @@ com.sppad.fstbh.Main = new function() {
         let maximized = sizemode == window.STATE_MAXIMIZED;
         let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
 
-        dump('applyInFullscreen ' + applyInFullscreen + "\n");
-        
         self.applied = (fullscreen && applyInFullscreen) || (maximized && applyInMaximized);
         
         self.windowsTitlebarWorkaround(maximized && applyInMaximized);
@@ -391,7 +387,6 @@ com.sppad.fstbh.Main = new function() {
         // of the tabs
         if(com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged'] == "never")
             return;
-        
         
         window.clearTimeout(self.evaluateTimer);
         
