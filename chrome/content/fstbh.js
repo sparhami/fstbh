@@ -72,7 +72,8 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /*
-     * Used for listening to persona change events.
+     * Used for listening for persona change events and fullscreen autohide
+     * preference changes.
      * 
      * TODO - No guarantee that we are the last to get this event. Currently
      * relying on the fact that the LightweightThemeConsumer goes first and
@@ -81,12 +82,10 @@ com.sppad.fstbh.Main = new function() {
      * broke the browser's.
      */
     this.observe = function (aSubject, aTopic, aData) {
-        if (aTopic != "lightweight-theme-styling-update")
-          return;
-
-        // Only want to apply when the addon is applied
-        if(self.applied)
-            self.setupTheme();
+        if(aTopic == 'lightweight-theme-styling-update')
+            self.applied && self.setupTheme();
+        else if(aTopic == 'nsPref:changed' && aData == 'browser.fullscreen.autohide')
+            self.updateAppliedStatus();
     };
     
     this.setupTheme = function() {
@@ -176,10 +175,13 @@ com.sppad.fstbh.Main = new function() {
 
         let sizemode = window.windowState;
         let fullscreen = sizemode == window.STATE_FULLSCREEN;
+        let applyInFullscreen = gPrefService.getBoolPref("browser.fullscreen.autohide") == true;
         let maximized = sizemode == window.STATE_MAXIMIZED;
         let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
 
-        self.applied = fullscreen || (maximized && applyInMaximized);
+        dump('applyInFullscreen ' + applyInFullscreen + "\n");
+        
+        self.applied = (fullscreen && applyInFullscreen) || (maximized && applyInMaximized);
         
         self.windowsTitlebarWorkaround(maximized && applyInMaximized);
         self.applyAttribute('main-window', 'applied', self.applied);
@@ -610,6 +612,8 @@ com.sppad.fstbh.Main = new function() {
         container.addEventListener("TabPinned", this, false);
         container.addEventListener("TabUnpinned", this, false);
         
+        gPrefService.addObserver("browser.fullscreen", this, false);
+        
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
             .addObserver(this, "lightweight-theme-styling-update", false);
@@ -632,6 +636,8 @@ com.sppad.fstbh.Main = new function() {
         container.removeEventListener("TabAttrModified", this);
         container.removeEventListener("TabPinned", this);
         container.removeEventListener("TabUnpinned", this);
+        
+        gPrefService.removeObserver("browser.fullscreen", this);
         
         com.sppad.fstbh.Preferences.removeListener(this);
     };

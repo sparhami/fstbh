@@ -28,5 +28,5 @@
 <!ENTITY preference.showTabsToolbar.always.label "Always">
 
 <!ENTITY preference.maximizedMode.label "Toolbar behavior when maximized">
-<!ENTITY preference.maximizedMode.hover.label "Hover over page">
-<!ENTITY preference.maximizedMode.normal.label "Normal (don't hover)">
+<!ENTITY preference.maximizedMode.hover.label "Auto-hide">
+<!ENTITY preference.maximizedMode.normal.label "Show">
