@@ -11,8 +11,6 @@
 				type="int" />
 			<preference id="extensions.fstbh.transitionDelay" name="extensions.fstbh.transitionDelay"
 				type="int" />
-			<preference id="extensions.fstbh.showWhenTitleChanged" name="extensions.fstbh.showWhenTitleChanged"
-				type="string" />
 			<preference id="extensions.fstbh.showTabsToolbar" name="extensions.fstbh.showTabsToolbar"
 				type="string" />
 			<preference id="extensions.fstbh.showPersonalToolbar" name="extensions.fstbh.showPersonalToolbar"
@@ -24,25 +22,15 @@
 			<vbox>
 				<caption label="&preference.timing.label;" />
 				<hbox align="center">
-					<label value="&preference.transitionDuration.label;" />
+					<label value="&preference.transitionDuration.label;" flex="1" />
 					<textbox type="number" min="0" max="1000" width="64"
 						preference="extensions.fstbh.transitionDuration" />
 				</hbox>
 				<hbox align="center">
-					<label value="&preference.transitionDelay.label;" />
+					<label value="&preference.transitionDelay.label;" flex="1" />
 					<textbox type="number" min="0" max="10000" width="80"
 						preference="extensions.fstbh.transitionDelay" />
 				</hbox>
-			</vbox>
-			<vbox>
-				<caption label="&preference.showWhenTitleChanged.label;" />
-
-				<radiogroup preference="extensions.fstbh.showWhenTitleChanged"
-					orient="vertical">
-					<radio value="never" label="&preference.showWhenTitleChanged.never.label;" />
-					<radio value="pinned" label="&preference.showWhenTitleChanged.pinned.label;" />
-					<radio value="any" label="&preference.showWhenTitleChanged.any.label;" />
-				</radiogroup>
 			</vbox>
 			<vbox>
 				<caption label="&preference.showTabsToolbar.label;" />
@@ -63,6 +51,28 @@
 			</vbox>
 		</groupbox>
 	</prefpane>
+	
+	
+	<prefpane id="com_sppad_fstbh_EventsPrefPane" label="&preference.eventsPrefPane.label;">
+		<preferences>
+			<preference id="extensions.fstbh.showWhenTitleChanged" name="extensions.fstbh.showWhenTitleChanged"
+				type="string" />
+		</preferences>
+		<groupbox>
+			<vbox>
+				<caption label="&preference.showWhenTitleChanged.label;" />
+
+				<radiogroup preference="extensions.fstbh.showWhenTitleChanged"
+					orient="vertical">
+					<radio value="never" label="&preference.showWhenTitleChanged.never.label;" />
+					<radio value="pinned" label="&preference.showWhenTitleChanged.pinned.label;" />
+					<radio value="any" label="&preference.showWhenTitleChanged.any.label;" />
+				</radiogroup>
+			</vbox>
+		</groupbox>
+	</prefpane>
+	
+	
 	<prefpane id="com_sppad_fstbh_StylePrefPane" label="&preference.stylePrefPane.label;">
 		<preferences>
 			<preference id="extensions.fstbh.style.browserBottomBox" name="extensions.fstbh.style.browserBottomBox"

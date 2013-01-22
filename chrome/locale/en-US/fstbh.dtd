@@ -7,23 +7,24 @@
 <!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.accesskey "B">
 
 <!ENTITY preference.generalPrefPane.label "General">
+<!ENTITY preference.eventsPrefPane.label "Events">
 <!ENTITY preference.stylePrefPane.label "Style">
 
 <!ENTITY preference.timing.label "Timing">
 <!ENTITY preference.transitionDuration.label "Transition time (milliseconds)">
 <!ENTITY preference.transitionDelay.label "Delay before hiding (milliseconds)">
 
-<!ENTITY preference.showWhenTitleChanged.label "Show toolbar when there is a title change event (notification)">
+<!ENTITY preference.showWhenTitleChanged.label "Show on title change">
 <!ENTITY preference.showWhenTitleChanged.never.label "Never">
-<!ENTITY preference.showWhenTitleChanged.pinned.label "Only when the tabs are pinned">
-<!ENTITY preference.showWhenTitleChanged.any.label "Always">
+<!ENTITY preference.showWhenTitleChanged.pinned.label "Only for pinned tabs">
+<!ENTITY preference.showWhenTitleChanged.any.label "For any tab">
 
 <!ENTITY preference.style.browserBottomBox.label "Bottom box style while in fullscreen">
 <!ENTITY preference.style.browserBottomBox.transparent.label "Transparent">
 <!ENTITY preference.style.browserBottomBox.default.label "Default">
 
 <!ENTITY preference.showTabsToolbar.label "Show Tabs">
-<!ENTITY preference.showTabsToolbar.hoverOnly.label "Only on mouseover">
+<!ENTITY preference.showTabsToolbar.hoverOnly.label "Normal (autohide)">
 <!ENTITY preference.showTabsToolbar.multipleTabs.label "When multiple tabs are open">
 <!ENTITY preference.showTabsToolbar.always.label "Always">
 
