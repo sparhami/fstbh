@@ -13,13 +13,13 @@
           <Description>  
             <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>  
             <em:minVersion>16.0</em:minVersion>  
-            <em:maxVersion>20.0a1</em:maxVersion>  
+            <em:maxVersion>21.0a1</em:maxVersion>  
           </Description>  
         </em:targetApplication>  
          
         <!-- Front End MetaData -->  
-        <em:name>Fullscreen Toolbar Hover</em:name>  
-        <em:description>Makes the toolbar appear over the webpage in fullscreen mode</em:description>  
+        <em:name>Toolbar Autohide Enhancements</em:name>  
+        <em:description>Enhancements for autohide behavior: hovering over page, maximized mode and more.</em:description>  
         <em:creator>Sepand Parhami</em:creator>  
       </Description>        
     </RDF>  
