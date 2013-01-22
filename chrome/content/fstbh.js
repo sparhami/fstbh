@@ -205,6 +205,7 @@ com.sppad.fstbh.Main = new function() {
      * 
      * This handles:
      * <ul>
+     * <li>Showing when hovering</li>
      * <li>Showing when going above the top of the browser</li>
      * <li>Staying open when a context menu or other popup is open</li>
      * <li>Showing on input field (such as nav-bar or search bar) focus</li>
@@ -214,7 +215,10 @@ com.sppad.fstbh.Main = new function() {
             
         let self = this;   
         self.opened = false;
-            
+        self.hovering = false;
+        self.focused = false;    
+        self.popupOpen = false;
+        
         this.setup = function() {
             let mainWindow = document.getElementById('main-window');
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
@@ -225,7 +229,9 @@ com.sppad.fstbh.Main = new function() {
             wrapper.addEventListener('focus', self.checkfocus, true);
             wrapper.addEventListener('blur', self.checkfocus, true);
             
-            self.setClosed();
+            self.hovering = false;
+            self.popupOpen = false;
+            self.updateOpenedStatus();
         };
         
         this.cleanup = function() {
@@ -238,7 +244,9 @@ com.sppad.fstbh.Main = new function() {
             wrapper.removeEventListener('focus', self.checkfocus);
             wrapper.removeEventListener('blur', self.checkfocus);
             
-            self.setClosed();
+            self.hovering = false;
+            self.popupOpen = false;
+            self.updateOpenedStatus();
         };
         
         /**
@@ -255,32 +263,18 @@ com.sppad.fstbh.Main = new function() {
          * or not on that basis.
          */
         this.checkfocus = function(aEvent) {
-          let cd = document.commandDispatcher;
-          let inputFocused = cd.focusedElement &&
-              cd.focusedElement.ownerDocument == document &&
-              cd.focusedElement.localName == "input";
-          
-          self.setfocus(inputFocused == true);
-        };
-        
-        /**
-         * Sets the focused state, causing the navigator toolbox to show via CSS
-         * rule.
-         */
-        this.setfocus = function(focus) {
-            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-           
-            if(focus)
-                wrapper.setAttribute('inputFocused', 'true');
-            else
-                wrapper.removeAttribute('inputFocused');
-            
-            self.focused = focus;
-            self.setTopOffset();
+            let cd = document.commandDispatcher;
+            let inputFocused = cd.focusedElement &&
+                cd.focusedElement.ownerDocument == document &&
+                cd.focusedElement.localName == "input";
+      
+            self.focused = inputFocused;
+            self.updateOpenedStatus();
         };
             
         this.mouseenter = function() {
-            self.setOpened();
+            self.hovering = true;
+            self.updateOpenedStatus();
         };
      
         this.popupshown = function(aEvent) {
@@ -289,6 +283,7 @@ com.sppad.fstbh.Main = new function() {
                 return;
             
             self.popupOpen = true;
+            self.updateOpenedStatus();
         };
         
         this.popuphidden = function(aEvent) {
@@ -297,20 +292,13 @@ com.sppad.fstbh.Main = new function() {
                 return;
             
             self.popupOpen = false;
-            
-            // If we're open, re-evaluate if we should be open or not
-            if(!self.opened)
-                return;
-                
-            let tripPoint = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
-            if(self.lastY && (self.lastY > tripPoint))
-                self.setClosed();
+            self.updateOpenedStatus();
         };
         
         /**
          * Tracks if the mouse goes out the top of the window to stay showing.
-         * This is in case the mouse is moved too fast and an enter event never
-         * fires.
+         * This is in case the mouse is moved too fast and a mouseenter event
+         * never fires.
          */
         this.mouseleaveWindow = function(aEvent) {
             let y = aEvent.screenY;
@@ -318,8 +306,10 @@ com.sppad.fstbh.Main = new function() {
             // Only show if going out of the top
             let mainWindow = document.getElementById('main-window');
             let tripPoint = mainWindow.boxObject.screenY; 
-            if(y < tripPoint)
-                self.setOpened();
+            if(y < tripPoint) {
+                self.hovering = true;
+                self.updateOpenedStatus();
+            }
         };
         
         /**
@@ -328,14 +318,19 @@ com.sppad.fstbh.Main = new function() {
         this.checkMousePosition = function(aEvent) {
             self.lastY = aEvent.screenY;
             
-            // Popup is open, don't close
-            if(self.popupOpen)
-                return;
-            
             let tripPoint = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
-            if(self.lastY > tripPoint)
-                self.setClosed();
+            if(self.lastY > tripPoint) {
+                self.hovering = false;
+                self.updateOpenedStatus();
+            }
         };
+        
+        this.updateOpenedStatus = function() {
+            if(self.hovering || self.focused || self.popupOpen)
+                self.setOpened();
+            else
+                self.setClosed();
+        }
         
         /**
          * Causes the navigator toolbox to show by setting the toggle attribute.
@@ -367,13 +362,6 @@ com.sppad.fstbh.Main = new function() {
          */
         this.setClosed = function() {
             self.opened = false;
-            
-            /*
-             * If closing via context menu option, popuphidden listener will be
-             * removed before the event fires and this will never be set
-             * otherwise.
-             */
-            self.popupOpen = false;
             
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let mainWindow = document.getElementById('main-window');
