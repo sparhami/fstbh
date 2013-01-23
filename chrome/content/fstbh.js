@@ -156,6 +156,9 @@ com.sppad.fstbh.Main = new function() {
      * <p>
      * Forcing it to zero via CSS and setting a negative margin-top on the
      * wrapper style does not work correctly in all situations.
+     * 
+     * @param apply
+     *            Whether to apply or clearout the workaround.
      */
     this.windowsTitlebarWorkaround = function(apply) {
         let titlebar = document.getElementById('titlebar');
@@ -168,6 +171,13 @@ com.sppad.fstbh.Main = new function() {
         titlebar.setAttribute('com_sppad_fstbh_workaround', offset);
     };
     
+    /**
+     * Updates the applied status, checking if the add-on should be applied or
+     * not. Sets everything up for autohide behavior to take effect.
+     * <p>
+     * Applies either when in fullscreen and browser's autohide preference is
+     * true or maximized and addon's autohide preference is true.
+     */
     this.updateAppliedStatus = function() {
 
         let sizemode = window.windowState;
@@ -184,6 +194,11 @@ com.sppad.fstbh.Main = new function() {
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
         showTabsContextItem.setAttribute('disabled', !applyInMaximized);
         
+        /*
+         * Always call this to unregister any listeners that are active from
+         * applied mode and to prevent double registering of listeners if going
+         * from one applied state to another.
+         */
         self.ShowNavBoxHandler.cleanup();
         
         if(self.applied) {
@@ -289,7 +304,7 @@ com.sppad.fstbh.Main = new function() {
         this.onProgressChange = function() {};
         this.onStatusChange = function() {};
         this.onSecurityChange = function() {};
-        // end  nsIWebProgressListener
+        // end nsIWebProgressListener
         
         /**
          * Causes the toolbars to show to due to a show event briefly before
@@ -590,8 +605,7 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Sets the preference for showTabsToolbar based on the context menuitem
-     * state.
+     * Sets the preference for showTabsToolbar from a context menu item.
      */
     this.setFullscreenTabs = function(source) {
         let checked = source.hasAttribute('checked');
@@ -599,8 +613,7 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Sets the preference for showPersonalToolbar based on the context menuitem
-     * state.
+     * Sets the preference for showPersonalToolbar from a context menu item.
      */
     this.setFullscreenPersonalToolbar = function(source) {
         let checked = source.hasAttribute('checked');
@@ -608,7 +621,7 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Sets maximized mode.
+     * Sets maximized mode from a context menu item.
      */
     this.setAlmostFullscreen = function(source) {
         let checked = source.hasAttribute('checked');
