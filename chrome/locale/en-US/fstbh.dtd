@@ -1,4 +1,4 @@
-<!ENTITY com.sppad.fstbh.preferences.title "Toolbar Autohide Enhancements Preferences">
+<!ENTITY com.sppad.fstbh.preferences.title "Toolbar Autohide Preferences">
 <!ENTITY com.sppad.fstbh.maximizedHover.label "Autohide">
 <!ENTITY com.sppad.fstbh.maximizedHover.accesskey "H">
 <!ENTITY com.sppad.fstbh.fullscreenTabs.label "Always Show Tabs">
