@@ -196,7 +196,8 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Handles showing nav box due to mouse or focus events in maximized mode.
+     * Handles showing #navigator-toolbox due to mouse or focus events when the
+     * add-on is applied.
      * 
      * This handles:
      * <ul>
@@ -214,8 +215,8 @@ com.sppad.fstbh.Main = new function() {
         self.hovering = false;
         self.focused = false;    
         self.popupOpen = false;
-        self.tabEvent = false;
-        self.tabEventDelayTimer = null;
+        self.showEventActive = false;
+        self.showEventDelayTimer = null;
         self.lastUri = null;
         
         this.setup = function() {
@@ -263,38 +264,44 @@ com.sppad.fstbh.Main = new function() {
             let type = aEvent.type;
             let cp = com.sppad.fstbh.CurrentPrefs;
             
-            if((type == 'TabClose' && cp['showEvents.shoOnTabClose']) ||
+            if((type == 'TabClose' && cp['showEvents.showOnTabClose']) ||
                (type == 'TabOpen' && cp['showEvents.showOnTabOpen']) || 
                (type == 'TabSelect' && cp['showEvents.showOnTabSelect']))
             {
-                self.showEvent();
+                self.triggerShowEvent();
             }
         };
         
         // nsIWebProgressListener
         this.QueryInterface = XPCOMUtils.generateQI(['nsIWebProgressListener', 'nsISupportsWeakReference']),
-                                               
+                            
+        /**
+         * Listen for location change in case showOnLocationChange preference is
+         * set.
+         */
         this.onLocationChange = function(aProgress, aRequest, aURI) {
             if(com.sppad.fstbh.CurrentPrefs['showEvents.showOnLocationChange'])
-                self.showEvent();
+                self.triggerShowEvent();
         };
     
+        // Nothing to do for these
         this.onStateChange = function() {};
         this.onProgressChange = function() {};
         this.onStatusChange = function() {};
         this.onSecurityChange = function() {};
+        // end  nsIWebProgressListener
         
         /**
          * Causes the toolbars to show to due to a show event briefly before
          * hiding again.
          */
-        this.showEvent = function() {
-            self.tabEvent = true;
+        this.triggerShowEvent = function() {
+            self.showEventActive = true;
             self.updateOpenedStatus();
 
-            window.clearTimeout(self.tabEventDelayTimer);
-            self.tabEventDelayTimer = window.setTimeout(function() {
-                self.tabEvent = false;
+            window.clearTimeout(self.showEventDelayTimer);
+            self.showEventDelayTimer = window.setTimeout(function() {
+                self.showEventActive = false;
                 self.updateOpenedStatus();
             }, com.sppad.fstbh.CurrentPrefs['showEvents.delay']);
         };
@@ -376,7 +383,7 @@ com.sppad.fstbh.Main = new function() {
         };
         
         this.updateOpenedStatus = function() {
-            if(self.hovering || self.focused || self.popupOpen || self.tabEvent)
+            if(self.hovering || self.focused || self.popupOpen || self.showEventActive)
                 self.setOpened();
             else
                 self.setClosed();
