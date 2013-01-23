@@ -22,7 +22,14 @@ com.sppad.fstbh.PREFS = {
   transitionDelay: 0,
   
   // transition time, milliseconds
+  // Deprecated:  0.x - 3.x
   transitionDuration: 200,
+  
+  // transition time for appearing, milliseconds
+  transitionDurationIn: 200,
+  
+  // transition time for hiding, milliseconds
+  transitionDurationOut: 200,
   
   // One of never, pinned, any
   showWhenTitleChanged: 'never',

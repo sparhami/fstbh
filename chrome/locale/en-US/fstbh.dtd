@@ -11,7 +11,8 @@
 <!ENTITY preference.stylePrefPane.label "Style">
 
 <!ENTITY preference.timing.label "Timing">
-<!ENTITY preference.transitionDuration.label "Transition time (milliseconds)">
+<!ENTITY preference.transitionDurationIn.label "Transition time when appearing (milliseconds)">
+<!ENTITY preference.transitionDurationOut.label "Transition time when hiding (milliseconds)">
 <!ENTITY preference.transitionDelay.label "Delay before hiding (milliseconds)">
 
 <!ENTITY preference.showWhenTitleChanged.label "Show on title change">

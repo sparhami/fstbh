@@ -7,7 +7,9 @@
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<prefpane id="com_sppad_fstbh_GeneralPrefPane" label="&preference.generalPrefPane.label;">
 		<preferences>
-			<preference id="extensions.fstbh.transitionDuration" name="extensions.fstbh.transitionDuration"
+			<preference id="extensions.fstbh.transitionDurationIn" name="extensions.fstbh.transitionDurationIn"
+				type="int" />
+			<preference id="extensions.fstbh.transitionDurationOut" name="extensions.fstbh.transitionDurationOut"
 				type="int" />
 			<preference id="extensions.fstbh.transitionDelay" name="extensions.fstbh.transitionDelay"
 				type="int" />
@@ -22,9 +24,14 @@
 			<vbox>
 				<caption label="&preference.timing.label;" />
 				<hbox align="center">
-					<label value="&preference.transitionDuration.label;" flex="1" />
+					<label value="&preference.transitionDurationIn.label;" flex="1" />
 					<textbox type="number" min="0" max="1000" width="64"
-						preference="extensions.fstbh.transitionDuration" />
+						preference="extensions.fstbh.transitionDurationIn" />
+				</hbox>
+				<hbox align="center">
+					<label value="&preference.transitionDurationOut.label;" flex="1" />
+					<textbox type="number" min="0" max="1000" width="64"
+						preference="extensions.fstbh.transitionDurationOut" />
 				</hbox>
 				<hbox align="center">
 					<label value="&preference.transitionDelay.label;" flex="1" />
