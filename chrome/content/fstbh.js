@@ -41,9 +41,6 @@ com.sppad.fstbh.Main = new function() {
         com.sppad.fstbh.Utils.dump("pref change: " + name + " -> " + value + "\n");
 
         switch (name) {
-            case 'transitionDuration':
-                this.setTransitionDuration(value);
-                break;
             case 'transitionDelay':
                 this.setTransitionDelay(value);
                 break;
@@ -515,20 +512,6 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Sets the transition duration, or how long the slide-out animation takes
-     * to complete.
-     * 
-     * @param value
-     *            The amount of time, in milliseconds.
-     */
-    this.setTransitionDuration = function(value) {
-        let transitionDuration = (value / MILLISECONDS_PER_SECOND) + 's';
-        
-        let nav = document.getElementById('navigator-toolbox');
-        nav.style.transitionDuration = transitionDuration;
-    };
-    
-    /**
      * Sets the transition duration, or how long to wait before starting the
      * slide-out animation. TODO - want this to only apply to slide-out and not
      * slide in, then expose it via preferences.
@@ -539,8 +522,7 @@ com.sppad.fstbh.Main = new function() {
     this.setTransitionDelay = function(value) {
         let transitionDelay = (value / MILLISECONDS_PER_SECOND) + 's';
         
-        let nav = document.getElementById('navigator-toolbox');
-        nav.style.transitionDelay = transitionDelay;
+        gNavToolbox.style.transitionDelay = transitionDelay;
     };
 
     /**
