@@ -82,7 +82,7 @@ com.sppad.fstbh.Addon = new function() {
         if(previousVersion) {
             let versionParts = previousVersion.split("\\.");
             //  Check for dev version
-            if(versionParts.length == 0 || isNan(versionParts[0]))
+            if(versionParts.length == 0 || isNaN(versionParts[0]))
                 return;
         
             major = versionParts[0];

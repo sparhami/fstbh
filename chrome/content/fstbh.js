@@ -176,11 +176,11 @@ com.sppad.fstbh.Main = new function() {
      * true or maximized and addon's autohide preference is true.
      */
     this.updateAppliedStatus = function() {
-
         let sizemode = window.windowState;
+        
         let fullscreen = sizemode == window.STATE_FULLSCREEN;
-        let applyInFullscreen = gPrefService.getBoolPref("browser.fullscreen.autohide") == true;
         let maximized = sizemode == window.STATE_MAXIMIZED;
+        let applyInFullscreen = gPrefService.getBoolPref("browser.fullscreen.autohide") == true;
         let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
 
         self.applied = (fullscreen && applyInFullscreen) || (maximized && applyInMaximized);
@@ -232,12 +232,11 @@ com.sppad.fstbh.Main = new function() {
         self.lastUri = null;
         
         this.setup = function() {
-            let mainWindow = document.getElementById('main-window');
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let container = window.gBrowser.tabContainer;
             
             document.addEventListener("keypress", self.keyevent, false);
-            mainWindow.addEventListener('mouseleave', self.mouseleaveWindow, false);
+            gBrowser.addEventListener('mouseleave', self.mouseleave, false);
             wrapper.addEventListener('mouseenter', self.mouseenter, false);
             wrapper.addEventListener('focus', self.checkfocus, true);
             wrapper.addEventListener('blur', self.checkfocus, true);
@@ -253,12 +252,11 @@ com.sppad.fstbh.Main = new function() {
         };
         
         this.cleanup = function() {
-            let mainWindow = document.getElementById('main-window');
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let container = window.gBrowser.tabContainer;
             
             document.removeEventListener("keypress", self.keyevent);
-            mainWindow.removeEventListener('mouseleave', self.mouseleaveWindow);
+            gBrowser.removeEventListener('mouseleave', self.mouseleave);
             wrapper.removeEventListener('mouseenter', self.mouseenter);
             wrapper.removeEventListener('focus', self.checkfocus);
             wrapper.removeEventListener('blur', self.checkfocus);
@@ -365,35 +363,54 @@ com.sppad.fstbh.Main = new function() {
         };
         
         /**
-         * Tracks if the mouse goes out the top of the window to stay showing.
-         * This is in case the mouse is moved too fast and a mouseenter event
-         * never fires.
+         * Tracks if the mouse goes out of the top of the browser and sets the
+         * toolbars open if it does.
+         * <p>
+         * This serves two purposes:
+         * <ul>
+         * <li> Opening up if the mouse moves too quickly out the top in
+         * maximized mode for a mouseenter event to occur
+         * <li> Opening up under Windows when show tabs is set in maximized mode
+         * and mousing over an empty part of the toolbar. For some reason, no
+         * mouse events are generated on that part of the toolbar.
+         * </ul>
          */
-        this.mouseleaveWindow = function(aEvent) {
+        this.mouseleave = function(aEvent) {
             let y = aEvent.screenY;
+            let tripPoint = aEvent.target.boxObject.screenY;
             
-            // Only show if going out of the top
-            let mainWindow = document.getElementById('main-window');
-            let tripPoint = mainWindow.boxObject.screenY; 
-            if(y < tripPoint) {
+            if(y <= tripPoint) {
                 self.hovering = true;
                 self.updateOpenedStatus();
             }
         };
         
         /**
-         * Checks the mouse position to see if the toolbars should be hidden.
+         * Checks the to see if the mouse has gone below the bottom of the
+         * toolbars and remove hovering if so.
          */
         this.checkMousePosition = function(aEvent) {
-            self.lastY = aEvent.screenY;
-            
+            let y = aEvent.screenY;
             let tripPoint = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
-            if(self.lastY > tripPoint) {
+            
+            if(y > tripPoint) {
                 self.hovering = false;
                 self.updateOpenedStatus();
             }
         };
         
+
+        /**
+         * Either sets the toolbars opened or closed, depending on the following
+         * factors:
+         * 
+         * <ul>
+         * <li> self.hovering - The mouse is over the toolbars
+         * <li> self.focused - Something (e.g. input field) is focused
+         * <li> self.popupOpen - A popup (e.g. menu) is opened
+         * <li> self.showEventActive - A show event occured (e.g. switched tabs)
+         * </ul>
+         */
         this.updateOpenedStatus = function() {
             if(self.hovering || self.focused || self.popupOpen || self.showEventActive)
                 self.setOpened();
@@ -433,6 +450,9 @@ com.sppad.fstbh.Main = new function() {
          * Also re-calculates the top offset in case the size has changed.
          */
         this.setClosed = function() {
+            if(!self.opened)
+                return;
+            
             self.opened = false;
             
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
@@ -450,6 +470,13 @@ com.sppad.fstbh.Main = new function() {
             self.setTopOffset();
         };
         
+        /**
+         * Calculates and sets the top offset for the toolbars in order to hide
+         * them. Leaves 1 px showing for mouse events.
+         * <p>
+         * This is overwritten by a CSS rule when the applied state is false, so
+         * the marginTop is never set to zero or removed from Javascript.
+         */
         this.setTopOffset = function() {
             gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height - 1) + "px";
         };
