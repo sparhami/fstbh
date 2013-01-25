@@ -93,3 +93,7 @@ window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showPersonalToolbar="hove
 window:not([sizemode="maximized"]) .maximizedHoverContextItem {
 	display: none;
 }
+
+#fullscr-toggler {
+	visibility: hidden;
+}

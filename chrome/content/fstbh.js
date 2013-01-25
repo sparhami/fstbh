@@ -249,6 +249,7 @@ com.sppad.fstbh.Main = new function() {
             self.hovering = false;
             self.popupOpen = false;
             self.updateOpenedStatus();
+            self.setTopOffset();
         };
         
         this.cleanup = function() {
