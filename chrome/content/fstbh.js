@@ -229,7 +229,6 @@ com.sppad.fstbh.Main = new function() {
         self.popupOpen = false;
         self.showEventActive = false;
         self.showEventDelayTimer = null;
-        self.lastUri = null;
         
         this.setup = function() {
             let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
@@ -245,10 +244,10 @@ com.sppad.fstbh.Main = new function() {
             container.addEventListener("TabOpen", this, false);
             gBrowser.addProgressListener(this);
             
-            self.lastUri = null;
             self.hovering = false;
             self.popupOpen = false;
             self.updateOpenedStatus();
+            
             self.setTopOffset();
         };
         
