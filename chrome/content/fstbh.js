@@ -225,8 +225,8 @@ com.sppad.fstbh.Main = new function() {
         let self = this;   
         self.opened = false;
         self.hovering = false;
-        self.focused = false;    
-        self.popupOpen = false;
+        self.focused = false;
+        self.popupTarget = null;
         self.showEventActive = false;
         self.showEventDelayTimer = null;
         
@@ -245,7 +245,7 @@ com.sppad.fstbh.Main = new function() {
             gBrowser.addProgressListener(this);
             
             self.hovering = false;
-            self.popupOpen = false;
+            self.popupTarget = null;
             self.updateOpenedStatus();
             
             self.setTopOffset();
@@ -266,7 +266,7 @@ com.sppad.fstbh.Main = new function() {
             gBrowser.removeProgressListener(this);
             
             self.hovering = false;
-            self.popupOpen = false;
+            self.popupTarget = null;
             self.updateOpenedStatus();
         };
         
@@ -349,7 +349,11 @@ com.sppad.fstbh.Main = new function() {
             if(targetName == "tooltip" || targetName == "window")
                 return;
             
-            self.popupOpen = true;
+            // Sub-popup, ignore it
+            if(self.popupTarget)
+                return;
+            
+            self.popupTarget = aEvent.originalTarget;
             self.updateOpenedStatus();
         };
         
@@ -358,7 +362,11 @@ com.sppad.fstbh.Main = new function() {
             if(targetName == "tooltip" || targetName == "window")
                 return;
             
-            self.popupOpen = false;
+            // Check if sub-popup is closing and ignore it if it is
+            if(self.popupTarget != aEvent.originalTarget)
+                return;
+            
+            self.popupTarget = null;
             self.updateOpenedStatus();
         };
         
@@ -412,7 +420,7 @@ com.sppad.fstbh.Main = new function() {
          * </ul>
          */
         this.updateOpenedStatus = function() {
-            if(self.hovering || self.focused || self.popupOpen || self.showEventActive)
+            if(self.hovering || self.focused || self.popupTarget || self.showEventActive)
                 self.setOpened();
             else
                 self.setClosed();
