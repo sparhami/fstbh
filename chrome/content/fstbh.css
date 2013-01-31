@@ -17,6 +17,7 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_toggle
 /* Make sure that we can always be hovered / moused into */
 window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 	min-height: 1px !important;
+	margin-bottom: 1px !important;
 }
 
 /* Make sure any margin-top set from the javascript style doesn't take effect 

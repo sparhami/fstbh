@@ -9,6 +9,8 @@ window:not([chromehidden~=toolbar]) #navigator-toolbox[iconsize=large][mode=icon
 }
 
 
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"] {
+
+window[com_sppad_fstbh_applied="true"] #browser-panel[com_sppad_fstbh_tabCount="1"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="multipleTabs"],
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="hoverOnly"] {
   background-color: rgba(0, 0, 0, 0.4);
 }
