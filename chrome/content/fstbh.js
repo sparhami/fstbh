@@ -116,35 +116,6 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Move the navigator-toolbox to be inside our wrapper. Want to wrap it so
-     * that we can make it appear at the top of the window when the parent is
-     * set to stack.
-     */
-    this.moveNavigatorToolbox = function() {
-
-        // save these, need to add them back
-        let palette = gNavToolbox.palette;
-        let toolbarset = gNavToolbox.toolbarset;
-        let customToolbarCount = gNavToolbox.customToolbarCount;
-        let externalToolbars = gNavToolbox.externalToolbars;
-        
-        let browserPanel = document.getElementById('browser-panel');
-        let browser = document.getElementById('browser');
-        browserPanel.insertBefore(gNavToolbox, browser.nextSibling);
-        
-        /*
-         * Need to set back the fields from the navigator-toolbox, since they
-         * don't appear to stay when moving the node.
-         */
-        gNavToolbox.palette = palette;
-        gNavToolbox.toolbarset = toolbarset;
-        gNavToolbox.customToolbarCount = customToolbarCount;
-        gNavToolbox.externalToolbars = externalToolbars;
- 
-        
-    };
-    
-    /**
      * Updates the applied status, checking if the add-on should be applied or
      * not. Sets everything up for autohide behavior to take effect.
      * <p>
@@ -667,7 +638,6 @@ com.sppad.fstbh.Main = new function() {
             .addObserver(this, "lightweight-theme-styling-update", false);
         
         this.loadPreferences();
-        this.moveNavigatorToolbox();
         this.updateTabCount();
     };
     

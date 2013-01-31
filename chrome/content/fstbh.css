@@ -37,11 +37,9 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 	background-position: right top !important;
 }
 
-/* Make sure navigator toolbox is on top, since we put it farther down to
- * appear on top of the browser due to stack ordering.
- */
-window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
-	-moz-box-ordinal-group: 0;
+
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
+	-moz-box-ordinal-group: 1000;
 }
 
 /* To not get hit by rule below setting display: none */
