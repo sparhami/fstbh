@@ -7,3 +7,8 @@
 window:not([chromehidden~=toolbar]) #navigator-toolbox[iconsize=large][mode=icons] > :-moz-any(#nav-bar[currentset*="unified-back-forward-button,urlbar-container"],#nav-bar:not([currentset])) > #unified-back-forward-button[forwarddisabled] + #urlbar-container {
   clip-path: none !important;
 }
+
+
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"] {
+  background-color: rgba(0, 0, 0, 0.4);
+}

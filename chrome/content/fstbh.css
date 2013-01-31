@@ -1,6 +1,5 @@
 @import url("chrome://global/skin/");
 
-@import url("workarounds.css");
 @import url("chrome://fstbh/skin/fstbh.css");
 
 window[com_sppad_fstbh_applied="true"] #browser-panel {

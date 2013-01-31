@@ -51,6 +51,9 @@ com.sppad.fstbh.Main = new function() {
             case 'style.browserBottomBox':
                 this.applyAttribute('browser-bottombox', 'backgroundStyle', value);
                 break;
+            case 'style.topChromeBackground':
+                this.applyAttribute('navigator-toolbox', 'backgroundStyle', value);
+                break;
             case 'showTabsToolbar':
                 this.setShowTabsToolbar(value);
                 break;
@@ -140,35 +143,6 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * This only applies to Windows.
-     * <p>
-     * When tranistioning from non-maximized mode to maximized-mode with hover
-     * set, the calculation for margin-bottom of #titlebar doesn't work
-     * correctly. Instead of being -23px or something like that, it ends up as
-     * being something like positive 40-60px.
-     * <p>
-     * The browser code will calculate it sometime after this function, so we
-     * can't set style.marginTop on the titlebar since it will be overwritten.
-     * Instead use a CSS rule to apply the correct value.
-     * <p>
-     * Forcing it to zero via CSS and setting a negative margin-top on the
-     * wrapper style does not work correctly in all situations.
-     * 
-     * @param apply
-     *            Whether to apply or clearout the workaround.
-     */
-    this.windowsTitlebarWorkaround = function(apply) {
-        let titlebar = document.getElementById('titlebar');
-        
-        // No #titlebar DOM node = nothing to do.
-        if(!titlebar)
-            return;
-        
-        let offset = apply ? titlebar.boxObject.screenY + titlebar.boxObject.height : 0;
-        titlebar.setAttribute('com_sppad_fstbh_workaround', offset);
-    };
-    
-    /**
      * Updates the applied status, checking if the add-on should be applied or
      * not. Sets everything up for autohide behavior to take effect.
      * <p>
@@ -184,8 +158,6 @@ com.sppad.fstbh.Main = new function() {
         let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
 
         self.applied = (fullscreen && applyInFullscreen) || (maximized && applyInMaximized);
-        
-        self.windowsTitlebarWorkaround(maximized && applyInMaximized);
         self.applyAttribute('main-window', 'applied', self.applied);
         
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
@@ -677,6 +649,7 @@ com.sppad.fstbh.Main = new function() {
         this.prefChanged('transitionDuration', com.sppad.fstbh.CurrentPrefs['transitionDuration']);
         this.prefChanged('showWhenTitleChanged', com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged']);
         this.prefChanged('style.browserBottomBox', com.sppad.fstbh.CurrentPrefs['style.browserBottomBox']);
+        this.prefChanged('style.topChromeBackground', com.sppad.fstbh.CurrentPrefs['style.topChromeBackground']);
         this.prefChanged('showTabsToolbar', com.sppad.fstbh.CurrentPrefs['showTabsToolbar']);
         this.prefChanged('showPersonalToolbar', com.sppad.fstbh.CurrentPrefs['showPersonalToolbar']);
         this.prefChanged('maximizedMode', com.sppad.fstbh.CurrentPrefs['maximizedMode']);
@@ -735,5 +708,11 @@ window.addEventListener("unload", function() {
 }, false);
 
 window.addEventListener("sizemodechange", function () {
-    com.sppad.fstbh.Main.updateAppliedStatus();
+    
+    // Need to let browser apply all changes first so it can correctly calculate
+    // the bottom margin on the titlebar under Windows
+    window.clearTimeout(com.sppad.fstbh.sizemodeTimer);
+    com.sppad.fstbh.sizemodeTimer = window.setTimeout(function() {
+        com.sppad.fstbh.Main.updateAppliedStatus();
+    }, 10);
 }, false);

@@ -27,9 +27,13 @@
 <!ENTITY preference.showEvents.showOnLocationChange.label "Location Changed">
 <!ENTITY preference.showEvents.delay.label "Delay before hiding (additional) (milliseconds)">
 
-<!ENTITY preference.style.browserBottomBox.label "Bottom box style while in fullscreen">
+<!ENTITY preference.style.browserBottomBox.label "Bottom box style while applied">
 <!ENTITY preference.style.browserBottomBox.transparent.label "Transparent">
 <!ENTITY preference.style.browserBottomBox.default.label "Default">
+
+<!ENTITY preference.style.topChromeBackground.label "Tabs toolbar background">
+<!ENTITY preference.style.topChromeBackground.transparent.label "Transparent">
+<!ENTITY preference.style.topChromeBackground.default.label "None">
 
 <!ENTITY preference.showTabsToolbar.label "Show Tabs">
 <!ENTITY preference.showTabsToolbar.hoverOnly.label "Normal (autohide)">

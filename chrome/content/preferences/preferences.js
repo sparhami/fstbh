@@ -54,6 +54,9 @@ com.sppad.fstbh.PREFS = {
   style: {
       // One of default, transparent
       browserBottomBox: 'transparent',
+      
+      // One of default, transparent - Windows only
+      topChromeBackground: 'transparent',
   },
   
   // One of hoverOnly, multipleTabs, always
