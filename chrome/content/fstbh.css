@@ -7,15 +7,15 @@ window[com_sppad_fstbh_applied="true"] #browser-panel {
 }
 
 /* Rules for showing when applied */
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="any"][titlechange="true"]  #navigator-toolbox,
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[titleChangeBehavior="pinned"][pinnedTitlechange="true"]  #navigator-toolbox,
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[toggle] #navigator-toolbox {
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="any"][com_sppad_fstbh_titlechange="true"],
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="pinned"][com_sppad_fstbh_pinnedTitlechange="true"],
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_toggle] {
 	margin-top: 0px !important;
 	transition-delay: 0s !important;
 }
 
 /* Make sure that we can always be hovered / moused into */
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper {
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 	min-height: 1px !important;
 }
 
@@ -40,13 +40,13 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 /* Make sure navigator toolbox is on top, since we put it farther down to
  * appear on top of the browser due to stack ordering.
  */
-window:not([com_sppad_fstbh_applied="true"]) #com_sppad_fstbh_topChromeWrapper {
+window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
 	-moz-box-ordinal-group: 0;
 }
 
 /* To not get hit by rule below setting display: none */
 window[com_sppad_fstbh_applied="true"] #browser,
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper,
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox,
 window[com_sppad_fstbh_applied="true"] #browser-bottombox {
 	display: -moz-box !important;
 }
@@ -57,8 +57,8 @@ window[com_sppad_fstbh_applied="true"] #browser-panel > * {
 }
 
 
-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"] #navigator-toolbox,
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"] #navigator-toolbox {	
+window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"],
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"] {	
 	/* It looks odd if the slide in animation plays due to the margin-top offset on #browser */
 	transition-property: none;
 	margin-top: 0px !important;
@@ -68,8 +68,8 @@ window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTab
 /* Rules for showing non-Tab toolbars when either always or multitabs is set.
  * Basically, show either when hovering or something is focused.
  */
-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="multipleTabs"]:not([toggle]) #navigator-toolbox > :not(#TabsToolbar),
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTabsToolbar="always"]:not([toggle]) #navigator-toolbox > :not(#TabsToolbar) {
+window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar),
+window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar) {
 	/* Don't use visibility or display as it changes the behavior when trying to use f6 or ctrl-l */
 	height: 0 !important;
 	max-height: 0 !important;
@@ -78,7 +78,7 @@ window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_topChromeWrapper[showTab
 }
 
 /* Want Firefox's version to take effect when not in fullscreen */
-window[inFullscreen] #com_sppad_fstbh_topChromeWrapper[showPersonalToolbar="hover"] #PersonalToolbar {
+window[inFullscreen] #navigator-toolbox[com_sppad_fstbh_showPersonalToolbar="hover"] #PersonalToolbar {
 	visibility: visible !important;
 	display: -moz-box;
 }

@@ -14,12 +14,8 @@
 	<script type="application/x-javascript" src="addon.js" />
 	<script type="application/x-javascript" src="fstbh.js" />
 
-	<deck id="tab-view-deck">
-		<vbox id="browser-panel">
-			<vbox id="com_sppad_fstbh_topChromeWrapper" top="0" insertafter="browser" />
-			<vbox id="browser-bottombox" bottom="0" />
-		</vbox>
-	</deck>
+	<vbox id="browser-bottombox" bottom="0" />
+	<toolbox id="navigator-toolbox" top="0" />
 
 	<menupopup id="toolbar-context-menu">
 		<menuitem id="com_sppad_fstbh_tcm_maximizedModeContextItem" class="maximizedHoverContextItem" type="checkbox" label="&com.sppad.fstbh.maximizedHover.label;"

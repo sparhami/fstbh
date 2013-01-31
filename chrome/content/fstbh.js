@@ -121,16 +121,16 @@ com.sppad.fstbh.Main = new function() {
      * set to stack.
      */
     this.moveNavigatorToolbox = function() {
-        let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-        
+
         // save these, need to add them back
         let palette = gNavToolbox.palette;
         let toolbarset = gNavToolbox.toolbarset;
         let customToolbarCount = gNavToolbox.customToolbarCount;
         let externalToolbars = gNavToolbox.externalToolbars;
         
-        // do the move
-        wrapper.appendChild(gNavToolbox);
+        let browserPanel = document.getElementById('browser-panel');
+        let browser = document.getElementById('browser');
+        browserPanel.insertBefore(gNavToolbox, browser.nextSibling);
         
         /*
          * Need to set back the fields from the navigator-toolbox, since they
@@ -140,6 +140,8 @@ com.sppad.fstbh.Main = new function() {
         gNavToolbox.toolbarset = toolbarset;
         gNavToolbox.customToolbarCount = customToolbarCount;
         gNavToolbox.externalToolbars = externalToolbars;
+ 
+        
     };
     
     /**
@@ -203,14 +205,13 @@ com.sppad.fstbh.Main = new function() {
         self.showEventDelayTimer = null;
         
         this.setup = function() {
-            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let container = window.gBrowser.tabContainer;
             
             document.addEventListener("keypress", self.keyevent, false);
             gBrowser.addEventListener('mouseleave', self.mouseleave, false);
-            wrapper.addEventListener('mouseenter', self.mouseenter, false);
-            wrapper.addEventListener('focus', self.checkfocus, true);
-            wrapper.addEventListener('blur', self.checkfocus, true);
+            gNavToolbox.addEventListener('mouseenter', self.mouseenter, false);
+            gNavToolbox.addEventListener('focus', self.checkfocus, true);
+            gNavToolbox.addEventListener('blur', self.checkfocus, true);
             container.addEventListener("TabSelect", this, false);
             container.addEventListener("TabClose", this, false);
             container.addEventListener("TabOpen", this, false);
@@ -224,14 +225,13 @@ com.sppad.fstbh.Main = new function() {
         };
         
         this.cleanup = function() {
-            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let container = window.gBrowser.tabContainer;
             
             document.removeEventListener("keypress", self.keyevent);
             gBrowser.removeEventListener('mouseleave', self.mouseleave);
-            wrapper.removeEventListener('mouseenter', self.mouseenter);
-            wrapper.removeEventListener('focus', self.checkfocus);
-            wrapper.removeEventListener('blur', self.checkfocus);
+            gNavToolbox.removeEventListener('mouseenter', self.mouseenter);
+            gNavToolbox.removeEventListener('focus', self.checkfocus);
+            gNavToolbox.removeEventListener('blur', self.checkfocus);
             container.removeEventListener("TabSelect", this);
             container.removeEventListener("TabClose", this);
             container.removeEventListener("TabOpen", this);
@@ -409,10 +409,9 @@ com.sppad.fstbh.Main = new function() {
             
             self.opened = true;
             
-            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let mainWindow = document.getElementById('main-window');
             
-            wrapper.setAttribute('toggle', 'true');
+            gNavToolbox.setAttribute('com_sppad_fstbh_toggle', 'true');
             
             mainWindow.addEventListener('mousemove', self.checkMousePosition, false);
             document.addEventListener('popupshown', self.popupshown, false);
@@ -435,11 +434,10 @@ com.sppad.fstbh.Main = new function() {
             
             self.opened = false;
             
-            let wrapper = document.getElementById('com_sppad_fstbh_topChromeWrapper');
             let mainWindow = document.getElementById('main-window');
             
-            wrapper.removeAttribute('toggle');
-       
+            gNavToolbox.removeAttribute('com_sppad_fstbh_toggle');
+            
             mainWindow.removeEventListener('mousemove', self.checkMousePosition);
             document.removeEventListener('popupshown', self.popupshown);
             document.removeEventListener('popuphidden', self.popuphidden);
@@ -494,9 +492,8 @@ com.sppad.fstbh.Main = new function() {
                     pinnedTitleChangedCount++;
             }
             
-            let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-            node.setAttribute("titlechange", titleChangedCount > 0);
-            node.setAttribute("pinnedTitlechange", pinnedTitleChangedCount > 0);
+            self.applyAttribute('navigator-toolbox', 'titlechange', titleChangedCount > 0);
+            self.applyAttribute('navigator-toolbox', 'pinnedTitlechange', pinnedTitleChangedCount > 0);
         }, 200);
     };
     
@@ -514,8 +511,7 @@ com.sppad.fstbh.Main = new function() {
      *            The attribute value to apply for titleChangeBehavior
      */
     this.setTitleChangeBehavior = function(mode) {
-        let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-        node.setAttribute("titleChangeBehavior", mode);
+        self.applyAttribute('navigator-toolbox', 'titleChangeBehavior', mode);
     };
     
     /**
@@ -539,8 +535,7 @@ com.sppad.fstbh.Main = new function() {
      *            The mode for showTabsToolbar
      */
     this.setShowTabsToolbar = function(value) {
-        let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-        node.setAttribute("showTabsToolbar", value);
+        self.applyAttribute('navigator-toolbox', 'showTabsToolbar', value);
         
         let contextItems = ['com_sppad_fstbh_tcm_showTabsContextIem', 'com_sppad_fstbh_fullscreenTabs'];
         contextItems.forEach(function(id) {
@@ -560,8 +555,7 @@ com.sppad.fstbh.Main = new function() {
      *            The mode for showPersonalToolbar
      */
     this.setShowPersonalToolbar = function(value) {
-        let node = document.getElementById('com_sppad_fstbh_topChromeWrapper');
-        node.setAttribute("showPersonalToolbar", value);
+        self.applyAttribute('navigator-toolbox', 'showPersonalToolbar', value);
         
         let menuitem = document.getElementById('com_sppad_fstbh_fullscreenPersonalToolbar');
         if(value == 'hover')
