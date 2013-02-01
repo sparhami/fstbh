@@ -181,9 +181,11 @@ com.sppad.fstbh.Main = new function() {
         
         this.setup = function() {
             let container = window.gBrowser.tabContainer;
+            let toggler = document.getElementById('com_sppad_fstbh_toggler');
             
             document.addEventListener("keypress", self.keyevent, false);
             gBrowser.addEventListener('mouseleave', self.mouseleave, false);
+            toggler.addEventListener('mouseenter', self.mouseenter, false);
             gNavToolbox.addEventListener('mouseenter', self.mouseenter, false);
             gNavToolbox.addEventListener('focus', self.checkfocus, true);
             gNavToolbox.addEventListener('blur', self.checkfocus, true);
@@ -201,9 +203,11 @@ com.sppad.fstbh.Main = new function() {
         
         this.cleanup = function() {
             let container = window.gBrowser.tabContainer;
+            let toggler = document.getElementById('com_sppad_fstbh_toggler');
             
             document.removeEventListener("keypress", self.keyevent);
             gBrowser.removeEventListener('mouseleave', self.mouseleave);
+            toggler.removeEventListener('mouseenter', self.mouseenter);
             gNavToolbox.removeEventListener('mouseenter', self.mouseenter);
             gNavToolbox.removeEventListener('focus', self.checkfocus);
             gNavToolbox.removeEventListener('blur', self.checkfocus);
@@ -357,8 +361,13 @@ com.sppad.fstbh.Main = new function() {
          * toolbars and remove hovering if so.
          */
         this.checkMousePosition = function(aEvent) {
+            let toggler = document.getElementById('com_sppad_fstbh_toggler');
+            
+            let navBottom = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
+            let togglerBottom = toggler.boxObject.screenY + toggler.boxObject.height; 
+            
             let y = aEvent.screenY;
-            let tripPoint = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
+            let tripPoint = Math.max(navBottom, togglerBottom);
             
             if(y > tripPoint) {
                 self.hovering = false;
@@ -443,7 +452,7 @@ com.sppad.fstbh.Main = new function() {
          * the marginTop is never set to zero or removed from Javascript.
          */
         this.setTopOffset = function() {
-            gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height - 1) + "px";
+            gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height) + "px";
         };
     };
     

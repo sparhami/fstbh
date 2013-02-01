@@ -14,6 +14,11 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_toggle
 	transition-delay: 0s !important;
 }
 
+window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_toggler {
+	background-color: transparent;
+	height: 1px;
+}
+
 /* Make sure any margin-top set from the javascript style doesn't take effect 
  * when not applied
  */
@@ -38,9 +43,7 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 }
 
 /* To not get hit by rule below setting display: none */
-window[com_sppad_fstbh_applied="true"] #browser,
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox,
-window[com_sppad_fstbh_applied="true"] #browser-bottombox {
+window[com_sppad_fstbh_applied="true"] :-moz-any(#browser, #navigator-toolbox, #browser-bottombox, #com_sppad_fstbh_toggler) {
 	display: -moz-box !important;
 }
 
@@ -85,9 +88,4 @@ window[inFullscreen] #navigator-toolbox[com_sppad_fstbh_showPersonalToolbar="hov
 window:not([sizemode="maximized"]) .maximizedHoverContextItem {
 	display: none;
 }
-
-#fullscr-toggler {
-	visibility: hidden;
-}
-
 

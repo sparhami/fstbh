@@ -15,7 +15,12 @@
 	<script type="application/x-javascript" src="fstbh.js" />
 
 	<vbox id="browser-bottombox" bottom="0" />
+	
 	<toolbox id="navigator-toolbox" top="0" />
+	
+	<vbox id="browser-panel">
+		<hbox id="com_sppad_fstbh_toggler" top="0" />
+	</vbox>
 
 	<menupopup id="toolbar-context-menu">
 		<menuitem id="com_sppad_fstbh_tcm_maximizedModeContextItem" class="maximizedHoverContextItem" type="checkbox" label="&com.sppad.fstbh.maximizedHover.label;"
