@@ -174,6 +174,10 @@ com.sppad.fstbh.Main = new function() {
         self.popupTarget = null;
         self.showEventActive = false;
         self.showEventDelayTimer = null;
+        self.eventTime = 0;
+        
+        /* How long to ignore a tab select for after a open or close */
+        self.ignoreSelectDelta = 100;
         
         this.setup = function() {
             let container = window.gBrowser.tabContainer;
@@ -216,13 +220,25 @@ com.sppad.fstbh.Main = new function() {
         this.handleEvent = function(aEvent) {
             let type = aEvent.type;
             let cp = com.sppad.fstbh.CurrentPrefs;
+            let now = Date.now();
+            let trigger = false;
             
-            if((type == 'TabClose' && cp['showEvents.showOnTabClose']) ||
-               (type == 'TabOpen' && cp['showEvents.showOnTabOpen']) || 
-               (type == 'TabSelect' && cp['showEvents.showOnTabSelect']))
-            {
-                self.triggerShowEvent();
+            switch(aEvent.type) {
+                case 'TabOpen':
+                    trigger = cp['showEvents.showOnTabOpen'];
+                    self.eventTime = now;
+                    break;
+                case 'TabClose':
+                    trigger = cp['showEvents.showOnTabClose'];
+                    self.eventTime = now;
+                    break;
+                case 'TabSelect':
+                    let allowSelect = (now - self.eventTime) > self.ignoreSelectDelta;
+                    trigger = allowSelect && cp['showEvents.showOnTabSelect'];
+                    break;
             }
+            
+            trigger && self.triggerShowEvent();
         };
         
         // nsIWebProgressListener
