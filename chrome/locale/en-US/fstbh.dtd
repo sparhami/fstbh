@@ -10,6 +10,11 @@
 <!ENTITY preference.eventsPrefPane.label "Events">
 <!ENTITY preference.stylePrefPane.label "Style">
 
+<!ENTITY preference.transitionProperty.label "Transition Type">
+<!ENTITY preference.transitionProperty.none.label "None (may be required for compatability with some add-ons)">
+<!ENTITY preference.transitionProperty.slideIn.label "Slide-in">
+			
+
 <!ENTITY preference.timing.label "Timing">
 <!ENTITY preference.transitionDurationIn.label "Transition time when appearing (milliseconds)">
 <!ENTITY preference.transitionDurationOut.label "Transition time when hiding (milliseconds)">

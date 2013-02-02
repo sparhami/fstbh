@@ -12,6 +12,7 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleC
 window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_toggle] {
 	margin-top: 0px !important;
 	transition-delay: 0s !important;
+	height: auto !important;
 }
 
 window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_toggler {
@@ -19,18 +20,16 @@ window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_toggler {
 	height: 1px;
 }
 
-/* Make sure any margin-top set from the javascript style doesn't take effect 
- * when not applied
+/* Cancel out javascript set styles while not applied
  */
 window:not([com_sppad_fstbh_applied="true"]) #browser,
 window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
 	margin-top: 0 !important;
+	height: auto !important;
 }
 
-
 window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
-	/* Transition properties. The duration and delay are set from javascript */
-	transition-property: margin-top;
+	/* Transition property, duration and delay set from javascript */
 	transition-timing-function: linear;
 	
 	/* For themes */
@@ -40,6 +39,7 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 
 window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 	-moz-box-ordinal-group: 1000;
+	overflow: hidden;
 }
 
 /* To not get hit by rule below setting display: none */
@@ -58,6 +58,7 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTa
 	/* It looks odd if the slide in animation plays due to the margin-top offset on #browser */
 	transition-property: none;
 	margin-top: 0px !important;
+	height: auto !important;
 }
 
 

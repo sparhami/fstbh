@@ -44,6 +44,9 @@ com.sppad.fstbh.Main = new function() {
             case 'transitionDelay':
                 this.setTransitionDelay(value);
                 break;
+            case 'transitionProperty':
+                this.setTransitionProperty(value);
+                break;
             case 'showWhenTitleChanged':
                 this.setTitleChangeBehavior(value);
                 this.evalutateTitleChangeState();
@@ -198,7 +201,7 @@ com.sppad.fstbh.Main = new function() {
             self.popupTarget = null;
             self.updateOpenedStatus();
             
-            self.setTopOffset();
+            self.setHiddenStyle();
         };
         
         this.cleanup = function() {
@@ -441,18 +444,24 @@ com.sppad.fstbh.Main = new function() {
             let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationOut'] / MILLISECONDS_PER_SECOND) + 's';
             gNavToolbox.style.transitionDuration = transitionDuration;
             
-            self.setTopOffset();
+            self.setHiddenStyle();
         };
         
         /**
-         * Calculates and sets the top offset for the toolbars in order to hide
-         * them. Leaves 1 px showing for mouse events.
-         * <p>
-         * This is overwritten by a CSS rule when the applied state is false, so
-         * the marginTop is never set to zero or removed from Javascript.
+         * Sets the style for the navigator toolbox for the hidden state.
          */
-        this.setTopOffset = function() {
-            gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height) + "px";
+        this.setHiddenStyle = function() {
+            switch(com.sppad.fstbh.CurrentPrefs['transitionProperty']) {
+                case 'margin-top':
+                    gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height) + "px";
+                    gNavToolbox.style.height = '';
+                    break;
+                case 'height':
+                default:
+                    gNavToolbox.style.marginTop = '0';
+                    gNavToolbox.style.height = '0';
+                    break;
+            }
         };
     };
     
@@ -522,6 +531,13 @@ com.sppad.fstbh.Main = new function() {
         let transitionDelay = (value / MILLISECONDS_PER_SECOND) + 's';
         
         gNavToolbox.style.transitionDelay = transitionDelay;
+    };
+    
+    /**
+     * Sets the transition property.
+     */
+    this.setTransitionProperty = function(value) {
+        gNavToolbox.style.transitionProperty = value;
     };
 
     /**
@@ -636,7 +652,7 @@ com.sppad.fstbh.Main = new function() {
     
     this.loadPreferences = function() {
         this.prefChanged('transitionDelay', com.sppad.fstbh.CurrentPrefs['transitionDelay']);
-        this.prefChanged('transitionDuration', com.sppad.fstbh.CurrentPrefs['transitionDuration']);
+        this.prefChanged('transitionProperty', com.sppad.fstbh.CurrentPrefs['transitionProperty']);
         this.prefChanged('showWhenTitleChanged', com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged']);
         this.prefChanged('style.browserBottomBox', com.sppad.fstbh.CurrentPrefs['style.browserBottomBox']);
         this.prefChanged('style.topChromeBackground', com.sppad.fstbh.CurrentPrefs['style.topChromeBackground']);
