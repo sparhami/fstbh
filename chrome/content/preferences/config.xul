@@ -12,7 +12,7 @@
 	</commandset>
 
 	<prefpane id="com_sppad_fstbh_GeneralPrefPane" label="&preference.generalPrefPane.label;"
-		image="chrome://fstbh/skin/images/felipecaparelli_Gears_1.svg" onload="com.sppad.fstbh.Config.onload()">
+		image="chrome://fstbh/skin/images/gear.svg">
 		<preferences>
 			<preference id="extensions.fstbh.transitionProperty" name="extensions.fstbh.transitionProperty"
 				type="string" />
@@ -26,8 +26,6 @@
 				type="string" />
 			<preference id="extensions.fstbh.showPersonalToolbar" name="extensions.fstbh.showPersonalToolbar"
 				type="string" />
-			<preference id="extensions.fstbh.maximizedMode" name="extensions.fstbh.maximizedMode"
-				type="string" />
 		</preferences>
 		<groupbox>
 			<caption label="&preference.transitionProperty.label;" />
@@ -36,8 +34,7 @@
 				orient="vertical">
 				<radio id="transitionDisabled" value="height"
 					label="&preference.transitionProperty.none.label;" />
-				<radio value="margin-top"
-					label="&preference.transitionProperty.slideIn.label;" />
+				<radio value="margin-top" label="&preference.transitionProperty.slideIn.label;" />
 			</radiogroup>
 		</groupbox>
 		<groupbox class="transitionTiming">
@@ -70,6 +67,16 @@
 				<radio value="always" label="&preference.showTabsToolbar.always.label;" />
 			</radiogroup>
 		</groupbox>
+	</prefpane>
+
+	<prefpane id="com_sppad_fstbh_MaximizedPrefPane" label="&preference.maximizedPrefPane.label;"
+		image="chrome://fstbh/skin/images/maximize.svg">
+		<preferences>
+			<preference id="extensions.fstbh.maximizedMode" name="extensions.fstbh.maximizedMode"
+				type="string" />
+			<preference id="extensions.fstbh.fullishScreen" name="extensions.fstbh.fullishScreen"
+				type="bool" />
+		</preferences>
 		<groupbox>
 			<caption label="&preference.maximizedMode.label;" />
 
@@ -78,8 +85,12 @@
 				<radio value="normal" label="&preference.maximizedMode.normal.label;" />
 			</radiogroup>
 		</groupbox>
-	</prefpane>
+		<groupbox>
+			<caption label="&preference.maximizedTweaks.label;" />
 
+			<checkbox label="&preference.fullishScreen.label;" preference="extensions.fstbh.fullishScreen" />
+		</groupbox>
+	</prefpane>
 
 	<prefpane id="com_sppad_fstbh_EventsPrefPane" label="&preference.eventsPrefPane.label;"
 		image="chrome://fstbh/skin/images/dominos.svg">

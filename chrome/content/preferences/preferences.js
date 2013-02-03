@@ -72,6 +72,9 @@ com.sppad.fstbh.PREFS = {
 
     // One of hover, normal
     maximizedMode : 'normal',
+    
+    // Make it more like fullscreen
+    fullishScreen : true,
 
     // The saved value of the animateUp browser preference, for restoring later
     animateUp_saved : -1,
@@ -90,8 +93,7 @@ com.sppad.fstbh.PREFS = {
 com.sppad.fstbh.PrefListener = function(branch_name, callback) {
     // Keeping a reference to the observed preference branch or it will get
     // garbage collected.
-    let
-    prefService = Components.classes["@mozilla.org/preferences-service;1"]
+    let prefService = Components.classes["@mozilla.org/preferences-service;1"]
             .getService(Components.interfaces.nsIPrefService);
     this._branch = prefService.getBranch(branch_name);
     this._branch.QueryInterface(Components.interfaces.nsIPrefBranch);
@@ -111,8 +113,7 @@ com.sppad.fstbh.PrefListener.prototype.observe = function(subject, topic, data) 
 com.sppad.fstbh.PrefListener.prototype.register = function(trigger) {
     this._branch.addObserver('', this, false);
     if (trigger) {
-        let
-        that = this;
+        let that = this;
         this._branch.getChildList('', {}).forEach(function(pref_leaf_name) {
             that._callback(that._branch, pref_leaf_name);
         });
@@ -128,8 +129,7 @@ com.sppad.fstbh.CurrentPrefs = {};
 
 com.sppad.fstbh.Preferences = new function() {
 
-    let
-    self = this;
+    let self = this;
 
     self._eventSupport = new com.sppad.fstbh.EventSupport();
     self._EVENT_PREFERENCE_CHANGED = 'EVENT_PREFERENCE_CHANGED';
@@ -242,8 +242,7 @@ com.sppad.fstbh.Preferences = new function() {
          *            The value to set for the preference
          */
         setPreference : function(preference, value) {
-            let
-            obj = {};
+            let obj = {};
             obj[preference] = value;
 
             _setPrefBranch(com.sppad.fstbh.PREF_BRANCH, obj);
@@ -256,8 +255,7 @@ com.sppad.fstbh.Preferences = new function() {
          *            The preference to get
          */
         getPreference : function(preference) {
-            let
-            branch = Services.prefs.getBranch(com.sppad.fstbh.PREF_BRANCH);
+            let branch = Services.prefs.getBranch(com.sppad.fstbh.PREF_BRANCH);
             return _getPreference(branch, preference);
         },
 
@@ -284,11 +282,9 @@ com.sppad.fstbh.Preferences = new function() {
         openPreferences : function(aWindow) {
             if (this._preferencesWindow == null
                     || this._preferencesWindow.closed) {
-                let
-                instantApply = _getPreference(Services.prefs
+                let instantApply = _getPreference(Services.prefs
                         .getBranch('browser.preferences.'), 'instantApply');
-                let
-                features = "chrome,titlebar,toolbar,centerscreen"
+                let features = "chrome,titlebar,toolbar,centerscreen"
                         + (instantApply ? ",dialog=no" : ",modal");
                 this._preferencesWindow = aWindow.openDialog(
                         com.sppad.fstbh.PREF_WINDOW_FILE,

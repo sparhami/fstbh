@@ -1,10 +1,87 @@
 @import url("chrome://fstbh-platform/skin/fstbh.css");
 
-window[com_sppad_fstbh_applied="true"] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] {
+#main-window[com_sppad_fstbh_applied="true"] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] {
 	background-color: rgba(0, 0, 0, .45) !important;
 	background-image: linear-gradient(to bottom, rgba(132, 132, 132, .3) 0%, rgba(149, 149, 149, .3) 85%, rgba(0, 0, 0, .1) 100%) !important;
 }
 
-window[com_sppad_fstbh_applied="true"] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] [disabled="true"] {
+#main-window[com_sppad_fstbh_applied="true"] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] [disabled="true"] {
 	color: rgb(195, 195, 195) !important;
+}
+
+#com_sppad_fstbh_windowControls_min .toolbarbutton-icon,
+#com_sppad_fstbh_windowControls_restore .toolbarbutton-icon,
+#com_sppad_fstbh_windowControls_close .toolbarbutton-icon {
+	width: 10x !important;
+	height: 10px !important;
+}
+
+#com_sppad_fstbh_windowControls_min toolbarbutton {
+	-moz-appearance: none;
+	list-style-image: url("chrome://fstbh/skin/images/minimize_icon.svg");
+}
+
+#com_sppad_fstbh_windowControls_restore toolbarbutton {
+	-moz-appearance: none;
+	list-style-image: url("chrome://fstbh/skin/images/restore_icon.svg");
+}
+
+#com_sppad_fstbh_windowControls_close toolbarbutton {
+	-moz-appearance: none;
+	list-style-image: url("chrome://fstbh/skin/images/close_icon.svg");
+}
+
+
+
+#com_sppad_fstbh_windowControls_min,
+#com_sppad_fstbh_windowControls_restore {
+	background-color: rgb(230, 230, 240);
+	padding-left: 4px;
+	padding-right: 4px;
+	margin-bottom: 9px;
+	border-color: rgb(140, 140, 140);
+	border-style: solid;
+}
+
+#com_sppad_fstbh_windowControls_close {
+	background-color: rgb(30, 30, 40);
+	padding-left: 13px;
+	padding-right: 13px;
+	margin-bottom: 9px;
+	border-color: rgb(140, 140, 140);
+	border-style: solid;
+	margin-right: 4px;
+}
+
+#com_sppad_fstbh_windowControls_min {
+	border-top-width: 0;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-bottom-left-radius: 3px;
+}
+
+#com_sppad_fstbh_windowControls_restore {
+	border-top-width: 0;
+	border-bottom-width: 1px;
+	border-left-width: 0;
+	border-right-width: 1px;
+	border-right-width: 0;
+}
+
+#com_sppad_fstbh_windowControls_close {
+	border-top-width: 0;
+	border-left-width: 0;
+	border-bottom-width: 1px;
+	border-right-width: 1px;
+	border-bottom-right-radius: 3px;
+}
+
+#com_sppad_fstbh_windowControls_min:hover,
+#com_sppad_fstbh_windowControls_restore:hover {
+	background-color: rgb(200, 200, 210);
+}
+
+#com_sppad_fstbh_windowControls_close:hover {
+	background-color: rgb(80, 80, 90);
 }

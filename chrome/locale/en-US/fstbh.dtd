@@ -7,6 +7,7 @@
 <!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.accesskey "B">
 
 <!ENTITY preference.generalPrefPane.label "General">
+<!ENTITY preference.maximizedPrefPane.label "Maximized">
 <!ENTITY preference.eventsPrefPane.label "Events">
 <!ENTITY preference.stylePrefPane.label "Style">
 
@@ -48,3 +49,6 @@
 <!ENTITY preference.maximizedMode.label "Toolbar behavior when maximized">
 <!ENTITY preference.maximizedMode.hover.label "Auto-hide">
 <!ENTITY preference.maximizedMode.normal.label "Show">
+
+<!ENTITY preference.maximizedTweaks.label "Maximized Mode Tweaks">
+<!ENTITY preference.fullishScreen.label "Treat as fullscreen (recommended)">

@@ -4,13 +4,17 @@
  * Remove the clip-path set as it prevents user from clicking on the URL bar and does not work while add-on is active anyway.
  * Addon causes the part of the URL bar behind the large back button to show through when it should be clipped out.
  */
-window:not([chromehidden~=toolbar]) #navigator-toolbox[iconsize=large][mode=icons] > :-moz-any(#nav-bar[currentset*="unified-back-forward-button,urlbar-container"],#nav-bar:not([currentset])) > #unified-back-forward-button[forwarddisabled] + #urlbar-container {
+#main-window:not([chromehidden~=toolbar]) #navigator-toolbox[iconsize=large][mode=icons] > :-moz-any(#nav-bar[currentset*="unified-back-forward-button,urlbar-container"],#nav-bar:not([currentset])) > #unified-back-forward-button[forwarddisabled] + #urlbar-container {
   clip-path: none !important;
 }
 
 
 
-window[com_sppad_fstbh_applied="true"] #browser-panel[com_sppad_fstbh_tabCount="1"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="multipleTabs"],
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="hoverOnly"] {
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel[com_sppad_fstbh_tabCount="1"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="multipleTabs"],
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="hoverOnly"] {
   background-color: rgba(0, 0, 0, 0.4);
+}
+
+#main-window[com_sppad_fstbh_fullishScreen] #com_sppad_fstbh_windowControls {
+	display: -moz-box;
 }

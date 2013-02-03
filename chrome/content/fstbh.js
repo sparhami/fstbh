@@ -46,6 +46,7 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'transitionProperty':
                 this.setTransitionProperty(value);
+                this.ShowNavBoxHandler.setHiddenStyle();
                 break;
             case 'showWhenTitleChanged':
                 this.setTitleChangeBehavior(value);
@@ -65,6 +66,9 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'maximizedMode':
                 this.setMaximizedMode(value);
+                break;
+            case 'fullishScreen':
+                this.updateAppliedStatus();
                 break;
             default:
                 break;
@@ -139,6 +143,8 @@ com.sppad.fstbh.Main = new function() {
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
         showTabsContextItem.setAttribute('disabled', !applyInMaximized);
         
+        self.windowingTweaks(self.applied, maximized, applyInMaximized);
+    
         /*
          * Always call this to unregister any listeners that are active from
          * applied mode and to prevent double registering of listeners if going
@@ -152,6 +158,59 @@ com.sppad.fstbh.Main = new function() {
             self.ShowNavBoxHandler.setup();
         } else {
             self.clearTheme();
+        }
+    };
+    
+    /**
+     * Performs tweaks, mostly for Windows.
+     * <p>
+     * Handles the fullishScreen preference, which sets the window inFullscreen
+     * attribute to tell everyone that we are in fullscreen. They might still
+     * use sizemode, but that really isn't our problem.
+     * <p>
+     * XXX - Wait until there is a way to fix the titlebar controls. Currently,
+     * just paint some icons to take the same space as the ones Windows creates.
+     * Would like to use the fullscreen controls from Firefox, but Windows
+     * directly draws the buttons and we can't do anything with that space.
+     * <p>
+     * This originally came up for supporting the PersonalTitlebar add-on.
+     */
+    this.windowingTweaks = function(applied, maximized, applyInMaximized) {
+        let cp = com.sppad.fstbh.CurrentPrefs;
+        
+        // let controls = document.getElementById('window-controls');
+        let mainWindow = document.getElementById('main-window');
+        let tabViewDeck = document.getElementById('tab-view-deck');
+    
+        // Either not applied or not in fullishScreen
+        if(!applied || (maximized && applyInMaximized && !cp['fullishScreen'])) {
+            mainWindow.removeAttribute('com_sppad_fstbh_fullishScreen');
+            
+            // controls.setAttribute('hidden', 'true');
+            mainWindow.removeAttribute('inFullscreen');
+            gNavToolbox.removeAttribute('inFullscreen');
+            tabViewDeck.style.paddingTop = '';
+            
+            // document.getElementById('toolbar-menubar').removeAttribute('com_sppad_fstbh_collapsed');
+        } 
+        // Either in fullscreen or fullishScreen
+        else if(applied) {
+            // controls.removeAttribute('hidden');
+            mainWindow.setAttribute('inFullscreen', 'true');
+            gNavToolbox.setAttribute('inFullscreen', 'true');
+            tabViewDeck.style.paddingTop = -(mainWindow.boxObject.screenY) + "px";
+            
+            if(maximized && applyInMaximized) {
+                mainWindow.setAttribute('com_sppad_fstbh_fullishScreen', 'true');
+                
+                document.getElementById('toolbar-menubar').setAttribute('com_sppad_fstbh_collapsed', 'true');
+                
+                // Make sure to move the controls since they might/will? not be
+                // on TabsToolbar while in maximized mode
+                // document.getElementById('TabsToolbar').appendChild(controls);
+           } else {
+               mainWindow.removeAttribute('com_sppad_fstbh_fullishScreen');
+           }
         }
     };
     
@@ -386,7 +445,7 @@ com.sppad.fstbh.Main = new function() {
          * <ul>
          * <li> self.hovering - The mouse is over the toolbars
          * <li> self.focused - Something (e.g. input field) is focused
-         * <li> self.popupOpen - A popup (e.g. menu) is opened
+         * <li> self.popupTarget - A popup (e.g. menu) is opened
          * <li> self.showEventActive - A show event occured (e.g. switched tabs)
          * </ul>
          */
@@ -449,6 +508,11 @@ com.sppad.fstbh.Main = new function() {
         
         /**
          * Sets the style for the navigator toolbox for the hidden state.
+         * Showing state is handled by CSS.
+         * <p>
+         * For height, transition is from auto to 0, so transition properties
+         * don't have an effect. Don't use visibility or display since we still
+         * want to be able to use shortcut keys for navigation/search boxes.
          */
         this.setHiddenStyle = function() {
             switch(com.sppad.fstbh.CurrentPrefs['transitionProperty']) {

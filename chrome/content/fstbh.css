@@ -2,33 +2,33 @@
 
 @import url("chrome://fstbh/skin/fstbh.css");
 
-window[com_sppad_fstbh_applied="true"] #browser-panel {
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel {
 	display: -moz-stack;
 }
 
 /* Rules for showing when applied */
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="any"][com_sppad_fstbh_titlechange="true"],
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="pinned"][com_sppad_fstbh_pinnedTitlechange="true"],
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_toggle] {
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="any"][com_sppad_fstbh_titlechange="true"],
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="pinned"][com_sppad_fstbh_pinnedTitlechange="true"],
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_toggle] {
 	margin-top: 0px !important;
 	transition-delay: 0s !important;
 	height: auto !important;
 }
 
-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_toggler {
+#main-window[com_sppad_fstbh_applied="true"] #com_sppad_fstbh_toggler {
 	background-color: transparent;
 	height: 1px;
 }
 
 /* Cancel out javascript set styles while not applied
  */
-window:not([com_sppad_fstbh_applied="true"]) #browser,
-window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
+#main-window:not([com_sppad_fstbh_applied="true"]) #browser,
+#main-window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
 	margin-top: 0 !important;
 	height: auto !important;
 }
 
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 	/* Transition property, duration and delay set from javascript */
 	transition-timing-function: linear;
 	
@@ -37,24 +37,24 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 }
 
 
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 	-moz-box-ordinal-group: 1000;
 	overflow: hidden;
 }
 
 /* To not get hit by rule below setting display: none */
-window[com_sppad_fstbh_applied="true"] :-moz-any(#browser, #navigator-toolbox, #browser-bottombox, #com_sppad_fstbh_toggler) {
+#main-window[com_sppad_fstbh_applied="true"] :-moz-any(#browser, #navigator-toolbox, #browser-bottombox, #com_sppad_fstbh_toggler) {
 	display: -moz-box !important;
 }
 
 /* Default, hide anything not used since we are -moz-stack and it will prevent mouse events */
-window[com_sppad_fstbh_applied="true"] #browser-panel > * {
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel > * {
 	display: none;
 }
 
 
-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"],
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"] {	
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"],
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"] {	
 	/* It looks odd if the slide in animation plays due to the margin-top offset on #browser */
 	transition-property: none;
 	margin-top: 0px !important;
@@ -65,8 +65,8 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTa
 /* Rules for showing non-Tab toolbars when either always or multitabs is set.
  * Basically, show either when hovering or something is focused.
  */
-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar),
-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar) {
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar),
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar) {
 	/* Don't use visibility or display as it changes the behavior when trying to use f6 or ctrl-l */
 	height: 0 !important;
 	max-height: 0 !important;
@@ -74,8 +74,12 @@ window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTa
 	overflow: hidden;
 }
 
+#main-window:not([com_sppad_fstbh_applied="true"]) #tab-view-deck  {
+	padding-top: 0 !important;
+}
+
 /* Want Firefox's version to take effect when not in fullscreen */
-window[inFullscreen] #navigator-toolbox[com_sppad_fstbh_showPersonalToolbar="hover"] #PersonalToolbar {
+#main-window[inFullscreen] #navigator-toolbox[com_sppad_fstbh_showPersonalToolbar="hover"] #PersonalToolbar {
 	visibility: visible !important;
 	display: -moz-box;
 }
@@ -86,7 +90,28 @@ window[inFullscreen] #navigator-toolbox[com_sppad_fstbh_showPersonalToolbar="hov
 	-moz-box-ordinal-group: 1;
 }
 
-window:not([sizemode="maximized"]) .maximizedHoverContextItem {
+
+#main-window:not([sizemode="maximized"]) .maximizedHoverContextItem {
 	display: none;
 }
 
+/* Hide show menu-bar context menu item. Not set from Javascript since the
+ * context menu item doesn't exist if context menu hasn't been opened yet.
+ */
+#main-window[com_sppad_fstbh_fullishScreen] #toggle_toolbar-menubar {
+	display: none;
+}
+
+/*
+#main-window[com_sppad_fstbh_fullishScreen] .titlebar-placeholder[type="caption-buttons"] {
+	display: -moz-box !important;
+}
+*/
+
+#com_sppad_fstbh_windowControls {
+	display: none;
+}
+
+#toolbar-menubar[com_sppad_fstbh_collapsed] {
+	visibility: collapsed;
+}

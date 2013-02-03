@@ -15,20 +15,34 @@
 	<script type="application/x-javascript" src="fstbh.js" />
 
 	<vbox id="browser-bottombox" bottom="0" />
-	
+
 	<toolbox id="navigator-toolbox" top="0" />
-	
+
 	<vbox id="browser-panel">
 		<hbox id="com_sppad_fstbh_toggler" top="0" />
 	</vbox>
 
+	<toolbar id="TabsToolbar">
+		<hbox id="com_sppad_fstbh_windowControls">
+			<hbox id="com_sppad_fstbh_windowControls_min">
+				<toolbarbutton />
+			</hbox>
+			<hbox id="com_sppad_fstbh_windowControls_restore">
+				<toolbarbutton />
+			</hbox>
+			<hbox id="com_sppad_fstbh_windowControls_close">
+				<toolbarbutton />
+			</hbox>
+		</hbox>
+	</toolbar>
+
 	<menupopup id="toolbar-context-menu">
-		<menuitem id="com_sppad_fstbh_tcm_maximizedModeContextItem" class="maximizedHoverContextItem" type="checkbox" label="&com.sppad.fstbh.maximizedHover.label;"
-			accesskey="&com.sppad.fstbh.maximizedHover.accesskey;" oncommand="com.sppad.fstbh.Main.setAlmostFullscreen(this);"
-			ordinal="0" />
-		<menuitem id="com_sppad_fstbh_tcm_showTabsContextIem" class="maximizedHoverContextItem" type="checkbox" label="&com.sppad.fstbh.fullscreenTabs.label;"
-			accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;" oncommand="com.sppad.fstbh.Main.setFullscreenTabs(this);"
-			ordinal="0" />
+		<menuitem id="com_sppad_fstbh_tcm_maximizedModeContextItem" class="maximizedHoverContextItem"
+			type="checkbox" label="&com.sppad.fstbh.maximizedHover.label;" accesskey="&com.sppad.fstbh.maximizedHover.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setAlmostFullscreen(this);" ordinal="0" />
+		<menuitem id="com_sppad_fstbh_tcm_showTabsContextIem" class="maximizedHoverContextItem"
+			type="checkbox" label="&com.sppad.fstbh.fullscreenTabs.label;" accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setFullscreenTabs(this);" ordinal="0" />
 		<menuseparator class="maximizedHoverContextItem" ordinal="0" />
 	</menupopup>
 
