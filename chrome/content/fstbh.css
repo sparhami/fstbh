@@ -113,5 +113,5 @@
 }
 
 #toolbar-menubar[com_sppad_fstbh_collapsed] {
-	visibility: collapsed;
+	display: none;
 }
