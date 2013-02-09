@@ -208,9 +208,9 @@ com.sppad.fstbh.Main = new function() {
                 // Make sure to move the controls since they might/will? not be
                 // on TabsToolbar while in maximized mode
                 // document.getElementById('TabsToolbar').appendChild(controls);
-           } else {
-               mainWindow.removeAttribute('com_sppad_fstbh_fullishScreen');
-           }
+            } else {
+                mainWindow.removeAttribute('com_sppad_fstbh_fullishScreen');
+            }
         }
     };
     

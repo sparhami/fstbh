@@ -25,13 +25,13 @@
 	<toolbar id="TabsToolbar">
 		<hbox id="com_sppad_fstbh_windowControls">
 			<hbox id="com_sppad_fstbh_windowControls_min">
-				<toolbarbutton />
+				<toolbarbutton oncommand="window.minimize();" />
 			</hbox>
 			<hbox id="com_sppad_fstbh_windowControls_restore">
-				<toolbarbutton />
+				<toolbarbutton oncommand="window.restore();" />
 			</hbox>
 			<hbox id="com_sppad_fstbh_windowControls_close">
-				<toolbarbutton />
+				<toolbarbutton oncommand="BrowserTryToCloseWindow();" />
 			</hbox>
 		</hbox>
 	</toolbar>
