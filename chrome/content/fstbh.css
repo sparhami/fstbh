@@ -20,8 +20,7 @@
 	height: 1px;
 }
 
-/* Cancel out javascript set styles while not applied
- */
+/* Cancel out javascript set styles while not applied */
 #main-window:not([com_sppad_fstbh_applied="true"]) #browser,
 #main-window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
 	margin-top: 0 !important;
@@ -36,9 +35,11 @@
 	background-position: right top !important;
 }
 
-
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
+	/* So that we display on top of #browser, even though it the next sibling */
 	-moz-box-ordinal-group: 1000;
+	
+	/* For no transition style, since hiding is done with height */
 	overflow: hidden;
 }
 
@@ -67,7 +68,7 @@
  */
 #main-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar),
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar) {
-	/* Don't use visibility or display as it changes the behavior when trying to use f6 or ctrl-l */
+	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
 	height: 0 !important;
 	max-height: 0 !important;
 	min-height: 0 !important;
@@ -95,7 +96,7 @@
 	display: none;
 }
 
-/* Hide show menu-bar context menu item. Not set from Javascript since the
+/* Hide 'show menu-bar' context menu item. Not set from Javascript since the
  * context menu item doesn't exist if context menu hasn't been opened yet.
  */
 #main-window[com_sppad_fstbh_fullishScreen] #toggle_toolbar-menubar {

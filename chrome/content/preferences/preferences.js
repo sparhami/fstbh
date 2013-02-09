@@ -14,7 +14,6 @@ com.sppad.fstbh.PREF_WINDOW_FILE = "chrome://fstbh/content/preferences/config.xu
 com.sppad.fstbh.PREF_WINDOW_ID = "fstbh-preferences-window";
 com.sppad.fstbh.PREF_BRANCH = "extensions.fstbh.";
 com.sppad.fstbh.PREFS = {
-
     // internal only
     debug : false,
 
@@ -156,8 +155,7 @@ com.sppad.fstbh.Preferences = new function() {
      *            preferences and their values. Objects and their keys/values
      *            map to sub-branches.
      */
-    let
-    _setPrefBranch = function(prefBranch, prefs) {
+    let _setPrefBranch = function(prefBranch, prefs) {
         let
         branch = Services.prefs.getBranch(prefBranch);
         for (let[key, val] in Iterator(prefs)) {
@@ -188,10 +186,8 @@ com.sppad.fstbh.Preferences = new function() {
      *            preferences and their values. Objects and their keys/values
      *            map to sub-branches.
      */
-    let
-    _setDefaultPrefBranch = function(prefBranch, prefs) {
-        let
-        branch = Services.prefs.getDefaultBranch(prefBranch);
+    let _setDefaultPrefBranch = function(prefBranch, prefs) {
+        let branch = Services.prefs.getDefaultBranch(prefBranch);
         for (let[key, val] in Iterator(prefs)) {
             switch (typeof val) {
                 case "boolean":
@@ -210,8 +206,7 @@ com.sppad.fstbh.Preferences = new function() {
         }
     };
 
-    let
-    _getPreference = function(branch, preference) {
+    let _getPreference = function(branch, preference) {
 
         switch (branch.getPrefType(preference)) {
             case Services.prefs.PREF_BOOL:

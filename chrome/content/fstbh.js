@@ -355,12 +355,9 @@ com.sppad.fstbh.Main = new function() {
          * or not on that basis.
          */
         this.checkfocus = function(aEvent) {
-            let cd = document.commandDispatcher;
-            let inputFocused = cd.focusedElement &&
-                cd.focusedElement.ownerDocument == document &&
-                cd.focusedElement.localName == "input";
-      
-            self.focused = inputFocused;
+            let fe = document.commandDispatcher.focusedElement;
+            
+            self.focused = fe && fe.ownerDocument == document && fe.localName == "input";
             self.updateOpenedStatus();
         };
             
