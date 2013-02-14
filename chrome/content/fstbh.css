@@ -114,5 +114,5 @@
 }
 
 #toolbar-menubar[com_sppad_fstbh_collapsed] {
-	display: none;
+	display: none !important;
 }

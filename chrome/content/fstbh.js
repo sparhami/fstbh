@@ -191,7 +191,7 @@ com.sppad.fstbh.Main = new function() {
             gNavToolbox.removeAttribute('inFullscreen');
             tabViewDeck.style.paddingTop = '';
             
-            // document.getElementById('toolbar-menubar').removeAttribute('com_sppad_fstbh_collapsed');
+            document.getElementById('toolbar-menubar').removeAttribute('com_sppad_fstbh_collapsed');
         } 
         // Either in fullscreen or fullishScreen
         else if(applied) {
@@ -726,6 +726,7 @@ com.sppad.fstbh.Main = new function() {
         com.sppad.fstbh.Preferences.addListener(this);
         
         let container = window.gBrowser.tabContainer;
+        
         container.addEventListener("TabSelect", this, false);
         container.addEventListener("TabClose", this, false);
         container.addEventListener("TabOpen", this, false);
