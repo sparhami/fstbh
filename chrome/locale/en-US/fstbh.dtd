@@ -6,6 +6,9 @@
 <!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.label "Bookmarks Toolbar">
 <!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.accesskey "B">
 
+<!ENTITY units.pixels "px">
+<!ENTITY units.milliseconds "ms">
+
 <!ENTITY preference.generalPrefPane.label "General">
 <!ENTITY preference.maximizedPrefPane.label "Maximized">
 <!ENTITY preference.eventsPrefPane.label "Events">
@@ -14,12 +17,11 @@
 <!ENTITY preference.transitionProperty.label "Transition Type">
 <!ENTITY preference.transitionProperty.none.label "None (may be required for compatibility with some add-ons)">
 <!ENTITY preference.transitionProperty.slideIn.label "Slide-in">
-			
 
 <!ENTITY preference.timing.label "Timing">
-<!ENTITY preference.transitionDurationIn.label "Transition time when appearing (milliseconds)">
-<!ENTITY preference.transitionDurationOut.label "Transition time when hiding (milliseconds)">
-<!ENTITY preference.transitionDelay.label "Delay before hiding (milliseconds)">
+<!ENTITY preference.transitionDurationIn.label "Transition time when appearing">
+<!ENTITY preference.transitionDurationOut.label "Transition time when hiding">
+<!ENTITY preference.transitionDelay.label "Delay before hiding">
 
 <!ENTITY preference.showWhenTitleChanged.label "Show on title change">
 <!ENTITY preference.showWhenTitleChanged.never.label "Never">
@@ -31,7 +33,7 @@
 <!ENTITY preference.showEvents.showOnTabClose.label "Tab Closed">
 <!ENTITY preference.showEvents.showOnTabSelect.label "Tab Selected">
 <!ENTITY preference.showEvents.showOnLocationChange.label "Location Changed">
-<!ENTITY preference.showEvents.delay.label "Delay before hiding (additional) (milliseconds)">
+<!ENTITY preference.showEvents.delay.label "Delay before hiding (additional)">
 
 <!ENTITY preference.style.browserBottomBox.label "Bottom box style while applied">
 <!ENTITY preference.style.browserBottomBox.transparent.label "Transparent">
@@ -52,3 +54,6 @@
 
 <!ENTITY preference.maximizedTweaks.label "Maximized Mode Tweaks">
 <!ENTITY preference.fullishScreen.label "Treat as fullscreen (recommended)">
+
+<!ENTITY preference.other.label "Misc">
+<!ENTITY preference.bottomBuffer.label "Bottom buffer when showing">

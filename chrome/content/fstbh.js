@@ -426,7 +426,8 @@ com.sppad.fstbh.Main = new function() {
             let togglerBottom = toggler.boxObject.screenY + toggler.boxObject.height; 
             
             let y = aEvent.screenY;
-            let tripPoint = Math.max(navBottom, togglerBottom);
+            let buffer = com.sppad.fstbh.CurrentPrefs['bottomBuffer'];
+            let tripPoint = Math.max(navBottom, togglerBottom) + buffer;
             
             if(y > tripPoint) {
                 self.hovering = false;
