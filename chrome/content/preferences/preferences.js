@@ -76,7 +76,7 @@ com.sppad.fstbh.PREFS = {
     maximizedMode : 'normal',
     
     // Make it more like fullscreen
-    fullishScreen : true,
+    fullishScreen : false,
 
     // The saved value of the animateUp browser preference, for restoring later
     animateUp_saved : -1,
