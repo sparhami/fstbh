@@ -143,7 +143,7 @@ com.sppad.fstbh.Main = new function() {
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
         showTabsContextItem.setAttribute('disabled', !applyInMaximized);
         
-        self.windowingTweaks(self.applied, maximized, applyInMaximized);
+        self.windowingTweaks(maximized, applyInMaximized, fullscreen, applyInFullscreen);
     
         /*
          * Always call this to unregister any listeners that are active from
@@ -175,41 +175,30 @@ com.sppad.fstbh.Main = new function() {
      * <p>
      * This originally came up for supporting the PersonalTitlebar add-on.
      */
-    this.windowingTweaks = function(applied, maximized, applyInMaximized) {
+    this.windowingTweaks = function(maximized, applyInMaximized, fullscreen, applyInFullscreen) {
         let cp = com.sppad.fstbh.CurrentPrefs;
         
         // let controls = document.getElementById('window-controls');
         let mainWindow = document.getElementById('main-window');
         let tabViewDeck = document.getElementById('tab-view-deck');
     
-        // Either not applied or not in fullishScreen
-        if(!applied || (maximized && applyInMaximized && !cp['fullishScreen'])) {
-            mainWindow.removeAttribute('com_sppad_fstbh_fullishScreen');
-            
-            // controls.setAttribute('hidden', 'true');
-            mainWindow.removeAttribute('inFullscreen');
-            gNavToolbox.removeAttribute('inFullscreen');
-            tabViewDeck.style.paddingTop = '';
-            
-            document.getElementById('toolbar-menubar').removeAttribute('com_sppad_fstbh_collapsed');
-        } 
-        // Either in fullscreen or fullishScreen
-        else if(applied) {
+        if(maximized && applyInMaximized && cp['fullishScreen']) {
+            mainWindow.setAttribute('com_sppad_fstbh_fullishScreen', 'true');
+            document.getElementById('toolbar-menubar').setAttribute('com_sppad_fstbh_collapsed', 'true');
+ 
             // controls.removeAttribute('hidden');
             mainWindow.setAttribute('inFullscreen', 'true');
             gNavToolbox.setAttribute('inFullscreen', 'true');
             tabViewDeck.style.paddingTop = -(mainWindow.boxObject.screenY) + "px";
+        } else {
+            mainWindow.removeAttribute('com_sppad_fstbh_fullishScreen');   
+            document.getElementById('toolbar-menubar').removeAttribute('com_sppad_fstbh_collapsed');
             
-            if(maximized && applyInMaximized) {
-                mainWindow.setAttribute('com_sppad_fstbh_fullishScreen', 'true');
-                
-                document.getElementById('toolbar-menubar').setAttribute('com_sppad_fstbh_collapsed', 'true');
-                
-                // Make sure to move the controls since they might/will? not be
-                // on TabsToolbar while in maximized mode
-                // document.getElementById('TabsToolbar').appendChild(controls);
-            } else {
-                mainWindow.removeAttribute('com_sppad_fstbh_fullishScreen');
+            if(!fullscreen) {
+                // controls.setAttribute('hidden', 'true');
+                mainWindow.removeAttribute('inFullscreen');
+                gNavToolbox.removeAttribute('inFullscreen');
+                tabViewDeck.style.paddingTop = '';
             }
         }
     };
