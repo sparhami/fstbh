@@ -51,7 +51,7 @@
 <!ENTITY preference.showTabsToolbar.always.label "Always">
 
 <!ENTITY preference.maximizedTweaks.label "Maximized Mode Tweaks">
-<!ENTITY preference.fullishScreen.label "Treat as fullscreen (recommended)">
+<!ENTITY preference.fullishScreen.label "Treat as fullscreen">
 
 <!ENTITY preference.other.label "Misc">
 <!ENTITY preference.bottomBuffer.label "Bottom buffer when showing">
