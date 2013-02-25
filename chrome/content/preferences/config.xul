@@ -87,19 +87,9 @@
 	<prefpane id="com_sppad_fstbh_MaximizedPrefPane" label="&preference.maximizedPrefPane.label;"
 		image="chrome://fstbh/skin/images/maximize.svg">
 		<preferences>
-			<preference id="extensions.fstbh.maximizedMode" name="extensions.fstbh.maximizedMode"
-				type="string" />
 			<preference id="extensions.fstbh.fullishScreen" name="extensions.fstbh.fullishScreen"
 				type="bool" />
 		</preferences>
-		<groupbox>
-			<caption label="&preference.maximizedMode.label;" />
-
-			<radiogroup preference="extensions.fstbh.maximizedMode" orient="vertical">
-				<radio value="hover" label="&preference.maximizedMode.hover.label;" />
-				<radio value="normal" label="&preference.maximizedMode.normal.label;" />
-			</radiogroup>
-		</groupbox>
 		<groupbox>
 			<caption label="&preference.maximizedTweaks.label;" />
 

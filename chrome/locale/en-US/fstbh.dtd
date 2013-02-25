@@ -1,6 +1,8 @@
 <!ENTITY com.sppad.fstbh.preferences.title "Toolbar Autohide Preferences">
-<!ENTITY com.sppad.fstbh.maximizedHover.label "Autohide">
-<!ENTITY com.sppad.fstbh.maximizedHover.accesskey "H">
+<!ENTITY com.sppad.fstbh.normalAutohide.label "Autohide">
+<!ENTITY com.sppad.fstbh.normalAutohide.accesskey "H">
+<!ENTITY com.sppad.fstbh.maximizedAutohide.label "Maximized Autohide">
+<!ENTITY com.sppad.fstbh.maximizedAutohide.accesskey "H">
 <!ENTITY com.sppad.fstbh.fullscreenTabs.label "Always Show Tabs">
 <!ENTITY com.sppad.fstbh.fullscreenTabs.accesskey "S">
 <!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.label "Bookmarks Toolbar">
@@ -47,10 +49,6 @@
 <!ENTITY preference.showTabsToolbar.hoverOnly.label "Normal (autohide)">
 <!ENTITY preference.showTabsToolbar.multipleTabs.label "When multiple tabs are open">
 <!ENTITY preference.showTabsToolbar.always.label "Always">
-
-<!ENTITY preference.maximizedMode.label "Toolbar behavior when maximized">
-<!ENTITY preference.maximizedMode.hover.label "Auto-hide">
-<!ENTITY preference.maximizedMode.normal.label "Show">
 
 <!ENTITY preference.maximizedTweaks.label "Maximized Mode Tweaks">
 <!ENTITY preference.fullishScreen.label "Treat as fullscreen (recommended)">

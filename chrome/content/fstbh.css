@@ -85,14 +85,15 @@
 	display: -moz-box;
 }
 
-/* Want to appear on top of the other context menu items */
+/* Want to appear on top of the other context menu items. Can't use overlay
+ * positioning, since the items are populated when the menu is first opened */
 #toolbar-context-menu *:-moz-any(menuitem, menuseparator),
 #autohide-context *:-moz-any(menuitem, menuseparator) {
-	-moz-box-ordinal-group: 1;
+	-moz-box-ordinal-group: 1000;
 }
 
-
-#main-window:not([sizemode="maximized"]) .maximizedHoverContextItem {
+#main-window:not([sizemode="normal"]) .normalAutohideContextItem,
+#main-window:not([sizemode="maximized"]) .maximizedAutohideContextItem {
 	display: none;
 }
 

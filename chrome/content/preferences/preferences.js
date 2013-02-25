@@ -73,6 +73,9 @@ com.sppad.fstbh.PREFS = {
     showPersonalToolbar : 'never',
 
     // One of hover, normal
+    normalMode : 'normal',
+    
+    // One of hover, normal
     maximizedMode : 'normal',
     
     // Make it more like fullscreen

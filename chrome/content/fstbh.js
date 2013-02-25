@@ -64,6 +64,9 @@ com.sppad.fstbh.Main = new function() {
             case 'showPersonalToolbar':
                 this.setShowPersonalToolbar(value);
                 break;
+            case 'normalMode':
+                this.setMaximizedMode(value);
+                break;
             case 'maximizedMode':
                 this.setMaximizedMode(value);
                 break;
@@ -130,14 +133,22 @@ com.sppad.fstbh.Main = new function() {
      * true or maximized and addon's autohide preference is true.
      */
     this.updateAppliedStatus = function() {
+        let cp = com.sppad.fstbh.CurrentPrefs;
+        
         let sizemode = window.windowState;
         
-        let fullscreen = sizemode == window.STATE_FULLSCREEN;
+        let normal = sizemode == window.STATE_NORMAL;
         let maximized = sizemode == window.STATE_MAXIMIZED;
-        let applyInFullscreen = gPrefService.getBoolPref("browser.fullscreen.autohide") == true;
-        let applyInMaximized = com.sppad.fstbh.CurrentPrefs['maximizedMode'] == 'hover';
+        let fullscreen = sizemode == window.STATE_FULLSCREEN;
 
-        self.applied = (fullscreen && applyInFullscreen) || (maximized && applyInMaximized);
+        let applyInNormal = cp['normalMode'] == 'hover';
+        let applyInMaximized = cp['maximizedMode'] == 'hover';
+        let applyInFullscreen = gPrefService.getBoolPref("browser.fullscreen.autohide") == true;
+ 
+        self.applied = (normal && applyInNormal)
+                    || (maximized && applyInMaximized)
+                    || (fullscreen && applyInFullscreen);
+        
         self.applyAttribute('main-window', 'applied', self.applied);
         
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
@@ -159,6 +170,14 @@ com.sppad.fstbh.Main = new function() {
         } else {
             self.clearTheme();
         }
+        
+        /*
+         * Update View menu option so that the checkbox reflects the current
+         * state. If doing maximized instead, set it to the maximized state.
+         */
+        let vfs = cp['maximizeInsteadOfFullscreen'] ? maximized : fullscreen; 
+            
+        document.getElementById("View:FullScreen").setAttribute("checked", vfs);
     };
     
     /**
@@ -209,11 +228,11 @@ com.sppad.fstbh.Main = new function() {
      * 
      * This handles:
      * <ul>
-     * <li>Showing when hovering</li>
-     * <li>Showing when going above the top of the browser</li>
-     * <li>Showing when one of the show events triggers</li>
-     * <li>Staying open when a context menu or other popup is open</li>
-     * <li>Showing on input field (such as nav-bar or search bar) focus</li>
+     * <li>Showing when hovering
+     * <li>Showing when going above the top of the browser
+     * <li>Showing when one of the show events triggers
+     * <li>Staying open when a context menu or other popup is open
+     * <li>Showing on input field (such as nav-bar or search bar) focus
      * </ul>
      */
     this.ShowNavBoxHandler = new function() {
@@ -644,6 +663,17 @@ com.sppad.fstbh.Main = new function() {
         }
     };
     
+    this.setNormalMode = function(value) {
+        
+        let menuitem = document.getElementById('com_sppad_fstbh_tcm_normalModeContextItem');
+        if(value == 'hover')
+            menuitem.setAttribute('checked', 'true');
+        else
+            menuitem.removeAttribute('checked');
+        
+        self.updateAppliedStatus();
+        
+    };
 
     this.setMaximizedMode = function(value) {
         
@@ -673,13 +703,20 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Sets maximized mode from a context menu item.
+     * Sets normal autohide mode from a context menu item.
      */
-    this.setAlmostFullscreen = function(source) {
+    this.setNormalAutohide = function(source) {
+        let checked = source.hasAttribute('checked');
+        com.sppad.fstbh.Preferences.setPreference('normalMode', checked ? 'hover' : 'normal');
+    };
+    
+    /**
+     * Sets maximized autohide mode from a context menu item.
+     */
+    this.setMaximizedAutohide = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('maximizedMode', checked ? 'hover' : 'normal');
     };
-    
     
     /**
      * Offsets / un-offsets the browser by setting a top margin. This is done so
