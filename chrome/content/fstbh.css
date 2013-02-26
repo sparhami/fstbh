@@ -32,7 +32,7 @@
 	transition-timing-function: linear;
 	
 	/* For themes */
-	background-position: right top !important;
+	background-position: 100% 0px;
 }
 
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox {

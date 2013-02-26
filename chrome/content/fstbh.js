@@ -65,7 +65,7 @@ com.sppad.fstbh.Main = new function() {
                 this.setShowPersonalToolbar(value);
                 break;
             case 'normalMode':
-                this.setMaximizedMode(value);
+                this.setNormalMode(value);
                 break;
             case 'maximizedMode':
                 this.setMaximizedMode(value);
@@ -97,10 +97,22 @@ com.sppad.fstbh.Main = new function() {
     
     this.setupTheme = function() {
         let mainWindow = document.getElementById('main-window');
+        let titlebar = document.getElementById('titlebar');
         
         gNavToolbox.style.color = mainWindow.style.backgroundImage;
         gNavToolbox.style.backgroundColor = mainWindow.style.backgroundColor;
         gNavToolbox.style.backgroundImage = mainWindow.style.backgroundImage;
+        
+        /*
+         * For Windows - if applied while window mode is normal (not
+         * maximized/fullscreen), titlebar will have part of the persona
+         * already. Don't want to repeat the start of the persona, to shift it
+         * up to align correctly.
+         */
+        if(titlebar) {
+            let topOffset = window.windowState == window.STATE_NORMAL ? -titlebar.boxObject.height : 0;
+            gNavToolbox.style.backgroundPosition = '100% ' + topOffset + 'px';
+        }
     };
     
     
@@ -571,7 +583,7 @@ com.sppad.fstbh.Main = new function() {
             }
         };
     };
-    
+             
     /**
      * Counts the number of tabs with a title change event. Used for showing the
      * navigator toolbox in fullscreen mode when there is a pending
@@ -776,14 +788,14 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.loadPreferences = function() {
-        this.prefChanged('transitionDelay', com.sppad.fstbh.CurrentPrefs['transitionDelay']);
-        this.prefChanged('transitionProperty', com.sppad.fstbh.CurrentPrefs['transitionProperty']);
-        this.prefChanged('showWhenTitleChanged', com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged']);
-        this.prefChanged('style.browserBottomBox', com.sppad.fstbh.CurrentPrefs['style.browserBottomBox']);
-        this.prefChanged('style.topChromeBackground', com.sppad.fstbh.CurrentPrefs['style.topChromeBackground']);
-        this.prefChanged('showTabsToolbar', com.sppad.fstbh.CurrentPrefs['showTabsToolbar']);
-        this.prefChanged('showPersonalToolbar', com.sppad.fstbh.CurrentPrefs['showPersonalToolbar']);
-        this.prefChanged('maximizedMode', com.sppad.fstbh.CurrentPrefs['maximizedMode']);
+        let prefs = ['transitionDelay', 'transitionProperty',
+                     'showWhenTitleChanged', 'style.browserBottomBox',
+                     'style.topChromeBackground', 'showTabsToolbar',
+                     'showPersonalToolbar', 'normalMode', 'maximizedMode'];
+        
+        prefs.forEach(function(pref) {
+            self.prefChanged(pref, com.sppad.fstbh.CurrentPrefs[pref]);
+        });
     };
     
     this.setup = function() {
