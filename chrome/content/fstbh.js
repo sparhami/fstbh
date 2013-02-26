@@ -164,7 +164,7 @@ com.sppad.fstbh.Main = new function() {
         self.applyAttribute('main-window', 'applied', self.applied);
         
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
-        showTabsContextItem.setAttribute('disabled', !applyInMaximized);
+        showTabsContextItem.setAttribute('disabled', !self.applied);
         
         self.windowingTweaks(maximized, applyInMaximized, fullscreen, applyInFullscreen);
     
