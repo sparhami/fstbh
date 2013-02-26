@@ -233,6 +233,7 @@ com.sppad.fstbh.Main = new function() {
      * <li>Showing when one of the show events triggers
      * <li>Staying open when a context menu or other popup is open
      * <li>Showing on input field (such as nav-bar or search bar) focus
+     * <li>Showing when a menu (e.g. File menu) is opened
      * </ul>
      */
     this.ShowNavBoxHandler = new function() {
@@ -259,6 +260,8 @@ com.sppad.fstbh.Main = new function() {
             gNavToolbox.addEventListener('mouseenter', self.mouseenter, false);
             gNavToolbox.addEventListener('focus', self.checkfocus, true);
             gNavToolbox.addEventListener('blur', self.checkfocus, true);
+            gNavToolbox.addEventListener('popupshown', self.popupshown, false);
+            gNavToolbox.addEventListener('popuphidden', self.popuphidden, false);
             container.addEventListener("TabSelect", this, false);
             container.addEventListener("TabClose", this, false);
             container.addEventListener("TabOpen", this, false);
@@ -281,6 +284,8 @@ com.sppad.fstbh.Main = new function() {
             gNavToolbox.removeEventListener('mouseenter', self.mouseenter);
             gNavToolbox.removeEventListener('focus', self.checkfocus);
             gNavToolbox.removeEventListener('blur', self.checkfocus);
+            gNavToolbox.removeEventListener('popupshown', self.popupshown);
+            gNavToolbox.removeEventListener('popuphidden', self.popuphidden);
             container.removeEventListener("TabSelect", this);
             container.removeEventListener("TabClose", this);
             container.removeEventListener("TabOpen", this);
@@ -369,17 +374,12 @@ com.sppad.fstbh.Main = new function() {
             self.updateOpenedStatus();
         };
             
-        this.mouseenter = function() {
-            self.hovering = true;
-            self.updateOpenedStatus();
-        };
-     
         this.popupshown = function(aEvent) {
             let targetName = aEvent.target.localName;
             if(targetName == "tooltip" || targetName == "window")
                 return;
             
-            // Sub-popup, ignore it
+            // Sub-popup, ignore it since original is still open
             if(self.popupTarget)
                 return;
             
@@ -414,6 +414,9 @@ com.sppad.fstbh.Main = new function() {
          * </ul>
          */
         this.mouseleave = function(aEvent) {
+            if(self.hovering)
+                return;
+            
             let y = aEvent.screenY;
             let tripPoint = aEvent.target.boxObject.screenY;
             
@@ -424,10 +427,45 @@ com.sppad.fstbh.Main = new function() {
         };
         
         /**
+         * Handles mouse entering either the toggler or navigator-toolbox.
+         * <p>
+         * Checks if the y location of the mouse to see if it is above the
+         * bottom of toggler or navigator-toolbox. This is because a mouseenter
+         * event might trigger when entering a popup. For example, if showing
+         * when the bookmarks menu has been triggered via keyboard. If mousing
+         * over the menu, a mouseenter event is generated. If the menu is
+         * closed, then hovering would be still true if we did not check the y
+         * coordinate.
+         * <p>
+         * Can't check if the target is a popup, since the user can move from
+         * the popup up into the navigator-toolbox.
+         */
+        this.mouseenter = function(aEvent) {
+            if(self.hovering)
+                return;
+            
+            let toggler = document.getElementById('com_sppad_fstbh_toggler');
+            
+            let navBottom = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
+            let togglerBottom = toggler.boxObject.screenY + toggler.boxObject.height; 
+            
+            let y = aEvent.screenY;
+            let tripPoint = Math.max(navBottom, togglerBottom);
+            
+            if(y <= tripPoint) {
+                self.hovering = true;
+                self.updateOpenedStatus();
+            }
+        };
+     
+        /**
          * Checks the to see if the mouse has gone below the bottom of the
          * toolbars and remove hovering if so.
          */
         this.checkMousePosition = function(aEvent) {
+            if(!self.hovering)
+                return;
+            
             let toggler = document.getElementById('com_sppad_fstbh_toggler');
             
             let navBottom = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
@@ -442,7 +480,6 @@ com.sppad.fstbh.Main = new function() {
                 self.updateOpenedStatus();
             }
         };
-        
 
         /**
          * Either sets the toolbars opened or closed, depending on the following
