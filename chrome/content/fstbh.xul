@@ -14,11 +14,6 @@
 	<script type="application/x-javascript" src="addon.js" />
 	<script type="application/x-javascript" src="fstbh.js" />
 
-	<!-- <window id="main-window"> <commandset id="mainCommandSet"> <command id="com_sppad_fstbh_maximize" 
-		oncommand="com.sppad.fstbh.Main.toggleMaximized();" /> </commandset> <keyset id="mainKeyset"> 
-		<key id="key_fullScreen" command="com_sppad_fstbh_maximize" /> <key id="com_sppad_fstbh_key_maximized" 
-		keycode="VK_F12" command="com_sppad_fstbh_maximize" /> </keyset> </window> -->
-
 	<vbox id="browser-bottombox" bottom="0" />
 
 	<toolbox id="navigator-toolbox" top="0" />

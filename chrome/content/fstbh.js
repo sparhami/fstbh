@@ -180,20 +180,11 @@ com.sppad.fstbh.Main = new function() {
             self.clearTheme();
         }
         
-        /*
-         * Update View menu option so that the checkbox reflects the current
-         * state. If doing maximized instead, set it to the maximized state.
-         */
-        let vfs = cp['maximizeInsteadOfFullscreen'] ? maximized : fullscreen; 
-            
-        document.getElementById("View:FullScreen").setAttribute("checked", vfs);
-        
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
         if(self.applied)
             showTabsContextItem.removeAttribute('disabled');
         else
             showTabsContextItem.setAttribute('disabled', true);
-        
     };
     
     /**
