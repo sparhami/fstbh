@@ -16,22 +16,24 @@
 	height: 10px !important;
 }
 
-#com_sppad_fstbh_windowControls_min toolbarbutton {
+#com_sppad_fstbh_windowControls_min toolbarbutton,
+#com_sppad_fstbh_windowControls_restore toolbarbutton,
+#com_sppad_fstbh_windowControls_close toolbarbutton {
+	border-color: transparent;
 	-moz-appearance: none;
+}
+
+#com_sppad_fstbh_windowControls_min toolbarbutton {
 	list-style-image: url("chrome://fstbh/skin/images/minimize_icon.svg");
 }
 
 #com_sppad_fstbh_windowControls_restore toolbarbutton {
-	-moz-appearance: none;
 	list-style-image: url("chrome://fstbh/skin/images/restore_icon.svg");
 }
 
 #com_sppad_fstbh_windowControls_close toolbarbutton {
-	-moz-appearance: none;
 	list-style-image: url("chrome://fstbh/skin/images/close_icon.svg");
 }
-
-
 
 #com_sppad_fstbh_windowControls_min,
 #com_sppad_fstbh_windowControls_restore {
@@ -45,12 +47,11 @@
 
 #com_sppad_fstbh_windowControls_close {
 	background-color: rgb(30, 30, 40);
-	padding-left: 13px;
-	padding-right: 13px;
+	padding-left: 15px;
+	padding-right: 15px;
 	margin-bottom: 9px;
 	border-color: rgb(140, 140, 140);
 	border-style: solid;
-	margin-right: 4px;
 }
 
 #com_sppad_fstbh_windowControls_min {
@@ -82,6 +83,15 @@
 	background-color: rgb(200, 200, 210);
 }
 
+#com_sppad_fstbh_windowControls_min:active,
+#com_sppad_fstbh_windowControls_restore:active {
+	background-color: rgb(160, 160, 170);
+}
+
 #com_sppad_fstbh_windowControls_close:hover {
+	background-color: rgb(120, 120, 130);
+}
+
+#com_sppad_fstbh_windowControls_close:active {
 	background-color: rgb(80, 80, 90);
 }
