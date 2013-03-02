@@ -9,10 +9,14 @@
 	color: rgb(195, 195, 195) !important;
 }
 
+#com_sppad_fstbh_windowControls {
+	margin-left: 6px;
+}
+
 #com_sppad_fstbh_windowControls_min .toolbarbutton-icon,
 #com_sppad_fstbh_windowControls_restore .toolbarbutton-icon,
 #com_sppad_fstbh_windowControls_close .toolbarbutton-icon {
-	width: 10x !important;
+	width: 10px !important;
 	height: 10px !important;
 }
 

@@ -15,8 +15,8 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-#main-window[com_sppad_fstbh_fullishScreen] #com_sppad_fstbh_windowControls,
-#main-window[com_sppad_fstbh_applied="true"][sizemode="maximized"] #com_sppad_fstbh_windowControls {
+#main-window[com_sppad_fstbh_fullishScreen] #com_sppad_fstbh_windowControls:not([hidden="true"]),
+#main-window[com_sppad_fstbh_applied="true"][sizemode="maximized"] #com_sppad_fstbh_windowControls:not([hidden="true"]) {
 	display: -moz-box !important;
 }
 

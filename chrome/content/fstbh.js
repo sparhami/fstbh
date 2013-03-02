@@ -205,6 +205,7 @@ com.sppad.fstbh.Main = new function() {
         let cp = com.sppad.fstbh.CurrentPrefs;
         
         // let controls = document.getElementById('window-controls');
+        let titlebar = document.getElementById('titlebar');
         let mainWindow = document.getElementById('main-window');
         let tabViewDeck = document.getElementById('tab-view-deck');
     
@@ -226,6 +227,18 @@ com.sppad.fstbh.Main = new function() {
                 gNavToolbox.removeAttribute('inFullscreen');
                 tabViewDeck.style.paddingTop = '';
             }
+        }
+
+        /*
+         * For Windows / PersonalTitlebar - don't show window control buttons if
+         * tabs are not in the titlebar, since Windows draws its down.
+         */
+        if(maximized && applyInMaximized && titlebar) {
+            let mb = titlebar.style.marginBottom;
+            let separatedTitlebar = mb == '' || (mb && mb.startsWith('0'));
+            
+            let controls = document.getElementById('com_sppad_fstbh_windowControls');
+            controls.setAttribute('hidden', separatedTitlebar);
         }
     };
     
