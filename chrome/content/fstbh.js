@@ -108,10 +108,20 @@ com.sppad.fstbh.Main = new function() {
          * maximized/fullscreen), titlebar will have part of the persona
          * already. Don't want to repeat the start of the persona, to shift it
          * up to align correctly.
+         * 
+         * For PersonalTitlebar - don't show window controls when not tabs in
+         * title bar by setting separatedTitlebar attribute.
          */
         if(titlebar) {
-            let topOffset = window.windowState == window.STATE_NORMAL ? -titlebar.boxObject.height : 0;
+            let marginBottom = titlebar.style.marginBottom;
+            let separatedTitlebar = (marginBottom == '') 
+                || (marginBottom && marginBottom.startsWith('0'))
+                || (window.windowState === window.STATE_NORMAL);
+            
+            let topOffset = separatedTitlebar ? -gNavToolbox.boxObject.y : 0;
             gNavToolbox.style.backgroundPosition = '100% ' + topOffset + 'px';
+            
+            self.applyAttribute('main-window', 'separatedTitlebar', separatedTitlebar);
         }
     };
     
@@ -205,7 +215,6 @@ com.sppad.fstbh.Main = new function() {
         let cp = com.sppad.fstbh.CurrentPrefs;
         
         // let controls = document.getElementById('window-controls');
-        let titlebar = document.getElementById('titlebar');
         let mainWindow = document.getElementById('main-window');
         let tabViewDeck = document.getElementById('tab-view-deck');
     
@@ -227,18 +236,6 @@ com.sppad.fstbh.Main = new function() {
                 gNavToolbox.removeAttribute('inFullscreen');
                 tabViewDeck.style.paddingTop = '';
             }
-        }
-
-        /*
-         * For Windows / PersonalTitlebar - don't show window control buttons if
-         * tabs are not in the titlebar, since Windows draws its down.
-         */
-        if(maximized && applyInMaximized && titlebar) {
-            let mb = titlebar.style.marginBottom;
-            let separatedTitlebar = mb == '' || (mb && mb.startsWith('0'));
-            
-            let controls = document.getElementById('com_sppad_fstbh_windowControls');
-            controls.setAttribute('hidden', separatedTitlebar);
         }
     };
     
