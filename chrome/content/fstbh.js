@@ -214,24 +214,20 @@ com.sppad.fstbh.Main = new function() {
     this.windowingTweaks = function(maximized, applyInMaximized, fullscreen, applyInFullscreen) {
         let cp = com.sppad.fstbh.CurrentPrefs;
         
-        // let controls = document.getElementById('window-controls');
         let mainWindow = document.getElementById('main-window');
         let tabViewDeck = document.getElementById('tab-view-deck');
     
         if(maximized && applyInMaximized && cp['fullishScreen']) {
             mainWindow.setAttribute('com_sppad_fstbh_fullishScreen', 'true');
-            document.getElementById('toolbar-menubar').setAttribute('com_sppad_fstbh_collapsed', 'true');
  
-            // controls.removeAttribute('hidden');
             mainWindow.setAttribute('inFullscreen', 'true');
             gNavToolbox.setAttribute('inFullscreen', 'true');
             tabViewDeck.style.paddingTop = -(mainWindow.boxObject.screenY) + "px";
         } else {
             mainWindow.removeAttribute('com_sppad_fstbh_fullishScreen');   
-            document.getElementById('toolbar-menubar').removeAttribute('com_sppad_fstbh_collapsed');
+            tabViewDeck.style.paddingTop = "";
             
             if(!fullscreen) {
-                // controls.setAttribute('hidden', 'true');
                 mainWindow.removeAttribute('inFullscreen');
                 gNavToolbox.removeAttribute('inFullscreen');
                 tabViewDeck.style.paddingTop = '';

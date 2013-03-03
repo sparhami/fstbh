@@ -6,7 +6,12 @@
 	display: -moz-stack;
 }
 
-/* Rules for showing when applied */
+
+
+/*
+ * Rules for when applied, causing navigator toolbox to show, etc.
+ */
+
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="any"][com_sppad_fstbh_titlechange="true"],
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="pinned"][com_sppad_fstbh_pinnedTitlechange="true"],
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_toggle] {
@@ -20,38 +25,23 @@
 	height: 1px;
 }
 
-/* Cancel out javascript set styles while not applied */
-#main-window:not([com_sppad_fstbh_applied="true"]) #browser,
-#main-window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
-	margin-top: 0 !important;
-	height: auto !important;
-}
-
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
 	/* Transition property, duration and delay set from javascript */
 	transition-timing-function: linear;
 	
-	/* For themes */
+	/* For themes. Can be set from JavaScript if height needs to be offset */
 	background-position: 100% 0px;
-}
-
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
-	/* So that we display on top of #browser, even though it the next sibling */
-	-moz-box-ordinal-group: 1000;
 	
 	/* For no transition style, since hiding is done with height */
 	overflow: hidden;
-}
-
-/* Default, hide anything not used since we are -moz-stack and it will prevent mouse events */
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel > :not(:-moz-any(#browser, #navigator-toolbox, #browser-bottombox, #com_sppad_fstbh_toggler)) {
-	display: none;
 }
 
 #main-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"],
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"] {	
 	/* It looks odd if the slide in animation plays due to the margin-top offset on #browser */
 	transition-property: none;
+	
+	/* Don't hide so that tabs can stay showing */
 	margin-top: 0px !important;
 	height: auto !important;
 }
@@ -68,16 +58,44 @@
 	overflow: hidden;
 }
 
-#main-window:not([com_sppad_fstbh_applied="true"]) #tab-view-deck  {
-	padding-top: 0 !important;
+
+
+/*
+ * Rules for when not applied, cancel out styles from JavaScript
+ */
+
+#main-window:not([com_sppad_fstbh_applied="true"]) #browser,
+#main-window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
+	margin-top: 0 !important;
+	height: auto !important;
 }
 
-/* Want Firefox's version to take effect when not in fullscreen */
-#main-window[inFullscreen] #navigator-toolbox[com_sppad_fstbh_showPersonalToolbar="hover"] #PersonalToolbar {
-	visibility: visible !important;
-	display: -moz-box;
+
+/*
+ * #browser-panel child stacking order
+ */
+ 
+/* Send everything to the back of the stack, things that are needed will be moved forward */
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel > * {
+	-moz-box-ordinal-group: 0;
 }
 
+/* Browser should be behind everything else, regardless of element ordering */
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel > #browser {
+	-moz-box-ordinal-group: 1;
+}
+
+/* Everything else should be on top of #browser */
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel > :-moz-any(#navigator-toolbox, #browser-bottombox, #com_sppad_fstbh_toggler) {
+	-moz-box-ordinal-group: 1000;
+}
+
+
+
+/*
+ * Context menu items
+ */
+ 
 /* Want to appear on top of the other context menu items. Can't use overlay
  * positioning, since the items are populated when the menu is first opened */
 #toolbar-context-menu *:-moz-any(menuitem, menuseparator),
@@ -85,6 +103,7 @@
 	-moz-box-ordinal-group: 1000;
 }
 
+/* Hide context menu items when not appropriate */
 #main-window:not([sizemode="normal"]) .normalAutohideContextItem,
 #main-window:not([sizemode="maximized"]) .maximizedAutohideContextItem {
 	display: none;
@@ -97,16 +116,22 @@
 	display: none;
 }
 
+
+
 /*
-#main-window[com_sppad_fstbh_fullishScreen] .titlebar-placeholder[type="caption-buttons"] {
-	display: -moz-box !important;
+ * Misc
+ */
+
+/* When inFullscreen and showPersonalToolbar is set, allow #PersonalToolbar to be shown */
+#main-window[inFullscreen] #navigator-toolbox[com_sppad_fstbh_showPersonalToolbar="hover"] #PersonalToolbar {
+	visibility: visible !important;
+	display: -moz-box;
 }
-*/
 
 #com_sppad_fstbh_windowControls {
 	display: none;
 }
 
-#toolbar-menubar[com_sppad_fstbh_collapsed] {
+#main-window[com_sppad_fstbh_fullishScreen] #toolbar-menubar {
 	display: none !important;
 }
