@@ -73,13 +73,13 @@ com.sppad.fstbh.Identity = new function() {
             return;
         
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
-
+        
         self.tripX = sslBox.boxObject.screenX + sslBox.boxObject.width + IDENTITY_BOX_SHOW_PADDING_RIGHT;
         self.tripY = sslBox.boxObject.screenY + sslBox.boxObject.height + IDENTITY_BOX_SHOW_PADDING_BOTTOM;
         
         window.addEventListener('mousemove', self.mousemove, false);
         sslBox.setAttribute('hiding', true);
-        sslBox.style.marginLeft = -sslBox.boxObject.width + 'px';
+        sslBox.style.marginTop = sslBox.boxObject.y- sslBox.boxObject.height + 'px';
         self.entered = true;
     };
     
@@ -91,7 +91,8 @@ com.sppad.fstbh.Identity = new function() {
         
         window.removeEventListener('mousemove', self.mousemove);
         sslBox.removeAttribute('hiding');
-        sslBox.style.marginLeft = '';
+        // reset top margin, can't set directly due to alwaysShowTabs preference
+        com.sppad.fstbh.Main.offsetBrowser();
         self.entered = false;
     };
 }

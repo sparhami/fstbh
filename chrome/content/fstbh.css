@@ -70,7 +70,7 @@
 	height: auto !important;
 }
 
-#main-window:not([com_sppad_fstbh_applied="true"]) #com_sppad_fstbh_ssl_info {
+#main-window:not([com_sppad_fstbh_applied="true"]) #com_sppad_fstbh_ssl_info_boundry {
 	display: none;
 }
 

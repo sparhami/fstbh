@@ -1,3 +1,7 @@
+#main-window[com_sppad_fstbh_applied="true"] #titlebar:not([com_sppad_fstbh_toggle]) {
+	
+}
+
 #main-window[com_sppad_fstbh_applied="true"] #browser-panel[com_sppad_fstbh_tabCount="1"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="multipleTabs"],
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="hoverOnly"] {
   background-color: rgba(0, 0, 0, 0.4);

@@ -3,13 +3,13 @@
 	padding-bottom: 60px;
 	padding-right: 80px;
 	
-	transition-property: margin-left;
-	transition-duration: 0.3s;
+	transition-property: margin-top;
+	transition-duration: 0.2s;
 	transition-timing-function: ease-in;
 }
 
 #com_sppad_fstbh_ssl_info_boundry([hiding]) {
-	transition-duration: 0.2s;
+	transition-duration: 0.1s;
 	transition-timing-function: ease-out;
 }
 
