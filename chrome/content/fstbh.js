@@ -269,7 +269,9 @@ com.sppad.fstbh.Main = new function() {
             
             document.addEventListener("keypress", self.keyevent, false);
             gBrowser.addEventListener('mouseleave', self.mouseleave, false);
+            toggler.addEventListener('dragenter', self.mouseenter, false);
             toggler.addEventListener('mouseenter', self.mouseenter, false);
+            gNavToolbox.addEventListener('dragenter', self.mouseenter, false);
             gNavToolbox.addEventListener('mouseenter', self.mouseenter, false);
             gNavToolbox.addEventListener('focus', self.checkfocus, true);
             gNavToolbox.addEventListener('blur', self.checkfocus, true);
@@ -293,7 +295,9 @@ com.sppad.fstbh.Main = new function() {
             
             document.removeEventListener("keypress", self.keyevent);
             gBrowser.removeEventListener('mouseleave', self.mouseleave);
+            toggler.removeEventListener('dragenter', self.mouseenter);
             toggler.removeEventListener('mouseenter', self.mouseenter);
+            gNavToolbox.removeEventListener('dragenter', self.mouseenter);
             gNavToolbox.removeEventListener('mouseenter', self.mouseenter);
             gNavToolbox.removeEventListener('focus', self.checkfocus);
             gNavToolbox.removeEventListener('blur', self.checkfocus);
@@ -523,11 +527,10 @@ com.sppad.fstbh.Main = new function() {
             
             self.opened = true;
             
-            let mainWindow = document.getElementById('main-window');
-            
             gNavToolbox.setAttribute('com_sppad_fstbh_toggle', 'true');
             
-            mainWindow.addEventListener('mousemove', self.checkMousePosition, false);
+            window.addEventListener('dragover', self.checkMousePosition, false);
+            window.addEventListener('mousemove', self.checkMousePosition, false);
             document.addEventListener('popupshown', self.popupshown, false);
             document.addEventListener('popuphidden', self.popuphidden, false);
             
@@ -548,11 +551,10 @@ com.sppad.fstbh.Main = new function() {
             
             self.opened = false;
             
-            let mainWindow = document.getElementById('main-window');
-            
             gNavToolbox.removeAttribute('com_sppad_fstbh_toggle');
             
-            mainWindow.removeEventListener('mousemove', self.checkMousePosition);
+            window.removeEventListener('dragover', self.checkMousePosition);
+            window.removeEventListener('mousemove', self.checkMousePosition);
             document.removeEventListener('popupshown', self.popupshown);
             document.removeEventListener('popuphidden', self.popuphidden);
             
