@@ -108,7 +108,7 @@ com.sppad.fstbh.Identity = new function() {
       
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
         
-        window.removeEventListener('mousemove', self.mousemove);
+        window.removeEventListener('mousemove', self.checkMousePosition);
         sslBox.removeAttribute('hiding');
         self.entered = false;
     };
