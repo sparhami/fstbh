@@ -266,6 +266,7 @@ com.sppad.fstbh.Main = new function() {
         this.setup = function() {
             let container = window.gBrowser.tabContainer;
             let toggler = document.getElementById('com_sppad_fstbh_toggler');
+            let toolbarMenubar = document.getElementById('toolbar-menubar');
             
             document.addEventListener("keypress", self.keyevent, false);
             gBrowser.addEventListener('mouseleave', self.mouseleave, false);
@@ -280,7 +281,10 @@ com.sppad.fstbh.Main = new function() {
             container.addEventListener("TabSelect", this, false);
             container.addEventListener("TabClose", this, false);
             container.addEventListener("TabOpen", this, false);
+            
             gBrowser.addProgressListener(this);
+            let config = { attributes: true, childList: true, characterData: true };
+            self.menuObserver.observe(toolbarMenubar, config);
             
             self.hovering = false;
             self.popupTarget = null;
@@ -306,7 +310,9 @@ com.sppad.fstbh.Main = new function() {
             container.removeEventListener("TabSelect", this);
             container.removeEventListener("TabClose", this);
             container.removeEventListener("TabOpen", this);
+            
             gBrowser.removeProgressListener(this);
+            self.menuObserver.disconnect();
             
             self.hovering = false;
             self.popupTarget = null;
@@ -355,6 +361,12 @@ com.sppad.fstbh.Main = new function() {
         this.onStatusChange = function() {};
         this.onSecurityChange = function() {};
         // end nsIWebProgressListener
+        
+        this.menuObserver = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                dump("mutation.type " + mutation.type + "\n");
+            });   
+        });
         
         /**
          * Causes the toolbars to show to due to a show event briefly before
