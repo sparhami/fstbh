@@ -88,8 +88,13 @@
 	-moz-box-ordinal-group: 2;
 }
 
+/* Toggler goes behind the navigator-toolbox */
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel > #com_sppad_fstbh_toggler {
+	-moz-box-ordinal-group: 999;
+}
+
 /* Everything else should be on top of #browser */
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel > :-moz-any(#navigator-toolbox, #browser-bottombox, #com_sppad_fstbh_toggler) {
+#main-window[com_sppad_fstbh_applied="true"] #browser-panel > :-moz-any(#navigator-toolbox, #browser-bottombox) {
 	-moz-box-ordinal-group: 1000;
 }
 
