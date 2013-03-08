@@ -12,6 +12,10 @@ com.sppad.fstbh.Config = new function() {
         self.transitionPropertyChange();
     };
     
+    /**
+     * Disables the transition timing items if the user selects no transition
+     * animation.
+     */
     this.transitionPropertyChange = function() {
         let timingDisabled = document.getElementById('transitionDisabled').selected;
         

@@ -11,10 +11,10 @@ com.sppad.fstbh = com.sppad.fstbh || {};
  */
 com.sppad.fstbh.Identity = new function() {
     
-    /** Additional right padding, beyond hiding start point before showing */
+    /** Additional right padding, beyond hiding start point before showing again */
     const IDENTITY_BOX_SHOW_PADDING_RIGHT = 25;
     
-    /** Additional bottom padding, beyond hiding start point before showing */
+    /** Additional bottom padding, beyond hiding start point before showing again */
     const IDENTITY_BOX_SHOW_PADDING_BOTTOM = 25;
     
     let self = this;
@@ -83,7 +83,7 @@ com.sppad.fstbh.Identity = new function() {
     };
     
     /**
-     * Mouse has entered the boundry for the identity box, so hide the box.
+     * Hides the identity box when the mouse has entered the boundry area.
      */
     self.mouseenter = function(aEvent) {
         if(self.entered)
@@ -100,7 +100,7 @@ com.sppad.fstbh.Identity = new function() {
     };
     
     /**
-     * Check if the mouse has moved out of the identity box area.
+     * Checks to see if the mouse has moved out of the boundry + padding area.
      */
     self.checkMousePosition = function(aEvent) {
         if(aEvent.screenX < self.tripX && aEvent.screenY < self.tripY)

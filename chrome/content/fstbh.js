@@ -129,7 +129,6 @@ com.sppad.fstbh.Main = new function() {
         }
     };
     
-    
     this.clearTheme = function() {
         gNavToolbox.style.color = '';
         gNavToolbox.style.backgroundColor = '';
@@ -154,9 +153,6 @@ com.sppad.fstbh.Main = new function() {
     /**
      * Updates the applied status, checking if the add-on should be applied or
      * not. Sets everything up for autohide behavior to take effect.
-     * <p>
-     * Applies either when in fullscreen and browser's autohide preference is
-     * true or maximized and addon's autohide preference is true.
      */
     this.updateAppliedStatus = function() {
         let cp = com.sppad.fstbh.CurrentPrefs;
@@ -209,7 +205,7 @@ com.sppad.fstbh.Main = new function() {
      * use sizemode, but that really isn't our problem.
      * <p>
      * XXX - Wait until there is a way to fix the titlebar controls. Currently,
-     * just paint some icons to take the same space as the ones Windows creates.
+     * just add some buttons to take the same space as the ones Windows creates.
      * Would like to use the fullscreen controls from Firefox, but Windows
      * directly draws the buttons and we can't do anything with that space.
      * <p>
@@ -248,9 +244,8 @@ com.sppad.fstbh.Main = new function() {
      * <li>Showing when hovering
      * <li>Showing when going above the top of the browser
      * <li>Showing when one of the show events triggers
-     * <li>Staying open when a context menu or other popup is open
+     * <li>Showing / staying open when a menu is open
      * <li>Showing on input field (such as nav-bar or search bar) focus
-     * <li>Showing when a menu (e.g. File menu) is opened
      * <li>Showing when the menu bar is activated via keyboard
      * </ul>
      * 
@@ -263,39 +258,56 @@ com.sppad.fstbh.Main = new function() {
             
         let self = this;   
         self.opened = false;
+        
+        // Used for determining whether to show are not
         self.hovering = false;
         self.focused = false;
         self.menuActive = false;
         self.popupTarget = null;
         self.showEventActive = false;
+        
         self.showEventDelayTimer = null;
         self.eventTime = 0;
         
-        /* How long to ignore a tab select for after a open or close */
+        /** How long to ignore a tab select for after a open or close */
         self.ignoreSelectDelta = 100;
         
         this.setup = function() {
-            let container = window.gBrowser.tabContainer;
+            let tabContainer = window.gBrowser.tabContainer;
             let toggler = document.getElementById('com_sppad_fstbh_toggler');
             let toolbarMenubar = document.getElementById('toolbar-menubar');
             let mainWindow = document.getElementById('main-window');
             
+            // Used for hiding when focused and escape is used
             document.addEventListener("keypress", self.keyevent, false);
+            
+            // Tracking mouse going out the top
             gBrowser.addEventListener('mouseleave', self.mouseleave, false);
             mainWindow.addEventListener('mouseleave', self.mouseleave, false);
+            
+            // For showing when mousing or dragging
             toggler.addEventListener('dragenter', self.mouseenter, false);
             toggler.addEventListener('mouseenter', self.mouseenter, false);
             gNavToolbox.addEventListener('dragenter', self.mouseenter, false);
             gNavToolbox.addEventListener('mouseenter', self.mouseenter, false);
+            
+            // For showing on input field focus
             gNavToolbox.addEventListener('focus', self.checkfocus, true);
             gNavToolbox.addEventListener('blur', self.checkfocus, true);
+            
+            // For staying showing when a menu is open
             gNavToolbox.addEventListener('popupshown', self.popupshown, false);
             gNavToolbox.addEventListener('popuphidden', self.popuphidden, false);
-            container.addEventListener("TabSelect", this, false);
-            container.addEventListener("TabClose", this, false);
-            container.addEventListener("TabOpen", this, false);
             
+            // For show event preferences
+            tabContainer.addEventListener("TabSelect", this, false);
+            tabContainer.addEventListener("TabClose", this, false);
+            tabContainer.addEventListener("TabOpen", this, false);
+            
+            // For URL change show event and updating SSL identity box
             gBrowser.addProgressListener(this);
+            
+            // For showing when toolbar-menubar is toggled
             self.menubarObserver.observe(toolbarMenubar, { attributes: true });
             
             self.hovering = false;
@@ -306,26 +318,40 @@ com.sppad.fstbh.Main = new function() {
         };
         
         this.cleanup = function() {
-            let container = window.gBrowser.tabContainer;
+            let tabContainer = window.gBrowser.tabContainer;
             let toggler = document.getElementById('com_sppad_fstbh_toggler');
             let mainWindow = document.getElementById('main-window');
             
+            // Used for hiding when focused and escape is used
             document.removeEventListener("keypress", self.keyevent);
+            
+            // Tracking mouse going out the top
             gBrowser.removeEventListener('mouseleave', self.mouseleave);
             mainWindow.removeEventListener('mouseleave', self.mouseleave);
+            
+            // For showing when mousing or dragging
             toggler.removeEventListener('dragenter', self.mouseenter);
             toggler.removeEventListener('mouseenter', self.mouseenter);
             gNavToolbox.removeEventListener('dragenter', self.mouseenter);
             gNavToolbox.removeEventListener('mouseenter', self.mouseenter);
+            
+            // For showing on input field focus
             gNavToolbox.removeEventListener('focus', self.checkfocus);
             gNavToolbox.removeEventListener('blur', self.checkfocus);
+            
+            // For staying showing when a menu is open
             gNavToolbox.removeEventListener('popupshown', self.popupshown);
             gNavToolbox.removeEventListener('popuphidden', self.popuphidden);
-            container.removeEventListener("TabSelect", this);
-            container.removeEventListener("TabClose", this);
-            container.removeEventListener("TabOpen", this);
             
+            // For show event preferences
+            tabContainer.removeEventListener("TabSelect", this);
+            tabContainer.removeEventListener("TabClose", this);
+            tabContainer.removeEventListener("TabOpen", this);
+            
+            // For URL change show event and updating SSL identity box
             gBrowser.removeProgressListener(this);
+            
+            // For showing when toolbar-menubar is toggled
             self.menubarObserver.disconnect();
             
             self.hovering = false;
@@ -354,7 +380,8 @@ com.sppad.fstbh.Main = new function() {
                     break;
             }
             
-            trigger && self.triggerShowEvent();
+            if(trigger)
+                self.triggerShowEvent();
         };
         
         // nsIWebProgressListener
@@ -375,7 +402,8 @@ com.sppad.fstbh.Main = new function() {
         this.onStatusChange = function() {};
         
         /**
-         * Listen for security change to update identity box.
+         * Listen for security change to update identity box with new SSL
+         * certificate information.
          */
         this.onSecurityChange = function(aWebProgress, aRequest, aState) {
             com.sppad.fstbh.Identity.updateState(aState);
@@ -385,7 +413,7 @@ com.sppad.fstbh.Main = new function() {
         
         /**
          * Observe attribute changes on toolbar-menubar for showing when the
-         * menubar is active, such as when using alt or F10.
+         * menubar is active, such as when using alt (Windows) or F10.
          */
         this.menubarObserver = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
@@ -412,8 +440,8 @@ com.sppad.fstbh.Main = new function() {
         };
         
         /**
-         * Handle escape: clear the focused item if we are focused so that we
-         * can hide.
+         * Handle escape: clear the focused item, if something is focused, so
+         * that the toolbars can hide.
          */
         this.keyevent = function(aEvent) {
             if(self.focused && (aEvent.keyCode == aEvent.DOM_VK_ESCAPE))
@@ -421,8 +449,8 @@ com.sppad.fstbh.Main = new function() {
         };
         
         /**
-         * Checks if an item is focused so that we can know if we should display
-         * or not on that basis.
+         * Checks if an input field is focused so that we can know if we should
+         * display or not on that basis.
          */
         this.checkfocus = function(aEvent) {
             let fe = document.commandDispatcher.focusedElement;
@@ -459,16 +487,9 @@ com.sppad.fstbh.Main = new function() {
         
         /**
          * Tracks if the mouse goes out of the top of the browser or main-window
-         * and sets the toolbars open if it does.
-         * <p>
-         * This serves two purposes:
-         * <ul>
-         * <li> Opening up if the mouse moves too quickly out the top in
-         * maximized mode for a mouseenter event to occur
-         * <li> Opening up under Windows when show tabs is set in maximized mode
-         * and mousing over an empty part of the toolbar. For some reason, no
-         * mouse events are generated on that part of the toolbar.
-         * </ul>
+         * and sets the toolbars open if it does. Used to handle the mouse being
+         * moved too quickly out the top in order to trigger a mouse enter on
+         * the toggler.
          */
         this.mouseleave = function(aEvent) {
             if(self.hovering)
@@ -494,8 +515,9 @@ com.sppad.fstbh.Main = new function() {
          * closed, then hovering would be still true if we did not check the y
          * coordinate.
          * <p>
-         * Can't check if the target is a popup, since the user can move from
-         * the popup up into the navigator-toolbox.
+         * Can't simply check if the target is a popup, since the user can move
+         * from the popup up into the navigator-toolbox without any additional
+         * events generated.
          */
         this.mouseenter = function(aEvent) {
             if(self.hovering)
@@ -547,6 +569,8 @@ com.sppad.fstbh.Main = new function() {
          * <li> self.focused - Something (e.g. input field) is focused
          * <li> self.popupTarget - A popup (e.g. menu) is opened
          * <li> self.showEventActive - A show event occured (e.g. switched tabs)
+         * <li> self.menuActive - The menubar has been toggled (e.g. via F10 or
+         * alt)
          * </ul>
          */
         this.updateOpenedStatus = function() {
@@ -558,8 +582,8 @@ com.sppad.fstbh.Main = new function() {
         
         /**
          * Causes the navigator toolbox to show by setting the toggle attribute.
-         * Also sets up listeners to stay open on context menu to stay open and
-         * mouse move for eventually closing.
+         * Also sets up listeners to stay open when menus are open and mouse
+         * move for eventually closing.
          */
         this.setOpened = function() {
             if(self.opened)
@@ -581,10 +605,10 @@ com.sppad.fstbh.Main = new function() {
         
         /**
          * Causes the navigator toolbox to close by removing the toggle
-         * attribute. Can still be showing if the inputFocused attribute is set
-         * though.
+         * attribute.
          * 
-         * Also re-calculates the top offset in case the size has changed.
+         * Also re-calculates the top offset in case the size of gNavToolbox has
+         * changed.
          */
         this.setClosed = function() {
             if(!self.opened)
@@ -646,12 +670,12 @@ com.sppad.fstbh.Main = new function() {
         // Delay so that tab attributes will have been set. Also prevents us
         // from evaluating the state too often.
         self.evaluateTimer = window.setTimeout(function() {
-            let container = gBrowser.tabContainer;
+            let tabContainer = gBrowser.tabContainer;
             let titleChangedCount = 0;
             let pinnedTitleChangedCount = 0;
             
-            for(let i = 0; i < container.itemCount; i++) {
-                let tab = container.getItemAtIndex(i);
+            for(let i = 0; i < tabContainer.itemCount; i++) {
+                let tab = tabContainer.getItemAtIndex(i);
                 let pinned = tab.hasAttribute('pinned');
                 let titlechanged = tab.hasAttribute('titlechanged');
                 
@@ -666,6 +690,13 @@ com.sppad.fstbh.Main = new function() {
         }, 200);
     };
     
+    /**
+     * Updates based on the number of tabs open. Sets the attribute to keep tabs
+     * toolbar showing.
+     * 
+     * @param offset
+     *            If called while a tab is closing, do not count that tab.
+     */
     this.updateTabCount = function(offset) {
         self.tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
         
@@ -851,14 +882,14 @@ com.sppad.fstbh.Main = new function() {
     this.setup = function() {
         com.sppad.fstbh.Preferences.addListener(this);
         
-        let container = window.gBrowser.tabContainer;
+        let tabContainer = window.gBrowser.tabContainer;
         
-        container.addEventListener("TabSelect", this, false);
-        container.addEventListener("TabClose", this, false);
-        container.addEventListener("TabOpen", this, false);
-        container.addEventListener("TabAttrModified", this, false);
-        container.addEventListener("TabPinned", this, false);
-        container.addEventListener("TabUnpinned", this, false);
+        tabContainer.addEventListener("TabSelect", this, false);
+        tabContainer.addEventListener("TabClose", this, false);
+        tabContainer.addEventListener("TabOpen", this, false);
+        tabContainer.addEventListener("TabAttrModified", this, false);
+        tabContainer.addEventListener("TabPinned", this, false);
+        tabContainer.addEventListener("TabUnpinned", this, false);
         
         gPrefService.addObserver("browser.fullscreen", this, false);
         
@@ -876,13 +907,13 @@ com.sppad.fstbh.Main = new function() {
             .getService(Components.interfaces.nsIObserverService)
             .removeObserver(this, "lightweight-theme-styling-update");
 
-        let container = window.gBrowser.tabContainer;
-        container.removeEventListener("TabSelect", this);
-        container.removeEventListener("TabClose", this);
-        container.removeEventListener("TabOpen", this);
-        container.removeEventListener("TabAttrModified", this);
-        container.removeEventListener("TabPinned", this);
-        container.removeEventListener("TabUnpinned", this);
+        let tabContainer = window.gBrowser.tabContainer;
+        tabContainer.removeEventListener("TabSelect", this);
+        tabContainer.removeEventListener("TabClose", this);
+        tabContainer.removeEventListener("TabOpen", this);
+        tabContainer.removeEventListener("TabAttrModified", this);
+        tabContainer.removeEventListener("TabPinned", this);
+        tabContainer.removeEventListener("TabUnpinned", this);
         
         gPrefService.removeObserver("browser.fullscreen", this);
         
