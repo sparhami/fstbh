@@ -2,15 +2,21 @@
 #com_sppad_fstbh_ssl_info_boundry {
 	padding-bottom: 60px;
 	padding-right: 80px;
-	
-	transition-property: margin-top;
-	transition-duration: 0.2s;
-	transition-timing-function: ease-in;
 }
 
-#com_sppad_fstbh_ssl_info_boundry([hiding]) {
-	transition-duration: 0.1s;
+/** Boundry box doesn't move, so disable pointer events so user can click stuff */
+#com_sppad_fstbh_ssl_info_boundry[hiding] {
+	pointer-events: none;
+}
+
+#com_sppad_fstbh_ssl_info {
+	transition-property: margin-top;
+	transition-duration: 0.1625s;
 	transition-timing-function: ease-out;
+}
+
+#com_sppad_fstbh_ssl_info_boundry[hiding] #com_sppad_fstbh_ssl_info {
+	transition-timing-function: ease-in;
 }
 
 #com_sppad_fstbh_ssl_info {
@@ -39,6 +45,8 @@
 #com_sppad_fstbh_ssl_info_icon {
 	width: 16px;
 	height: 16px;
+	max-width: 16px;
+	max-height: 16px;
 
 	-moz-image-region: rect(0px, 16px, 16px, 0px);
 	list-style-image: url(chrome://browser/skin/identity-icons-generic.png);
@@ -60,6 +68,7 @@
 	visibility: collapse;
 }
 
-#com_sppad_fstbh_ssl_info_icon {
-	margin-right: 4px;
+#com_sppad_fstbh_ssl_info_separator {
+	padding: 0;
+	margin: 0;
 }

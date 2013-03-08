@@ -249,6 +249,11 @@ com.sppad.fstbh.Main = new function() {
      * <li>Showing when a menu (e.g. File menu) is opened
      * <li>Showing when the menu bar is activated via keyboard
      * </ul>
+     * 
+     * This also handles:
+     * <ul>
+     * <li>Letting the identity box know when to update the site information.
+     * </ul>
      */
     this.ShowNavBoxHandler = new function() {
             

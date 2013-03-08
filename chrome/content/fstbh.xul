@@ -21,14 +21,14 @@
 
 	<vbox id="browser-panel">
 		<hbox id="com_sppad_fstbh_toggler" top="0" />
-		<hbox id="com_sppad_fstbh_ssl_info_boundry" top="0" left="0" align="center">
-			<hbox id="com_sppad_fstbh_ssl_info">
+		<vbox id="com_sppad_fstbh_ssl_info_boundry" top="0" left="0" >
+			<hbox id="com_sppad_fstbh_ssl_info" align="center">
 				<image id="com_sppad_fstbh_ssl_info_icon" />
 				<label id="com_sppad_fstbh_ssl_info_ca" />
-				<label value="-" />
+				<label id="com_sppad_fstbh_ssl_info_separator" value="•" />
 				<label id="com_sppad_fstbh_ssl_info_domain" />
 			</hbox>
-		</hbox>
+		</vbox>
 	</vbox>
 
 	<toolbar id="TabsToolbar">
