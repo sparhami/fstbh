@@ -81,6 +81,9 @@ com.sppad.fstbh.PREFS = {
     // Make it more like fullscreen
     fullishScreen : false,
 
+    // Show box iwth cert org and domain when hiding toolbars
+    showIdentityBox: true,
+    
     // The saved value of the animateUp browser preference, for restoring later
     animateUp_saved : -1,
 };

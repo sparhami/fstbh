@@ -58,6 +58,9 @@ com.sppad.fstbh.Main = new function() {
             case 'style.topChromeBackground':
                 this.applyAttribute('navigator-toolbox', 'backgroundStyle', value);
                 break;
+            case 'showIdentityBox':
+                document.getElementById('com_sppad_fstbh_ssl_info_boundry').setAttribute('hidden', !value);
+                break;
             case 'showTabsToolbar':
                 this.setShowTabsToolbar(value);
                 break;
@@ -833,7 +836,8 @@ com.sppad.fstbh.Main = new function() {
         let prefs = ['transitionDelay', 'transitionProperty',
                      'showWhenTitleChanged', 'style.browserBottomBox',
                      'style.topChromeBackground', 'showTabsToolbar',
-                     'showPersonalToolbar', 'normalMode', 'maximizedMode'];
+                     'showPersonalToolbar', 'normalMode', 'maximizedMode',
+                     'showIdentityBox' ];
         
         prefs.forEach(function(pref) {
             self.prefChanged(pref, com.sppad.fstbh.CurrentPrefs[pref]);
@@ -883,6 +887,8 @@ com.sppad.fstbh.Main = new function() {
 
 };
 
+com.sppad.fstbh.sizemodeTimer = null;
+
 window.addEventListener("load", function() {
     com.sppad.fstbh.Main.setup();
 }, false);
@@ -893,7 +899,6 @@ window.addEventListener("unload", function() {
 }, false);
 
 window.addEventListener("sizemodechange", function () {
-    
     // Need to let browser apply all changes first so it can correctly calculate
     // the bottom margin on the titlebar under Windows
     window.clearTimeout(com.sppad.fstbh.sizemodeTimer);

@@ -28,6 +28,8 @@
 				type="string" />
 			<preference id="extensions.fstbh.bottomBuffer" name="extensions.fstbh.bottomBuffer"
 				type="int" />
+			<preference id="extensions.fstbh.showIdentityBox" name="extensions.fstbh.showIdentityBox"
+				type="bool" />
 		</preferences>
 		<groupbox>
 			<caption label="&preference.transitionProperty.label;" />
@@ -80,6 +82,9 @@
 				<textbox type="number" min="0" max="100" width="64"
 					preference="extensions.fstbh.bottomBuffer" />
 				<label value="&units.pixels;" />
+			</hbox>
+			<hbox align="center">
+				<checkbox label="&preference.showIdentityBox.label;" preference="extensions.fstbh.showIdentityBox" />
 			</hbox>
 		</groupbox>
 	</prefpane>

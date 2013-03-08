@@ -1,22 +1,15 @@
-/** Provides extra padding so that the identity box can be hidden before the mouse is actually over the identity box */
+/*
+ * Provides extra padding so that the identity box can be hidden before the 
+ * mouse is actually over the identity box.
+ */
 #com_sppad_fstbh_ssl_info_boundry {
 	padding-bottom: 60px;
 	padding-right: 80px;
 }
 
-/** Boundry box doesn't move, so disable pointer events so user can click stuff */
 #com_sppad_fstbh_ssl_info_boundry[hiding] {
 	pointer-events: none;
-}
-
-#com_sppad_fstbh_ssl_info {
-	transition-property: margin-top;
-	transition-duration: 0.1625s;
-	transition-timing-function: ease-out;
-}
-
-#com_sppad_fstbh_ssl_info_boundry[hiding] #com_sppad_fstbh_ssl_info {
-	transition-timing-function: ease-in;
+	visibility: hidden;
 }
 
 #com_sppad_fstbh_ssl_info {

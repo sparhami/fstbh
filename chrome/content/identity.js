@@ -15,12 +15,19 @@ com.sppad.fstbh.Identity = new function() {
     
     let self = this;
     self.entered = false;
+
+    // Coordinate for showing the identity box after hiding
+    self.tripX = 0;
+    self.tripY = 0;
     
     self.setup = function() {
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
         sslBox.addEventListener('mouseenter', self.mouseenter, false);
     };
     
+    /**
+     * Updates the identity box with the current state, updating the text values and any styling.
+     */
     self.updateState = function(aState) {
         let sslCA = document.getElementById('com_sppad_fstbh_ssl_info_ca');
         let sslDomain = document.getElementById('com_sppad_fstbh_ssl_info_domain');
@@ -33,7 +40,7 @@ com.sppad.fstbh.Identity = new function() {
         }
         
         try {
-            sslCA.value = self.getCertName();
+            sslCA.value = self.getCertIssuer();
         } catch(err) {
             sslCA.value = '';
         }
@@ -56,7 +63,10 @@ com.sppad.fstbh.Identity = new function() {
         sslInfo.setAttribute('class', identityMode);
     };
     
-    self.getCertName = function() {
+    /**
+     * Gets the issuer of the SSL certificate for the current site.
+     */
+    self.getCertIssuer = function() {
         let currentStatus = gBrowser.securityUI
             .QueryInterface(Components.interfaces.nsISSLStatusProvider)
             .SSLStatus;
@@ -68,32 +78,34 @@ com.sppad.fstbh.Identity = new function() {
         
     };
     
+    /*
+     * Mouse has entered the boundry for the identity box, so hide the box.
+     */
     self.mouseenter = function(aEvent) {
         if(self.entered)
             return;
         
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
-        let sslInfo = document.getElementById('com_sppad_fstbh_ssl_info');
         
         self.tripX = sslBox.boxObject.screenX + sslBox.boxObject.width + IDENTITY_BOX_SHOW_PADDING_RIGHT;
         self.tripY = sslBox.boxObject.screenY + sslBox.boxObject.height + IDENTITY_BOX_SHOW_PADDING_BOTTOM;
         
         window.addEventListener('mousemove', self.mousemove, false);
         sslBox.setAttribute('hiding', true);
-        sslInfo.style.marginTop = -sslInfo.boxObject.height + 'px';
         self.entered = true;
     };
     
+    /**
+     * Check if the mouse has moved out of the identity box area.
+     */
     self.mousemove = function(aEvent) {
         if(aEvent.screenX < self.tripX && aEvent.screenY < self.tripY)
             return;
       
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
-        let sslInfo = document.getElementById('com_sppad_fstbh_ssl_info');
         
         window.removeEventListener('mousemove', self.mousemove);
         sslBox.removeAttribute('hiding');
-        sslInfo.style.marginTop = '';
         self.entered = false;
     };
 }

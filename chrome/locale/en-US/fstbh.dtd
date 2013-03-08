@@ -55,3 +55,4 @@
 
 <!ENTITY preference.other.label "Misc">
 <!ENTITY preference.bottomBuffer.label "Bottom buffer when showing">
+<!ENTITY preference.showIdentityBox.label "Show site identity information when toolbars are hidden">
