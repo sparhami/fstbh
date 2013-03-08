@@ -63,6 +63,7 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'showTabsToolbar':
                 this.setShowTabsToolbar(value);
+                this.updateTabCount();
                 break;
             case 'showPersonalToolbar':
                 this.setShowPersonalToolbar(value);
@@ -713,8 +714,6 @@ com.sppad.fstbh.Main = new function() {
      *            The mode for showTabsToolbar
      */
     this.setShowTabsToolbar = function(value) {
-        self.applyAttribute('navigator-toolbox', 'showTabsToolbar', value);
-        
         let contextItems = ['com_sppad_fstbh_tcm_showTabsContextIem', 'com_sppad_fstbh_fullscreenTabs'];
         contextItems.forEach(function(id) {
             if(value == 'always')
