@@ -82,7 +82,7 @@ com.sppad.fstbh.Main = new function() {
         }
     };
     
-    /*
+    /**
      * Used for listening for persona change events and fullscreen autohide
      * preference changes.
      * 
@@ -138,13 +138,6 @@ com.sppad.fstbh.Main = new function() {
     /**
      * Applies an attribute to a DOM node, prefixed with com_sppad_fstbh_ to
      * avoid clashing with other addons.
-     * 
-     * @param id
-     *            The ID of the DOM node to apply the attribute on
-     * @param name
-     *            The attribute name
-     * @param value
-     *            The attribute value
      */
     this.applyAttribute = function(id, name, value) {
         document.getElementById(id).setAttribute("com_sppad_fstbh_" + name, value);
@@ -152,7 +145,7 @@ com.sppad.fstbh.Main = new function() {
     
     /**
      * Updates the applied status, checking if the add-on should be applied or
-     * not. Sets everything up for autohide behavior to take effect.
+     * not. Sets everything up for auto-hide behavior to take effect.
      */
     this.updateAppliedStatus = function() {
         let cp = com.sppad.fstbh.CurrentPrefs;
@@ -387,10 +380,6 @@ com.sppad.fstbh.Main = new function() {
         // nsIWebProgressListener
         this.QueryInterface = XPCOMUtils.generateQI(['nsIWebProgressListener', 'nsISupportsWeakReference']),
                             
-        /**
-         * Listen for location change in case showOnLocationChange preference is
-         * set.
-         */
         this.onLocationChange = function(aProgress, aRequest, aURI) {
             if(com.sppad.fstbh.CurrentPrefs['showEvents.showOnLocationChange'])
                 self.triggerShowEvent();
@@ -401,10 +390,6 @@ com.sppad.fstbh.Main = new function() {
         this.onProgressChange = function() {};
         this.onStatusChange = function() {};
         
-        /**
-         * Listen for security change to update identity box with new SSL
-         * certificate information.
-         */
         this.onSecurityChange = function(aWebProgress, aRequest, aState) {
             com.sppad.fstbh.Identity.updateState(aState);
         };
@@ -448,10 +433,6 @@ com.sppad.fstbh.Main = new function() {
                 document.commandDispatcher.focusedElement = null;
         };
         
-        /**
-         * Checks if an input field is focused so that we can know if we should
-         * display or not on that basis.
-         */
         this.checkfocus = function(aEvent) {
             let fe = document.commandDispatcher.focusedElement;
             
@@ -486,10 +467,8 @@ com.sppad.fstbh.Main = new function() {
         };
         
         /**
-         * Tracks if the mouse goes out of the top of the browser or main-window
-         * and sets the toolbars open if it does. Used to handle the mouse being
-         * moved too quickly out the top in order to trigger a mouse enter on
-         * the toggler.
+         * Causes toolbars to show when the mouse is being moved too quickly out
+         * the top in order to trigger a mouse enter on the toggler.
          */
         this.mouseleave = function(aEvent) {
             if(self.hovering)
@@ -560,19 +539,6 @@ com.sppad.fstbh.Main = new function() {
             }
         };
 
-        /**
-         * Either sets the toolbars opened or closed, depending on the following
-         * factors:
-         * 
-         * <ul>
-         * <li> self.hovering - The mouse is over the toolbars
-         * <li> self.focused - Something (e.g. input field) is focused
-         * <li> self.popupTarget - A popup (e.g. menu) is opened
-         * <li> self.showEventActive - A show event occured (e.g. switched tabs)
-         * <li> self.menuActive - The menubar has been toggled (e.g. via F10 or
-         * alt)
-         * </ul>
-         */
         this.updateOpenedStatus = function() {
             if(self.hovering || self.focused || self.popupTarget || self.showEventActive || self.menuActive)
                 self.setOpened();
@@ -655,13 +621,9 @@ com.sppad.fstbh.Main = new function() {
              
     /**
      * Counts the number of tabs with a title change event. Used for showing the
-     * navigator toolbox in fullscreen mode when there is a pending
-     * notification.
+     * navigator toolbox when there is a title change that hasn't been cleared.
      */
     this.evalutateTitleChangeState = function() {
-        
-        // Not doing anything on title change, so no need to evaluate the state
-        // of the tabs
         if(com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged'] == "never")
             return;
         
@@ -707,43 +669,20 @@ com.sppad.fstbh.Main = new function() {
         this.offsetBrowser();
     };
     
-    /**
-     * Sets the behavior for title change by applying an attribute used by CSS.
-     * 
-     * @param mode
-     *            The attribute value to apply for titleChangeBehavior
-     */
     this.setTitleChangeBehavior = function(mode) {
         self.applyAttribute('navigator-toolbox', 'titleChangeBehavior', mode);
     };
     
-    /**
-     * Sets the transition duration, or how long to wait before starting the
-     * slide-out animation. TODO - want this to only apply to slide-out and not
-     * slide in, then expose it via preferences.
-     * 
-     * @param value
-     *            The amount of time, in milliseconds.
-     */
     this.setTransitionDelay = function(value) {
         let transitionDelay = (value / MILLISECONDS_PER_SECOND) + 's';
         
         gNavToolbox.style.transitionDelay = transitionDelay;
     };
     
-    /**
-     * Sets the transition property.
-     */
     this.setTransitionProperty = function(value) {
         gNavToolbox.style.transitionProperty = value;
     };
 
-    /**
-     * Sets the showTabsToolbar mode.
-     * 
-     * @param value
-     *            The mode for showTabsToolbar
-     */
     this.setShowTabsToolbar = function(value) {
         let contextItems = ['com_sppad_fstbh_tcm_showTabsContextIem', 'com_sppad_fstbh_fullscreenTabs'];
         contextItems.forEach(function(id) {
@@ -756,12 +695,6 @@ com.sppad.fstbh.Main = new function() {
         this.offsetBrowser();
     };
     
-    /**
-     * Sets the showPersonalToolbar mode.
-     * 
-     * @param value
-     *            The mode for showPersonalToolbar
-     */
     this.setShowPersonalToolbar = function(value) {
         self.applyAttribute('navigator-toolbox', 'showPersonalToolbar', value);
         
@@ -781,7 +714,6 @@ com.sppad.fstbh.Main = new function() {
             let toolbar = document.getElementById('PersonalToolbar');
             let hiding = toolbar.getAttribute('collapsed') == 'true';
             
-            // Show it and set it back to hiding.
             if(hiding) {
                 setToolbarVisibility(toolbar, true);
                 setToolbarVisibility(toolbar, false);
@@ -812,33 +744,21 @@ com.sppad.fstbh.Main = new function() {
         self.updateAppliedStatus();
     };
     
-    /**
-     * Sets the preference for showTabsToolbar from a context menu item.
-     */
     this.setFullscreenTabs = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', checked ? 'always' : 'hoverOnly');
     };
     
-    /**
-     * Sets the preference for showPersonalToolbar from a context menu item.
-     */
     this.setFullscreenPersonalToolbar = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('showPersonalToolbar', checked ? 'hover' : 'never');
     };
     
-    /**
-     * Sets normal autohide mode from a context menu item.
-     */
     this.setNormalAutohide = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('normalMode', checked ? 'hover' : 'normal');
     };
     
-    /**
-     * Sets maximized autohide mode from a context menu item.
-     */
     this.setMaximizedAutohide = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('maximizedMode', checked ? 'hover' : 'normal');
