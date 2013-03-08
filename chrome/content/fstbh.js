@@ -255,6 +255,7 @@ com.sppad.fstbh.Main = new function() {
         self.opened = false;
         self.hovering = false;
         self.focused = false;
+        self.menuActive = false;
         self.popupTarget = null;
         self.showEventActive = false;
         self.showEventDelayTimer = null;
@@ -283,8 +284,7 @@ com.sppad.fstbh.Main = new function() {
             container.addEventListener("TabOpen", this, false);
             
             gBrowser.addProgressListener(this);
-            let config = { attributes: true, childList: true, characterData: true };
-            self.menuObserver.observe(toolbarMenubar, config);
+            self.menubarObserver.observe(toolbarMenubar, { attributes: true });
             
             self.hovering = false;
             self.popupTarget = null;
@@ -312,7 +312,7 @@ com.sppad.fstbh.Main = new function() {
             container.removeEventListener("TabOpen", this);
             
             gBrowser.removeProgressListener(this);
-            self.menuObserver.disconnect();
+            self.menubarObserver.disconnect();
             
             self.hovering = false;
             self.popupTarget = null;
@@ -362,9 +362,16 @@ com.sppad.fstbh.Main = new function() {
         this.onSecurityChange = function() {};
         // end nsIWebProgressListener
         
-        this.menuObserver = new MutationObserver(function(mutations) {
+        /**
+         * Observe attribute changes on toolbar-menubar for showing when the
+         * menubar is active, such as when using alt or F10.
+         */
+        this.menubarObserver = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation) {
-                dump("mutation.type " + mutation.type + "\n");
+                if(mutation.attributeName == 'inactive') {
+                    self.menuActive = !mutation.target.getAttribute('inactive');
+                    self.updateOpenedStatus();
+                }
             });   
         });
         
@@ -522,7 +529,7 @@ com.sppad.fstbh.Main = new function() {
          * </ul>
          */
         this.updateOpenedStatus = function() {
-            if(self.hovering || self.focused || self.popupTarget || self.showEventActive)
+            if(self.hovering || self.focused || self.popupTarget || self.showEventActive || self.menuActive)
                 self.setOpened();
             else
                 self.setClosed();
