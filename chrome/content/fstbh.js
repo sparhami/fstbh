@@ -247,6 +247,7 @@ com.sppad.fstbh.Main = new function() {
      * <li>Staying open when a context menu or other popup is open
      * <li>Showing on input field (such as nav-bar or search bar) focus
      * <li>Showing when a menu (e.g. File menu) is opened
+     * <li>Showing when the menu bar is activated via keyboard
      * </ul>
      */
     this.ShowNavBoxHandler = new function() {
