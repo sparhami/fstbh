@@ -5,6 +5,10 @@ if (typeof com == "undefined") {
 com.sppad = com.sppad || {};
 com.sppad.fstbh = com.sppad.fstbh || {};
 
+/**
+ * Handles an box showing the SSL cert issuer and domain. Hides when the mouse
+ * approaches it so that the area of the browser is not rendered unusable.
+ */
 com.sppad.fstbh.Identity = new function() {
     
     /** Additional right padding, beyond hiding start point before showing */
@@ -78,7 +82,7 @@ com.sppad.fstbh.Identity = new function() {
         
     };
     
-    /*
+    /**
      * Mouse has entered the boundry for the identity box, so hide the box.
      */
     self.mouseenter = function(aEvent) {
@@ -90,7 +94,7 @@ com.sppad.fstbh.Identity = new function() {
         self.tripX = sslBox.boxObject.screenX + sslBox.boxObject.width + IDENTITY_BOX_SHOW_PADDING_RIGHT;
         self.tripY = sslBox.boxObject.screenY + sslBox.boxObject.height + IDENTITY_BOX_SHOW_PADDING_BOTTOM;
         
-        window.addEventListener('mousemove', self.mousemove, false);
+        window.addEventListener('mousemove', self.checkMousePosition, false);
         sslBox.setAttribute('hiding', true);
         self.entered = true;
     };
@@ -98,7 +102,7 @@ com.sppad.fstbh.Identity = new function() {
     /**
      * Check if the mouse has moved out of the identity box area.
      */
-    self.mousemove = function(aEvent) {
+    self.checkMousePosition = function(aEvent) {
         if(aEvent.screenX < self.tripX && aEvent.screenY < self.tripY)
             return;
       
