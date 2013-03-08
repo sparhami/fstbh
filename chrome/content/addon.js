@@ -71,9 +71,6 @@ com.sppad.fstbh.Addon = new function() {
     
     /**
      * Handles an add-on update from the previous version to the current version.
-     * 
-     * @param previousVerison
-     *            The previous version of the add-on
      */
     this.handleUpdate = function(previousVersion) {
         let major = 0;
@@ -97,10 +94,7 @@ com.sppad.fstbh.Addon = new function() {
         }
     };
 
-    /**
-     * Checks for an add-on update 
-     */
-    this.checkUpdate = function() {
+    this.checkForAddonUpdate = function() {
         Application.getExtensions(function (extensions) {
             let extension = extensions.get("fullscreentoolbarhover@com.sppad");
             let currentVersion = extension.version;
@@ -122,5 +116,5 @@ com.sppad.fstbh.Addon = new function() {
             false);
 
     self.setupBrowserPreferences();
-    self.checkUpdate();
+    self.checkForAddonUpdate();
 };
