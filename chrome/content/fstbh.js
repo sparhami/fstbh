@@ -269,9 +269,11 @@ com.sppad.fstbh.Main = new function() {
             let container = window.gBrowser.tabContainer;
             let toggler = document.getElementById('com_sppad_fstbh_toggler');
             let toolbarMenubar = document.getElementById('toolbar-menubar');
+            let mainWindow = document.getElementById('main-window');
             
             document.addEventListener("keypress", self.keyevent, false);
             gBrowser.addEventListener('mouseleave', self.mouseleave, false);
+            mainWindow.addEventListener('mouseleave', self.mouseleave, false);
             toggler.addEventListener('dragenter', self.mouseenter, false);
             toggler.addEventListener('mouseenter', self.mouseenter, false);
             gNavToolbox.addEventListener('dragenter', self.mouseenter, false);
@@ -297,9 +299,11 @@ com.sppad.fstbh.Main = new function() {
         this.cleanup = function() {
             let container = window.gBrowser.tabContainer;
             let toggler = document.getElementById('com_sppad_fstbh_toggler');
+            let mainWindow = document.getElementById('main-window');
             
             document.removeEventListener("keypress", self.keyevent);
             gBrowser.removeEventListener('mouseleave', self.mouseleave);
+            mainWindow.removeEventListener('mouseleave', self.mouseleave);
             toggler.removeEventListener('dragenter', self.mouseenter);
             toggler.removeEventListener('mouseenter', self.mouseenter);
             gNavToolbox.removeEventListener('dragenter', self.mouseenter);
@@ -360,7 +364,14 @@ com.sppad.fstbh.Main = new function() {
         this.onStateChange = function() {};
         this.onProgressChange = function() {};
         this.onStatusChange = function() {};
-        this.onSecurityChange = function() {};
+        
+        /**
+         * Listen for security change to update identity box.
+         */
+        this.onSecurityChange = function(aWebProgress, aRequest, aState) {
+            com.sppad.fstbh.Identity.updateState(aState);
+        };
+        
         // end nsIWebProgressListener
         
         /**
@@ -438,8 +449,8 @@ com.sppad.fstbh.Main = new function() {
         };
         
         /**
-         * Tracks if the mouse goes out of the top of the browser and sets the
-         * toolbars open if it does.
+         * Tracks if the mouse goes out of the top of the browser or main-window
+         * and sets the toolbars open if it does.
          * <p>
          * This serves two purposes:
          * <ul>
@@ -797,6 +808,7 @@ com.sppad.fstbh.Main = new function() {
      * always or multipleTabs.
      */
     this.offsetBrowser = function() {
+        let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
         let browser = document.getElementById('browser');
         let tabsToolbar = document.getElementById('TabsToolbar');
         
@@ -804,8 +816,10 @@ com.sppad.fstbh.Main = new function() {
         let mode = com.sppad.fstbh.CurrentPrefs['showTabsToolbar'];
         
         if(mode == "always" || (mode == "multipleTabs" && self.tabCount > 1)) {
+            sslBox.style.marginTop = offset + "px";
             browser.style.marginTop = offset + "px";
         } else {
+            sslBox.style.marginTop = "";
             browser.style.marginTop = "";
         }
     };
