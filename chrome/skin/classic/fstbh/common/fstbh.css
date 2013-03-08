@@ -1,3 +1,4 @@
+@import url("identity.css");
 @import url("chrome://fstbh-platform/skin/fstbh.css");
 
 #main-window[com_sppad_fstbh_applied="true"] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] {

@@ -1,0 +1,65 @@
+/** Provides extra padding so that the identity box can be hidden before the mouse is actually over the identity box */
+#com_sppad_fstbh_ssl_info_boundry {
+	padding-bottom: 60px;
+	padding-right: 80px;
+	
+	transition-property: margin-left;
+	transition-duration: 0.3s;
+	transition-timing-function: ease-in;
+}
+
+#com_sppad_fstbh_ssl_info_boundry([hiding]) {
+	transition-duration: 0.2s;
+	transition-timing-function: ease-out;
+}
+
+#com_sppad_fstbh_ssl_info {
+	text-shadow: none !important;
+
+	padding: 2px 4px 1px 4px;
+	
+	color: rgb(80, 80, 80);
+	background-color: rgba(242, 244, 242, 1);
+	background-image: linear-gradient(to bottom, 
+		rgba(255, 255, 255, 1.00) 0%,
+		rgba(160, 160, 160, 0.15) 3px,
+		rgba(255, 255, 255, 0.00) 100%);
+	
+	border-color: rgb(160, 160, 160);
+	border-style: solid;
+	border-width: 0px 1px 1px 0px;
+	border-bottom-right-radius: 4px;
+}
+
+#com_sppad_fstbh_ssl_info.verifiedIdentity {
+	color: rgb(71, 153, 0);
+	border-color: rgb(71, 153, 0);
+}
+
+#com_sppad_fstbh_ssl_info_icon {
+	width: 16px;
+	height: 16px;
+
+	-moz-image-region: rect(0px, 16px, 16px, 0px);
+	list-style-image: url(chrome://browser/skin/identity-icons-generic.png);
+}
+
+#com_sppad_fstbh_ssl_info.verifiedDomain #com_sppad_fstbh_ssl_info_icon {
+	list-style-image: url(chrome://browser/skin/identity-icons-https.png);
+}
+
+#com_sppad_fstbh_ssl_info.verifiedIdentity #com_sppad_fstbh_ssl_info_icon {
+	list-style-image: url(chrome://browser/skin/identity-icons-https-ev.png);
+}
+
+#com_sppad_fstbh_ssl_info.mixedActiveContent #com_sppad_fstbh_ssl_info_icon {
+	list-style-image: url(chrome://browser/skin/identity-icons-https-mixed-active.png);
+}
+
+#com_sppad_fstbh_ssl_info:not(:-moz-any(.verifiedDomain, .verifiedIdentity)) label {
+	visibility: collapse;
+}
+
+#com_sppad_fstbh_ssl_info_icon {
+	margin-right: 4px;
+}
