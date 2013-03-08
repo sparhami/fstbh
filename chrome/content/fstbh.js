@@ -566,7 +566,8 @@ com.sppad.fstbh.Main = new function() {
             
             self.opened = true;
             
-            gNavToolbox.setAttribute('com_sppad_fstbh_toggle', 'true');
+            let mainWindow = document.getElementById('main-window');
+            mainWindow.setAttribute('com_sppad_fstbh_toggle', 'true');
             
             window.addEventListener('dragover', self.checkMousePosition, false);
             window.addEventListener('mousemove', self.checkMousePosition, false);
@@ -590,7 +591,8 @@ com.sppad.fstbh.Main = new function() {
             
             self.opened = false;
             
-            gNavToolbox.removeAttribute('com_sppad_fstbh_toggle');
+            let mainWindow = document.getElementById('main-window');
+            mainWindow.removeAttribute('com_sppad_fstbh_toggle');
             
             window.removeEventListener('dragover', self.checkMousePosition);
             window.removeEventListener('mousemove', self.checkMousePosition);
@@ -665,7 +667,10 @@ com.sppad.fstbh.Main = new function() {
     
     this.updateTabCount = function(offset) {
         self.tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
-        this.applyAttribute('browser-panel', 'tabCount', self.tabCount);
+        
+        let pref = com.sppad.fstbh.CurrentPrefs['showTabsToolbar'];
+        let show = (pref == 'always') || (pref == 'multipleTabs' && self.tabCount > 1);
+        this.applyAttribute('main-window', 'showTabsToolbar', show);
         
         this.offsetBrowser();
     };

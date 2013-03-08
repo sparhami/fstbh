@@ -6,15 +6,13 @@
 	display: -moz-stack;
 }
 
-
-
 /*
  * Rules for when applied, causing navigator toolbox to show, etc.
  */
 
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="any"][com_sppad_fstbh_titlechange="true"],
 #main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="pinned"][com_sppad_fstbh_pinnedTitlechange="true"],
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_toggle] {
+#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_toggle] #navigator-toolbox {
 	margin-top: 0px !important;
 	transition-delay: 0s !important;
 	height: auto !important;
@@ -36,8 +34,7 @@
 	overflow: hidden;
 }
 
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"],
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"] {	
+#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"] #navigator-toolbox {	
 	/* It looks odd if the slide in animation plays due to the margin-top offset on #browser */
 	transition-property: none;
 	
@@ -46,11 +43,7 @@
 	height: auto !important;
 }
 
-/* Rules for showing non-Tab toolbars when either always or multitabs is set.
- * Basically, show either when hovering or something is focused.
- */
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel:not([com_sppad_fstbh_tabCount="1"]) #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="multipleTabs"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar),
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_showTabsToolbar="always"]:not([com_sppad_fstbh_toggle]) > :not(#TabsToolbar) {
+#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"]:not([com_sppad_fstbh_toggle]) #navigator-toolbox > :not(#TabsToolbar) {
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
 	height: 0 !important;
 	max-height: 0 !important;
