@@ -1,1 +1,31 @@
-Makes the top toolbar in fullscreen mode hover over content instead of pushing it out of the way.
+Overview
+
+A Firefox add-on that allows auto-hiding of toolbars. Makes toolbars float over the webpage content when showing so that the content is not moved. This changes the default Firefox fullscreen auto-hide behavior.
+
+The basics
+
+The functionality centers around changing #browser-panel between its normal display mode and -moz-stack in order to enable the autohide capability. As a result, several workarounds and careful considerations are used in order to interoperate with the numerous Firefox add-ons that modify the toolbars and titlebar (especially under Windows).
+
+The files
+
+content/
+- preferences/config.xul - Add-on preference window
+- preferences/config.js - Logic for preference window
+- addon.js - Add-on installation, upgrade and removal
+- fstbh.js - Preference changes, deciding when the add-on is applied and setting offsets / margins for the various modes
+- fstbh.css - Handles layout and some behavior controlling css
+- fstbh.xul - Overlay to add context menu items, set some attributes and include scripts
+- identity.js - Displays a box over the page content with the SSL issuer and domain
+- navBoxHandler.js - Handles when to show the #navigator-toolbox
+- utils.js - Misc stuff
+
+locale/
+- Strings for preferences, menuitems, etc.
+
+skins/
+- Handles platform specific css, images and css that doesn't effect behavior
+ 
+
+
+
+
