@@ -53,7 +53,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
             return;
         
         let tabContainer = window.gBrowser.tabContainer;
-        let toggler = document.getElementById('com_sppad_fstbh_toggler');
+        let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
         let toolbarMenubar = document.getElementById('toolbar-menubar');
         let mainWindow = document.getElementById('main-window');
         
@@ -103,7 +103,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
             return;
         
         let tabContainer = window.gBrowser.tabContainer;
-        let toggler = document.getElementById('com_sppad_fstbh_toggler');
+        let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
         let mainWindow = document.getElementById('main-window');
         
         // Used for hiding when focused and escape is used
@@ -326,7 +326,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         if(self.hovering)
             return;
         
-        let toggler = document.getElementById('com_sppad_fstbh_toggler');
+        let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
         
         let navBottom = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
         let togglerBottom = toggler.boxObject.screenY + toggler.boxObject.height; 
@@ -348,7 +348,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         if(!self.hovering)
             return;
         
-        let toggler = document.getElementById('com_sppad_fstbh_toggler');
+        let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
         
         let navBottom = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
         let togglerBottom = toggler.boxObject.screenY + toggler.boxObject.height; 

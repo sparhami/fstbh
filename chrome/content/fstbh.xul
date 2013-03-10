@@ -21,7 +21,9 @@
 	<toolbox id="navigator-toolbox" top="0" />
 
 	<vbox id="browser-panel">
-		<hbox id="com_sppad_fstbh_toggler" top="0" />
+		<hbox id="com_sppad_fstbh_top_toggler" class="com_sppad_fstbh_toggler" top="0" />
+		<hbox id="com_sppad_fstbh_bottom_toggler" class="com_sppad_fstbh_toggler" bottom="0" />
+		
 		<vbox id="com_sppad_fstbh_ssl_info_boundry" top="0" left="0" >
 			<hbox id="com_sppad_fstbh_ssl_info" align="center">
 				<image id="com_sppad_fstbh_ssl_info_icon" />
