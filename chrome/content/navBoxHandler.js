@@ -390,6 +390,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         window.addEventListener('dragover', self.checkMousePosition, false);
         window.addEventListener('mousemove', self.checkMousePosition, false);
+        document.addEventListener('popupshown', self.popupshown, false);
+        document.addEventListener('popuphidden', self.popuphidden, false);
         
         let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationIn'] / MILLISECONDS_PER_SECOND) + 's';
         gNavToolbox.style.transitionDuration = transitionDuration;
@@ -412,6 +414,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         window.removeEventListener('dragover', self.checkMousePosition);
         window.removeEventListener('mousemove', self.checkMousePosition);
+        document.removeEventListener('popupshown', self.popupshown);
+        document.removeEventListener('popuphidden', self.popuphidden);
         
         let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationOut'] / MILLISECONDS_PER_SECOND) + 's';
         gNavToolbox.style.transitionDuration = transitionDuration;
