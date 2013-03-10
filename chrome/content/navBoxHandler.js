@@ -215,25 +215,21 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         window.clearTimeout(self.evaluateTimer);
         
-        // Delay so that tab attributes will have been set. Also prevents us
-        // from evaluating the state too often.
+        // Delay to allow attributes to be set and limit update frequency
         self.evaluateTimer = window.setTimeout(function() {
             let tabContainer = gBrowser.tabContainer;
-            let tcc = 0;
-            let ptcc = 0;
+            let count = 0;
             
             for(let i = 0; i < tabContainer.itemCount; i++) {
                 let tab = tabContainer.getItemAtIndex(i);
                 let pinned = tab.hasAttribute('pinned');
                 let titlechanged = tab.hasAttribute('titlechanged');
                 
-                if(titlechanged)
-                    tcc++;
-                if(titlechanged && pinned)
-                    ptcc++;
+                if(titlechanged && (pref === 'any' || (pref === 'pinned' && pinned)))
+                    count++;
             }
             
-            self.titlechanged = (pref == 'any' && tcc > 0) || (pref == 'pinned' && ptcc > 0);
+            self.titlechanged = count > 0;
             self.updateOpenedStatus();
         }, 200);
     };

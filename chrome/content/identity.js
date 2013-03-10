@@ -39,13 +39,9 @@ com.sppad.fstbh.Identity = new function() {
         
         try {
             sslDomain.value = location.host;
-        } catch(err) {
-            sslDomain.value = '';
-        }
-        
-        try {
             sslCA.value = self.getCertIssuer();
         } catch(err) {
+            sslDomain.value = '';
             sslCA.value = '';
         }
         
@@ -71,15 +67,12 @@ com.sppad.fstbh.Identity = new function() {
      * Gets the issuer of the SSL certificate for the current site.
      */
     self.getCertIssuer = function() {
-        let currentStatus = gBrowser.securityUI
+        let cert = gBrowser.securityUI
             .QueryInterface(Components.interfaces.nsISSLStatusProvider)
-            .SSLStatus;
+            .SSLStatus
+            .serverCert;
         
-        let cert = currentStatus.serverCert;
-        let caOrg = cert.issuerOrganization || cert.issuerCommonName;
-        
-        return caOrg;
-        
+        return cert.issuerOrganization || cert.issuerCommonName;
     };
     
     /**

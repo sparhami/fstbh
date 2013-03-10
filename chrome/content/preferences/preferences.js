@@ -5,11 +5,6 @@ if (typeof com == "undefined") {
 com.sppad = com.sppad || {};
 com.sppad.fstbh = com.sppad.fstbh || {};
 
-/**
- * The default prefs code in here modified from Mark Finkle's Default
- * Preferences code:
- * http://starkravingfinkle.org/blog/2011/01/restartless-add-ons-%E2%80%93-default-preferences/
- */
 com.sppad.fstbh.PREF_WINDOW_FILE = "chrome://fstbh/content/preferences/config.xul";
 com.sppad.fstbh.PREF_WINDOW_ID = "fstbh-preferences-window";
 com.sppad.fstbh.PREF_BRANCH = "extensions.fstbh.";
@@ -165,8 +160,7 @@ com.sppad.fstbh.Preferences = new function() {
      *            map to sub-branches.
      */
     let _setPrefBranch = function(prefBranch, prefs) {
-        let
-        branch = Services.prefs.getBranch(prefBranch);
+        let branch = Services.prefs.getBranch(prefBranch);
         for (let[key, val] in Iterator(prefs)) {
             switch (typeof val) {
                 case "boolean":

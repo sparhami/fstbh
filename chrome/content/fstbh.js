@@ -11,7 +11,7 @@ com.sppad.fstbh.Main = new function() {
     
     let self = this;
     
-    self.tabCount = 0;
+    self.alwaysShowTabs = 0;
     self.evaluateTimer = null;
     
     this.handleEvent = function(aEvent) {
@@ -209,11 +209,11 @@ com.sppad.fstbh.Main = new function() {
      *            If called while a tab is closing, do not count that tab.
      */
     this.updateTabCount = function(offset) {
-        self.tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
-        
         let pref = com.sppad.fstbh.CurrentPrefs['showTabsToolbar'];
-        let show = (pref == 'always') || (pref == 'multipleTabs' && self.tabCount > 1);
-        this.applyAttribute('main-window', 'showTabsToolbar', show);
+        let tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
+
+        self.alwaysShowTabs = (pref == 'always') || (pref == 'multipleTabs' && tabCount > 1);
+        this.applyAttribute('main-window', 'showTabsToolbar', self.alwaysShowTabs);
         
         this.offsetBrowser();
     };
@@ -263,7 +263,6 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.setNormalMode = function(value) {
-        
         let menuitem = document.getElementById('com_sppad_fstbh_tcm_normalModeContextItem');
         if(value == 'hover')
             menuitem.setAttribute('checked', 'true');
@@ -271,11 +270,9 @@ com.sppad.fstbh.Main = new function() {
             menuitem.removeAttribute('checked');
         
         self.updateAppliedStatus();
-        
     };
 
     this.setMaximizedMode = function(value) {
-        
         let menuitem = document.getElementById('com_sppad_fstbh_tcm_maximizedModeContextItem');
         if(value == 'hover')
             menuitem.setAttribute('checked', 'true');
@@ -316,16 +313,10 @@ com.sppad.fstbh.Main = new function() {
         let browser = document.getElementById('browser');
         let tabsToolbar = document.getElementById('TabsToolbar');
         
-        let offset = tabsToolbar.boxObject.height;
-        let mode = com.sppad.fstbh.CurrentPrefs['showTabsToolbar'];
+        let offset = self.alwaysShowTabs ? tabsToolbar.boxObject.height : 0;
         
-        if(mode == "always" || (mode == "multipleTabs" && self.tabCount > 1)) {
-            sslBox.style.marginTop = offset + "px";
-            browser.style.marginTop = offset + "px";
-        } else {
-            sslBox.style.marginTop = "";
-            browser.style.marginTop = "";
-        }
+        sslBox.style.marginTop = offset + "px";
+        browser.style.marginTop = offset + "px";
     };
     
     this.loadPreferences = function() {
@@ -344,7 +335,6 @@ com.sppad.fstbh.Main = new function() {
         com.sppad.fstbh.Preferences.addListener(this);
         
         let tabContainer = window.gBrowser.tabContainer;
-        
         tabContainer.addEventListener("TabClose", this, false);
         tabContainer.addEventListener("TabOpen", this, false);
         
