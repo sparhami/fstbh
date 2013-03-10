@@ -21,16 +21,9 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'TabClose':
                 this.updateTabCount(true);
-                this.evalutateTitleChangeState();
                 break;
             case 'TabOpen':
                 this.updateTabCount();
-                break;
-            case 'TabSelect':
-            case 'TabAttrModified':
-            case 'TabPinned':
-            case 'TabUnpinned':
-                this.evalutateTitleChangeState();
                 break;
             default:
                 break;
@@ -47,10 +40,6 @@ com.sppad.fstbh.Main = new function() {
             case 'transitionProperty':
                 this.setTransitionProperty(value);
                 com.sppad.fstbh.NavBoxHandler.setHiddenStyle();
-                break;
-            case 'showWhenTitleChanged':
-                this.setTitleChangeBehavior(value);
-                this.evalutateTitleChangeState();
                 break;
             case 'style.browserBottomBox':
                 this.applyAttribute('browser-bottombox', 'backgroundStyle', value);
@@ -213,39 +202,6 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Counts the number of tabs with a title change event. Used for showing the
-     * navigator toolbox when there is a title change that hasn't been cleared.
-     */
-    this.evalutateTitleChangeState = function() {
-        if(com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged'] == "never")
-            return;
-        
-        window.clearTimeout(self.evaluateTimer);
-        
-        // Delay so that tab attributes will have been set. Also prevents us
-        // from evaluating the state too often.
-        self.evaluateTimer = window.setTimeout(function() {
-            let tabContainer = gBrowser.tabContainer;
-            let titleChangedCount = 0;
-            let pinnedTitleChangedCount = 0;
-            
-            for(let i = 0; i < tabContainer.itemCount; i++) {
-                let tab = tabContainer.getItemAtIndex(i);
-                let pinned = tab.hasAttribute('pinned');
-                let titlechanged = tab.hasAttribute('titlechanged');
-                
-                if(titlechanged)
-                    titleChangedCount++;
-                if(titlechanged && pinned)
-                    pinnedTitleChangedCount++;
-            }
-            
-            self.applyAttribute('navigator-toolbox', 'titlechange', titleChangedCount > 0);
-            self.applyAttribute('navigator-toolbox', 'pinnedTitlechange', pinnedTitleChangedCount > 0);
-        }, 200);
-    };
-    
-    /**
      * Updates based on the number of tabs open. Sets the attribute to keep tabs
      * toolbar showing.
      * 
@@ -260,10 +216,6 @@ com.sppad.fstbh.Main = new function() {
         this.applyAttribute('main-window', 'showTabsToolbar', show);
         
         this.offsetBrowser();
-    };
-    
-    this.setTitleChangeBehavior = function(mode) {
-        self.applyAttribute('navigator-toolbox', 'titleChangeBehavior', mode);
     };
     
     this.setTransitionDelay = function(value) {
@@ -393,12 +345,8 @@ com.sppad.fstbh.Main = new function() {
         
         let tabContainer = window.gBrowser.tabContainer;
         
-        tabContainer.addEventListener("TabSelect", this, false);
         tabContainer.addEventListener("TabClose", this, false);
         tabContainer.addEventListener("TabOpen", this, false);
-        tabContainer.addEventListener("TabAttrModified", this, false);
-        tabContainer.addEventListener("TabPinned", this, false);
-        tabContainer.addEventListener("TabUnpinned", this, false);
         
         gPrefService.addObserver("browser.fullscreen", this, false);
         
@@ -417,12 +365,8 @@ com.sppad.fstbh.Main = new function() {
             .removeObserver(this, "lightweight-theme-styling-update");
 
         let tabContainer = window.gBrowser.tabContainer;
-        tabContainer.removeEventListener("TabSelect", this);
         tabContainer.removeEventListener("TabClose", this);
         tabContainer.removeEventListener("TabOpen", this);
-        tabContainer.removeEventListener("TabAttrModified", this);
-        tabContainer.removeEventListener("TabPinned", this);
-        tabContainer.removeEventListener("TabUnpinned", this);
         
         gPrefService.removeObserver("browser.fullscreen", this);
         

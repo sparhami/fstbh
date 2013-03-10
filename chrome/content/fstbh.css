@@ -2,16 +2,14 @@
 
 @import url("chrome://fstbh/skin/fstbh.css");
 
+/*
+ * Rules for when applied, causing navigator toolbox to show, etc.
+ */
+ 
 #main-window[com_sppad_fstbh_applied="true"] #browser-panel {
 	display: -moz-stack;
 }
 
-/*
- * Rules for when applied, causing navigator toolbox to show, etc.
- */
-
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="any"][com_sppad_fstbh_titlechange="true"],
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_titleChangeBehavior="pinned"][com_sppad_fstbh_pinnedTitlechange="true"],
 #main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_toggle] #navigator-toolbox {
 	margin-top: 0px !important;
 	transition-delay: 0s !important;
@@ -43,6 +41,7 @@
 	height: auto !important;
 }
 
+/* Hide toolbars other than TabsToolbar when com_sppad_fstbh_showTabsToolbar */
 #main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"]:not([com_sppad_fstbh_toggle]) #navigator-toolbox > :not(#TabsToolbar) {
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
 	height: 0 !important;

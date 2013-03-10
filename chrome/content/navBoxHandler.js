@@ -6,14 +6,15 @@ com.sppad = com.sppad || {};
 com.sppad.fstbh = com.sppad.fstbh || {};
 
 /**
- * Handles showing #navigator-toolbox due to mouse or focus events when the
- * add-on is applied.
+ * Handles showing #navigator-toolbox due to mouse, focus or other events when
+ * the add-on is applied.
  * 
  * This handles:
  * <ul>
  * <li>Showing when hovering
  * <li>Showing when going above the top of the browser
  * <li>Showing when one of the show events triggers
+ * <li>Showing / staying open when there is a titlechange
  * <li>Showing / staying open when a menu is open
  * <li>Showing on input field (such as nav-bar or search bar) focus
  * <li>Showing when the menu bar is activated via keyboard
@@ -27,6 +28,7 @@ com.sppad.fstbh = com.sppad.fstbh || {};
 com.sppad.fstbh.NavBoxHandler = new function() {
     
     const MILLISECONDS_PER_SECOND = 1000;
+    const TAB_EVENTS = ['TabSelect', 'TabClose', 'TabOpen', 'TabPinned', 'TabUnpinned', 'TabAttrModified'];
         
     let self = this;   
     self.enabled = false;
@@ -37,6 +39,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     self.focused = false;
     self.menuActive = false;
     self.popupTarget = null;
+    self.titlechange = false;
     self.showEventActive = false;
     
     self.showEventDelayTimer = null;
@@ -75,10 +78,10 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         gNavToolbox.addEventListener('popupshown', self.popupshown, false);
         gNavToolbox.addEventListener('popuphidden', self.popuphidden, false);
         
-        // For show event preferences
-        tabContainer.addEventListener("TabSelect", this, false);
-        tabContainer.addEventListener("TabClose", this, false);
-        tabContainer.addEventListener("TabOpen", this, false);
+        // For show event and titlechange preferences
+        TAB_EVENTS.forEach(function(eventName) {
+            tabContainer.addEventListener(eventName, self, false);
+        });
         
         // For URL change show event and updating SSL identity box
         gBrowser.addProgressListener(this);
@@ -90,6 +93,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.popupTarget = null;
         self.updateOpenedStatus();
         
+        self.evalutateTitleChangeState();
         self.setHiddenStyle();
         self.enabled = true;
     };
@@ -123,10 +127,10 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         gNavToolbox.removeEventListener('popupshown', self.popupshown);
         gNavToolbox.removeEventListener('popuphidden', self.popuphidden);
         
-        // For show event preferences
-        tabContainer.removeEventListener("TabSelect", this);
-        tabContainer.removeEventListener("TabClose", this);
-        tabContainer.removeEventListener("TabOpen", this);
+        // For show event and titlechange preferences
+        TAB_EVENTS.forEach(function(eventName) {
+            tabContainer.removeEventListener(eventName, this);
+        });
         
         // For URL change show event and updating SSL identity box
         gBrowser.removeProgressListener(this);
@@ -162,6 +166,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
                 break;
         }
         
+        self.evalutateTitleChangeState();
+        
         if(trigger)
             self.triggerShowEvent();
     };
@@ -186,8 +192,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     // end nsIWebProgressListener
     
     /**
-     * Observe attribute changes on toolbar-menubar for showing when the
-     * menubar is active, such as when using alt (Windows) or F10.
+     * Observe attribute changes on toolbar-menubar for showing when the menubar
+     * is active, such as when using alt (Windows) or F10.
      */
     this.menubarObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
@@ -199,8 +205,42 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     });
     
     /**
-     * Causes the toolbars to show to due to a show event briefly before
-     * hiding again.
+     * Counts the number of tabs with a title change event. Used for showing the
+     * navigator toolbox when there is a title change that hasn't been cleared.
+     */
+    this.evalutateTitleChangeState = function() {
+        let pref = com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged'];
+        if(pref == "never")
+            return;
+        
+        window.clearTimeout(self.evaluateTimer);
+        
+        // Delay so that tab attributes will have been set. Also prevents us
+        // from evaluating the state too often.
+        self.evaluateTimer = window.setTimeout(function() {
+            let tabContainer = gBrowser.tabContainer;
+            let tcc = 0;
+            let ptcc = 0;
+            
+            for(let i = 0; i < tabContainer.itemCount; i++) {
+                let tab = tabContainer.getItemAtIndex(i);
+                let pinned = tab.hasAttribute('pinned');
+                let titlechanged = tab.hasAttribute('titlechanged');
+                
+                if(titlechanged)
+                    tcc++;
+                if(titlechanged && pinned)
+                    ptcc++;
+            }
+            
+            self.titlechanged = (pref == 'any' && tcc > 0) || (pref == 'pinned' && ptcc > 0);
+            self.updateOpenedStatus();
+        }, 200);
+    };
+    
+    /**
+     * Causes the toolbars to show to due to a show event briefly before hiding
+     * again.
      */
     this.triggerShowEvent = function() {
         self.showEventActive = true;
@@ -214,8 +254,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     /**
-     * Handle escape: clear the focused item, if something is focused, so
-     * that the toolbars can hide.
+     * Handle escape: clear the focused item, if something is focused, so that
+     * the toolbars can hide.
      */
     this.keyevent = function(aEvent) {
         if(self.focused && (aEvent.keyCode == aEvent.DOM_VK_ESCAPE))
@@ -256,8 +296,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     /**
-     * Causes toolbars to show when the mouse is being moved too quickly out
-     * the top in order to trigger a mouse enter on the toggler.
+     * Causes toolbars to show when the mouse is being moved too quickly out the
+     * top in order to trigger a mouse enter on the toggler.
      */
     this.mouseleave = function(aEvent) {
         if(self.hovering)
@@ -275,17 +315,16 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     /**
      * Handles mouse entering either the toggler or navigator-toolbox.
      * <p>
-     * Checks if the y location of the mouse to see if it is above the
-     * bottom of toggler or navigator-toolbox. This is because a mouseenter
-     * event might trigger when entering a popup. For example, if showing
-     * when the bookmarks menu has been triggered via keyboard. If mousing
-     * over the menu, a mouseenter event is generated. If the menu is
-     * closed, then hovering would be still true if we did not check the y
-     * coordinate.
+     * Checks if the y location of the mouse to see if it is above the bottom of
+     * toggler or navigator-toolbox. This is because a mouseenter event might
+     * trigger when entering a popup. For example, if showing when the bookmarks
+     * menu has been triggered via keyboard. If mousing over the menu, a
+     * mouseenter event is generated. If the menu is closed, then hovering would
+     * be still true if we did not check the y coordinate.
      * <p>
-     * Can't simply check if the target is a popup, since the user can move
-     * from the popup up into the navigator-toolbox without any additional
-     * events generated.
+     * Can't simply check if the target is a popup, since the user can move from
+     * the popup up into the navigator-toolbox without any additional events
+     * generated.
      */
     this.mouseenter = function(aEvent) {
         if(self.hovering)
@@ -306,8 +345,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
  
     /**
-     * Checks the to see if the mouse has gone below the bottom of the
-     * toolbars and remove hovering if so.
+     * Checks the to see if the mouse has gone below the bottom of the toolbars
+     * and remove hovering if so.
      */
     this.checkMousePosition = function(aEvent) {
         if(!self.hovering)
@@ -329,7 +368,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
 
     this.updateOpenedStatus = function() {
-        if(self.hovering || self.focused || self.popupTarget || self.showEventActive || self.menuActive)
+        if(self.hovering || self.focused || self.popupTarget || self.showEventActive || self.menuActive || self.titlechanged)
             self.setOpened();
         else
             self.setClosed();
@@ -337,8 +376,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     
     /**
      * Causes the navigator toolbox to show by setting the toggle attribute.
-     * Also sets up listeners to stay open when menus are open and mouse
-     * move for eventually closing.
+     * Also sets up listeners to stay open when menus are open and mouse move
+     * for eventually closing.
      */
     this.setOpened = function() {
         if(self.opened)
@@ -351,16 +390,13 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         window.addEventListener('dragover', self.checkMousePosition, false);
         window.addEventListener('mousemove', self.checkMousePosition, false);
-        document.addEventListener('popupshown', self.popupshown, false);
-        document.addEventListener('popuphidden', self.popuphidden, false);
         
         let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationIn'] / MILLISECONDS_PER_SECOND) + 's';
         gNavToolbox.style.transitionDuration = transitionDuration;
     };
     
     /**
-     * Causes the navigator toolbox to close by removing the toggle
-     * attribute.
+     * Causes the navigator toolbox to close by removing the toggle attribute.
      * 
      * Also re-calculates the top offset in case the size of gNavToolbox has
      * changed.
@@ -376,8 +412,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         window.removeEventListener('dragover', self.checkMousePosition);
         window.removeEventListener('mousemove', self.checkMousePosition);
-        document.removeEventListener('popupshown', self.popupshown);
-        document.removeEventListener('popuphidden', self.popuphidden);
         
         let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationOut'] / MILLISECONDS_PER_SECOND) + 's';
         gNavToolbox.style.transitionDuration = transitionDuration;
@@ -386,12 +420,12 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     /**
-     * Sets the style for the navigator toolbox for the hidden state.
-     * Showing state is handled by CSS.
+     * Sets the style for the navigator toolbox for the hidden state. Showing
+     * state is handled by CSS.
      * <p>
-     * For height, transition is from auto to 0, so transition properties
-     * don't have an effect. Don't use visibility or display since we still
-     * want to be able to use shortcut keys for navigation/search boxes.
+     * For height, transition is from auto to 0, so transition properties don't
+     * have an effect. Don't use visibility or display since we still want to be
+     * able to use shortcut keys for navigation/search boxes.
      */
     this.setHiddenStyle = function() {
         switch(com.sppad.fstbh.CurrentPrefs['transitionProperty']) {
