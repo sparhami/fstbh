@@ -4,145 +4,253 @@
 
 <!DOCTYPE prefwindow SYSTEM "chrome://fstbh/locale/fstbh.dtd">
 
-<prefwindow title="&com.sppad.fstbh.preferences.title;" id="fstbh-preferences-window"
+<prefwindow
+	title="&com.sppad.fstbh.preferences.title;"
+	id="fstbh-preferences-window"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 	<commandset>
-		<command id="cmd_transitionType" oncommand="com.sppad.fstbh.Config.transitionPropertyChange()" />
+		<command
+			id="cmd_transitionType"
+			oncommand="com.sppad.fstbh.Config.transitionPropertyChange()" />
 	</commandset>
 
-	<prefpane id="com_sppad_fstbh_GeneralPrefPane" label="&preference.generalPrefPane.label;"
+	<prefpane
+		id="com_sppad_fstbh_GeneralPrefPane"
+		label="&preference.generalPrefPane.label;"
 		image="chrome://fstbh/skin/images/gear.svg">
 		<preferences>
-			<preference id="extensions.fstbh.transitionProperty" name="extensions.fstbh.transitionProperty"
+			<preference
+				id="extensions.fstbh.transitionProperty"
+				name="extensions.fstbh.transitionProperty"
 				type="string" />
-			<preference id="extensions.fstbh.transitionDurationIn" name="extensions.fstbh.transitionDurationIn"
+			<preference
+				id="extensions.fstbh.transitionDurationIn"
+				name="extensions.fstbh.transitionDurationIn"
 				type="int" />
-			<preference id="extensions.fstbh.transitionDurationOut" name="extensions.fstbh.transitionDurationOut"
+			<preference
+				id="extensions.fstbh.transitionDurationOut"
+				name="extensions.fstbh.transitionDurationOut"
 				type="int" />
-			<preference id="extensions.fstbh.transitionDelay" name="extensions.fstbh.transitionDelay"
+			<preference
+				id="extensions.fstbh.transitionDelay"
+				name="extensions.fstbh.transitionDelay"
 				type="int" />
-			<preference id="extensions.fstbh.showTabsToolbar" name="extensions.fstbh.showTabsToolbar"
+			<preference
+				id="extensions.fstbh.showTabsToolbar"
+				name="extensions.fstbh.showTabsToolbar"
 				type="string" />
-			<preference id="extensions.fstbh.showPersonalToolbar" name="extensions.fstbh.showPersonalToolbar"
+			<preference
+				id="extensions.fstbh.showPersonalToolbar"
+				name="extensions.fstbh.showPersonalToolbar"
 				type="string" />
-			<preference id="extensions.fstbh.bottomBuffer" name="extensions.fstbh.bottomBuffer"
+			<preference
+				id="extensions.fstbh.bottomBuffer"
+				name="extensions.fstbh.bottomBuffer"
 				type="int" />
-			<preference id="extensions.fstbh.showIdentityBox" name="extensions.fstbh.showIdentityBox"
+			<preference
+				id="extensions.fstbh.showIdentityBox"
+				name="extensions.fstbh.showIdentityBox"
 				type="bool" />
 		</preferences>
 		<groupbox>
 			<caption label="&preference.transitionProperty.label;" />
 
-			<radiogroup command="cmd_transitionType" preference="extensions.fstbh.transitionProperty"
+			<radiogroup
+				command="cmd_transitionType"
+				preference="extensions.fstbh.transitionProperty"
 				orient="vertical">
-				<radio id="transitionDisabled" value="height"
+				<radio
+					id="transitionDisabled"
+					value="height"
 					label="&preference.transitionProperty.none.label;" />
-				<radio value="margin-top" label="&preference.transitionProperty.slideIn.label;" />
+				<radio
+					value="margin-top"
+					label="&preference.transitionProperty.slideIn.label;" />
 			</radiogroup>
 		</groupbox>
 		<groupbox class="transitionTiming">
 			<caption label="&preference.timing.label;" />
 			<hbox align="center">
-				<label class="transitionTiming" value="&preference.transitionDurationIn.label;"
+				<label
+					class="transitionTiming"
+					value="&preference.transitionDurationIn.label;"
 					flex="1" />
-				<textbox class="transitionTiming" type="number" min="0" max="1000"
-					width="64" preference="extensions.fstbh.transitionDurationIn" />
-				<label class="transitionTiming" value="&units.milliseconds;" />
+				<textbox
+					class="transitionTiming"
+					type="number"
+					min="0"
+					max="1000"
+					width="64"
+					preference="extensions.fstbh.transitionDurationIn" />
+				<label
+					class="transitionTiming"
+					value="&units.milliseconds;" />
 			</hbox>
 			<hbox align="center">
-				<label class="transitionTiming" value="&preference.transitionDurationOut.label;"
+				<label
+					class="transitionTiming"
+					value="&preference.transitionDurationOut.label;"
 					flex="1" />
-				<textbox class="transitionTiming" type="number" min="0" max="1000"
-					width="64" preference="extensions.fstbh.transitionDurationOut" />
-				<label class="transitionTiming" value="&units.milliseconds;" />
+				<textbox
+					class="transitionTiming"
+					type="number"
+					min="0"
+					max="1000"
+					width="64"
+					preference="extensions.fstbh.transitionDurationOut" />
+				<label
+					class="transitionTiming"
+					value="&units.milliseconds;" />
 			</hbox>
 			<hbox align="center">
-				<label class="transitionTiming" value="&preference.transitionDelay.label;"
+				<label
+					class="transitionTiming"
+					value="&preference.transitionDelay.label;"
 					flex="1" />
-				<textbox class="transitionTiming" type="number" min="0" max="10000"
-					width="80" preference="extensions.fstbh.transitionDelay" />
-				<label class="transitionTiming" value="&units.milliseconds;" />
+				<textbox
+					class="transitionTiming"
+					type="number"
+					min="0"
+					max="10000"
+					width="80"
+					preference="extensions.fstbh.transitionDelay" />
+				<label
+					class="transitionTiming"
+					value="&units.milliseconds;" />
 			</hbox>
 		</groupbox>
 		<groupbox>
 			<caption label="&preference.showTabsToolbar.label;" />
 
-			<radiogroup preference="extensions.fstbh.showTabsToolbar" orient="vertical">
-				<radio value="hoverOnly" label="&preference.showTabsToolbar.hoverOnly.label;" />
-				<radio value="multipleTabs" label="&preference.showTabsToolbar.multipleTabs.label;" />
-				<radio value="always" label="&preference.showTabsToolbar.always.label;" />
+			<radiogroup
+				preference="extensions.fstbh.showTabsToolbar"
+				orient="vertical">
+				<radio
+					value="hoverOnly"
+					label="&preference.showTabsToolbar.hoverOnly.label;" />
+				<radio
+					value="multipleTabs"
+					label="&preference.showTabsToolbar.multipleTabs.label;" />
+				<radio
+					value="always"
+					label="&preference.showTabsToolbar.always.label;" />
 			</radiogroup>
 		</groupbox>
 		<groupbox>
 			<caption label="&preference.other.label;" />
 
 			<hbox align="center">
-				<label value="&preference.bottomBuffer.label;" flex="1" />
-				<textbox type="number" min="0" max="100" width="64"
+				<label
+					value="&preference.bottomBuffer.label;"
+					flex="1" />
+				<textbox
+					type="number"
+					min="0"
+					max="100"
+					width="64"
 					preference="extensions.fstbh.bottomBuffer" />
 				<label value="&units.pixels;" />
 			</hbox>
 			<hbox align="center">
-				<checkbox label="&preference.showIdentityBox.label;" preference="extensions.fstbh.showIdentityBox" />
+				<checkbox
+					label="&preference.showIdentityBox.label;"
+					preference="extensions.fstbh.showIdentityBox" />
 			</hbox>
 		</groupbox>
 	</prefpane>
 
-	<prefpane id="com_sppad_fstbh_MaximizedPrefPane" label="&preference.maximizedPrefPane.label;"
+	<prefpane
+		id="com_sppad_fstbh_MaximizedPrefPane"
+		label="&preference.maximizedPrefPane.label;"
 		image="chrome://fstbh/skin/images/maximize.svg">
 		<preferences>
-			<preference id="extensions.fstbh.fullishScreen" name="extensions.fstbh.fullishScreen"
+			<preference
+				id="extensions.fstbh.fullishScreen"
+				name="extensions.fstbh.fullishScreen"
 				type="bool" />
 		</preferences>
 		<groupbox>
 			<caption label="&preference.maximizedTweaks.label;" />
 
-			<checkbox label="&preference.fullishScreen.label;" preference="extensions.fstbh.fullishScreen" />
+			<checkbox
+				label="&preference.fullishScreen.label;"
+				preference="extensions.fstbh.fullishScreen" />
 		</groupbox>
 	</prefpane>
 
-	<prefpane id="com_sppad_fstbh_EventsPrefPane" label="&preference.eventsPrefPane.label;"
+	<prefpane
+		id="com_sppad_fstbh_EventsPrefPane"
+		label="&preference.eventsPrefPane.label;"
 		image="chrome://fstbh/skin/images/dominos.svg">
 		<preferences>
-			<preference id="extensions.fstbh.showWhenTitleChanged" name="extensions.fstbh.showWhenTitleChanged"
+			<preference
+				id="extensions.fstbh.showWhenTitleChanged"
+				name="extensions.fstbh.showWhenTitleChanged"
 				type="string" />
-			<preference id="extensions.fstbh.showEvents.showOnTabOpen" name="extensions.fstbh.showEvents.showOnTabOpen"
+			<preference
+				id="extensions.fstbh.showEvents.showOnTabOpen"
+				name="extensions.fstbh.showEvents.showOnTabOpen"
 				type="bool" />
-			<preference id="extensions.fstbh.showEvents.showOnTabClose" name="extensions.fstbh.showEvents.showOnTabClose"
+			<preference
+				id="extensions.fstbh.showEvents.showOnTabClose"
+				name="extensions.fstbh.showEvents.showOnTabClose"
 				type="bool" />
-			<preference id="extensions.fstbh.showEvents.showOnTabSelect" name="extensions.fstbh.showEvents.showOnTabSelect"
+			<preference
+				id="extensions.fstbh.showEvents.showOnTabSelect"
+				name="extensions.fstbh.showEvents.showOnTabSelect"
 				type="bool" />
-			<preference id="extensions.fstbh.showEvents.showOnLocationChange"
-				name="extensions.fstbh.showEvents.showOnLocationChange" type="bool" />
-			<preference id="extensions.fstbh.showEvents.delay" name="extensions.fstbh.showEvents.delay"
+			<preference
+				id="extensions.fstbh.showEvents.showOnLocationChange"
+				name="extensions.fstbh.showEvents.showOnLocationChange"
+				type="bool" />
+			<preference
+				id="extensions.fstbh.showEvents.delay"
+				name="extensions.fstbh.showEvents.delay"
 				type="int" />
 		</preferences>
 		<groupbox>
 			<caption label="&preference.showWhenTitleChanged.label;" />
 
-			<radiogroup preference="extensions.fstbh.showWhenTitleChanged"
+			<radiogroup
+				preference="extensions.fstbh.showWhenTitleChanged"
 				orient="vertical">
-				<radio value="never" label="&preference.showWhenTitleChanged.never.label;" />
-				<radio value="pinned" label="&preference.showWhenTitleChanged.pinned.label;" />
-				<radio value="any" label="&preference.showWhenTitleChanged.any.label;" />
+				<radio
+					value="never"
+					label="&preference.showWhenTitleChanged.never.label;" />
+				<radio
+					value="pinned"
+					label="&preference.showWhenTitleChanged.pinned.label;" />
+				<radio
+					value="any"
+					label="&preference.showWhenTitleChanged.any.label;" />
 			</radiogroup>
 		</groupbox>
 		<groupbox>
 			<caption label="&preference.showEvents.label;" />
 
-			<checkbox label="&preference.showEvents.showOnTabOpen.label;"
+			<checkbox
+				label="&preference.showEvents.showOnTabOpen.label;"
 				preference="extensions.fstbh.showEvents.showOnTabOpen" />
-			<checkbox label="&preference.showEvents.showOnTabClose.label;"
+			<checkbox
+				label="&preference.showEvents.showOnTabClose.label;"
 				preference="extensions.fstbh.showEvents.showOnTabClose" />
-			<checkbox label="&preference.showEvents.showOnTabSelect.label;"
+			<checkbox
+				label="&preference.showEvents.showOnTabSelect.label;"
 				preference="extensions.fstbh.showEvents.showOnTabSelect" />
-			<checkbox label="&preference.showEvents.showOnLocationChange.label;"
+			<checkbox
+				label="&preference.showEvents.showOnLocationChange.label;"
 				preference="extensions.fstbh.showEvents.showOnLocationChange" />
 
 			<hbox align="center">
-				<label value="&preference.showEvents.delay.label;" flex="1" />
-				<textbox type="number" min="100" max="10000" width="80"
+				<label
+					value="&preference.showEvents.delay.label;"
+					flex="1" />
+				<textbox
+					type="number"
+					min="100"
+					max="10000"
+					width="80"
 					preference="extensions.fstbh.showEvents.delay" />
 				<label value="&units.milliseconds;" />
 			</hbox>
@@ -150,34 +258,51 @@
 	</prefpane>
 
 
-	<prefpane id="com_sppad_fstbh_StylePrefPane" label="&preference.stylePrefPane.label;"
+	<prefpane
+		id="com_sppad_fstbh_StylePrefPane"
+		label="&preference.stylePrefPane.label;"
 		image="chrome://fstbh/skin/images/sunglasses.svg">
 		<preferences>
-			<preference id="extensions.fstbh.style.browserBottomBox" name="extensions.fstbh.style.browserBottomBox"
+			<preference
+				id="extensions.fstbh.style.browserBottomBox"
+				name="extensions.fstbh.style.browserBottomBox"
 				type="string" />
-			<preference id="extensions.fstbh.style.topChromeBackground" name="extensions.fstbh.style.topChromeBackground"
+			<preference
+				id="extensions.fstbh.style.topChromeBackground"
+				name="extensions.fstbh.style.topChromeBackground"
 				type="string" />
 		</preferences>
 		<groupbox>
 			<caption label="&preference.style.browserBottomBox.label;" />
 
-			<radiogroup preference="extensions.fstbh.style.browserBottomBox"
+			<radiogroup
+				preference="extensions.fstbh.style.browserBottomBox"
 				orient="vertical">
-				<radio value="transparent" label="&preference.style.browserBottomBox.transparent.label;" />
-				<radio value="default" label="&preference.style.browserBottomBox.default.label;" />
+				<radio
+					value="transparent"
+					label="&preference.style.browserBottomBox.transparent.label;" />
+				<radio
+					value="default"
+					label="&preference.style.browserBottomBox.default.label;" />
 			</radiogroup>
 		</groupbox>
 		<groupbox id="com_sppad_fstbh_topChromeBackground_groupbox">
 			<caption label="&preference.style.topChromeBackground.label;" />
 
-			<radiogroup preference="extensions.fstbh.style.topChromeBackground"
+			<radiogroup
+				preference="extensions.fstbh.style.topChromeBackground"
 				orient="vertical">
-				<radio value="transparent"
+				<radio
+					value="transparent"
 					label="&preference.style.topChromeBackground.transparent.label;" />
-				<radio value="default" label="&preference.style.topChromeBackground.default.label;" />
+				<radio
+					value="default"
+					label="&preference.style.topChromeBackground.default.label;" />
 			</radiogroup>
 		</groupbox>
 	</prefpane>
 
-	<script src="config.js" type="application/javascript" />
+	<script
+		src="config.js"
+		type="application/javascript" />
 </prefwindow>

@@ -3,8 +3,12 @@
 <!ENTITY com.sppad.fstbh.normalAutohide.accesskey "H">
 <!ENTITY com.sppad.fstbh.maximizedAutohide.label "Maximized Autohide">
 <!ENTITY com.sppad.fstbh.maximizedAutohide.accesskey "H">
-<!ENTITY com.sppad.fstbh.fullscreenTabs.label "Always Show Tabs">
-<!ENTITY com.sppad.fstbh.fullscreenTabs.accesskey "S">
+<!ENTITY com.sppad.fstbh.fullscreenAutohide.label "Fullscreen Autohide">
+<!ENTITY com.sppad.fstbh.fullscreenAutohide.accesskey "H">
+<!ENTITY com.sppad.fstbh.alwaysShowTabs.label "Always Show Tabs">
+<!ENTITY com.sppad.fstbh.alwaysShowTabs.accesskey "S">
+<!ENTITY com.sppad.fstbh.alwaysShowAddonsBar.label "Always Show Add-on Bar">
+<!ENTITY com.sppad.fstbh.alwaysShowAddonsBar.accesskey "y">
 <!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.label "Bookmarks Toolbar">
 <!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.accesskey "B">
 

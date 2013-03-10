@@ -57,6 +57,10 @@
 	height: auto !important;
 }
 
+#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showAddonsBar="true"] #addon-bar:not([collapsed="true"]) {
+	visibility: visible !important;
+}
+
 /* Hide toolbars other than TabsToolbar when com_sppad_fstbh_showTabsToolbar */
 #main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"]:not([com_sppad_fstbh_toggle_top]) #navigator-toolbox > :not(#TabsToolbar) {
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
@@ -75,6 +79,7 @@
 #main-window:not([com_sppad_fstbh_applied="true"]) #browser,
 #main-window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
 	margin-top: 0 !important;
+	margin-bottom: 0 !important;
 	height: auto !important;
 }
 

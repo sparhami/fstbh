@@ -6,32 +6,62 @@
 
 <!DOCTYPE overlay SYSTEM "chrome://fstbh/locale/fstbh.dtd">
 
-<overlay id="fstbh"
+<overlay
+	id="fstbh"
 	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-	<script type="application/x-javascript" src="utils.js" />
-	<script type="application/x-javascript" src="preferences/preferences.js" />
-	<script type="application/x-javascript" src="addon.js" />
-	<script type="application/x-javascript" src="identity.js" />
-	<script type="application/x-javascript" src="navBoxHandler.js" />
-	<script type="application/x-javascript" src="bottomBoxHandler.js" />
-	<script type="application/x-javascript" src="fstbh.js" />
+	<script
+		type="application/x-javascript"
+		src="utils.js" />
+	<script
+		type="application/x-javascript"
+		src="preferences/preferences.js" />
+	<script
+		type="application/x-javascript"
+		src="addon.js" />
+	<script
+		type="application/x-javascript"
+		src="identity.js" />
+	<script
+		type="application/x-javascript"
+		src="navBoxHandler.js" />
+	<script
+		type="application/x-javascript"
+		src="bottomBoxHandler.js" />
+	<script
+		type="application/x-javascript"
+		src="fstbh.js" />
 
-	<vbox id="browser-bottombox" bottom="0" />
+	<vbox
+		id="browser-bottombox"
+		bottom="0" />
 
-	<toolbox id="navigator-toolbox" top="0" />
+	<toolbox
+		id="navigator-toolbox"
+		top="0" />
 
 	<vbox id="browser-panel">
-		<hbox id="com_sppad_fstbh_top_toggler" class="com_sppad_fstbh_toggler"
+		<hbox
+			id="com_sppad_fstbh_top_toggler"
+			class="com_sppad_fstbh_toggler"
 			top="0" />
-		<hbox id="com_sppad_fstbh_bottom_toggler" class="com_sppad_fstbh_toggler"
+		<hbox
+			id="com_sppad_fstbh_bottom_toggler"
+			class="com_sppad_fstbh_toggler"
 			bottom="0" />
 
-		<vbox id="com_sppad_fstbh_ssl_info_boundry" top="0" left="0">
-			<hbox id="com_sppad_fstbh_ssl_info" align="center">
+		<vbox
+			id="com_sppad_fstbh_ssl_info_boundry"
+			top="0"
+			left="0">
+			<hbox
+				id="com_sppad_fstbh_ssl_info"
+				align="center">
 				<image id="com_sppad_fstbh_ssl_info_icon" />
 				<label id="com_sppad_fstbh_ssl_info_ca" />
-				<label id="com_sppad_fstbh_ssl_info_separator" value="•" />
+				<label
+					id="com_sppad_fstbh_ssl_info_separator"
+					value="•" />
 				<label id="com_sppad_fstbh_ssl_info_domain" />
 			</hbox>
 		</vbox>
@@ -52,22 +82,65 @@
 	</toolbar>
 
 	<menupopup id="toolbar-context-menu">
-		<menuitem id="com_sppad_fstbh_tcm_normalModeContextItem" class="normalAutohideContextItem"
-			type="checkbox" label="&com.sppad.fstbh.normalAutohide.label;" accesskey="&com.sppad.fstbh.normalAutohide.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setNormalAutohide(this);" ordinal="100" />
-		<menuitem id="com_sppad_fstbh_tcm_maximizedModeContextItem" class="maximizedAutohideContextItem"
-			type="checkbox" label="&com.sppad.fstbh.maximizedAutohide.label;" accesskey="&com.sppad.fstbh.maximizedAutohide.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setMaximizedAutohide(this);" ordinal="101" />
-		<menuitem id="com_sppad_fstbh_tcm_showTabsContextIem" type="checkbox"
-			label="&com.sppad.fstbh.fullscreenTabs.label;" accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setFullscreenTabs(this);" ordinal="102" />
-		<menuseparator class="maximizedHoverContextItem" ordinal="103" />
+		<menuitem
+			id="com_sppad_fstbh_normalModeContextItem"
+			class="normalAutohideContextItem"
+			type="checkbox"
+			label="&com.sppad.fstbh.normalAutohide.label;"
+			accesskey="&com.sppad.fstbh.normalAutohide.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setNormalAutohide(this);"
+			ordinal="100" />
+		<menuitem
+			id="com_sppad_fstbh_maximizedModeContextItem"
+			class="maximizedAutohideContextItem"
+			type="checkbox"
+			label="&com.sppad.fstbh.maximizedAutohide.label;"
+			accesskey="&com.sppad.fstbh.maximizedAutohide.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setMaximizedAutohide(this);"
+			ordinal="101" />
+		<menuitem
+			id="com_sppad_fstbh_alwaysShowTabs"
+			type="checkbox"
+			label="&com.sppad.fstbh.alwaysShowTabs.label;"
+			accesskey="&com.sppad.fstbh.alwaysShowTabs.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setAlwaysShowTabs(this);"
+			ordinal="102" />
+		<menuitem
+			id="com_sppad_fstbh_alwaysShowAddonsBar"
+			type="checkbox"
+			label="&com.sppad.fstbh.alwaysShowAddonsBar.label;"
+			accesskey="&com.sppad.fstbh.alwaysShowAddonsBar.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setAlwaysShowAddonsBar(this);"
+			ordinal="102" />
+		<menuseparator
+			class="maximizedHoverContextItem"
+			ordinal="103" />
 	</menupopup>
 
 	<menupopup id="autohide-context">
-		<menuitem id="com_sppad_fstbh_fullscreenTabs" type="checkbox"
-			label="&com.sppad.fstbh.fullscreenTabs.label;" accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setFullscreenTabs(this);" ordinal="100" />
-		<menuseparator id="com_sppad_fstbh_fullscreen_context_separator" ordinal="101" />
+		<menuitem
+			id="com_sppad_fstbh_fullscreenModeContextItem"
+			type="checkbox"
+			label="&com.sppad.fstbh.fullscreenAutohide.label;"
+			accesskey="&com.sppad.fstbh.fullscreenAutohide.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setFullscreenAutohide(this);"
+			ordinal="100" />
+		<menuitem
+			id="com_sppad_fstbh_alwaysShowTabs_fullscreen"
+			type="checkbox"
+			label="&com.sppad.fstbh.alwaysShowTabs.label;"
+			accesskey="&com.sppad.fstbh.alwaysShowTabs.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setAlwaysShowTabs(this);"
+			ordinal="101" />
+		<menuitem
+			id="com_sppad_fstbh_alwaysShowAddonsBar_fullscreen"
+			type="checkbox"
+			label="&com.sppad.fstbh.alwaysShowAddonsBar.label;"
+			accesskey="&com.sppad.fstbh.alwaysShowAddonsBar.accesskey;"
+			oncommand="com.sppad.fstbh.Main.setAlwaysShowAddonsBar(this);"
+			ordinal="102" />
+		<menuseparator
+			id="com_sppad_fstbh_fullscreen_context_separator"
+			ordinal="103" />
 	</menupopup>
 </overlay>

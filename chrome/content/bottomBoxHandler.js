@@ -15,6 +15,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
     
     // Used for determining whether to show are not
     self.hovering = false;
+    self.findbarActive = false;
     self.popupTarget = null;
     
     this.enable = function() {
@@ -33,6 +34,9 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         toggler.addEventListener('mouseenter', self.mouseenter, false);
         bottomBox.addEventListener('dragenter', self.mouseenter, false);
         bottomBox.addEventListener('mouseenter', self.mouseenter, false);
+        
+        // For showing when FindToolbar is toggled
+        self.findbarObserver.observe(gFindBar, { attributes: true });
         
         self.hovering = false;
         self.popupTarget = null;
@@ -59,12 +63,28 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         bottomBox.removeEventListener('dragenter', self.mouseenter);
         bottomBox.removeEventListener('mouseenter', self.mouseenter);
         
+        // For showing when FindToolbar is toggled
+        self.findbarObserver.disconnect();
+        
         self.hovering = false;
         self.popupTarget = null;
         self.updateOpenedStatus();
         
         self.enabled = false;
     };
+    
+    /**
+     * Observe attribute changes on FindToolbar for showing when the find bar
+     * is active.
+     */
+    this.findbarObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if(mutation.attributeName == 'hidden') {
+                self.findbarActive = !mutation.target.getAttribute('hidden');
+                self.updateOpenedStatus();
+            }
+        });   
+    });
     
     this.popupshown = function(aEvent) {
         let targetName = aEvent.target.localName;
@@ -149,7 +169,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
     };
 
     this.updateOpenedStatus = function() {
-        if(self.hovering || self.popupTarget)
+        if(self.hovering || self.popupTarget || self.findbarActive)
             self.setOpened();
         else
             self.setClosed();

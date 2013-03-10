@@ -63,12 +63,18 @@ com.sppad.fstbh.PREFS = {
 
     // One of hoverOnly, multipleTabs, always
     showTabsToolbar : 'hoverOnly',
+    
+    // One of hoverOnly, always
+    showAddonsBar : 'hoverOnly',
 
     // One of hover, normal
     normalMode : 'normal',
     
     // One of hover, normal
     maximizedMode : 'normal',
+    
+    // One of hover, normal
+    fullscreenMode : 'normal',
     
     // Make it more like fullscreen
     fullishScreen : false,
