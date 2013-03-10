@@ -30,10 +30,10 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     const MILLISECONDS_PER_SECOND = 1000;
     const TAB_EVENTS = ['TabSelect', 'TabClose', 'TabOpen', 'TabPinned', 'TabUnpinned', 'TabAttrModified'];
         
-    let self = this;   
-    self.enabled = false;
+    let self = this;
     self.opened = false;
-    
+    self.enabled = false;
+
     // Used for determining whether to show are not
     self.hovering = false;
     self.focused = false;
@@ -382,7 +382,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.opened = true;
         
         let mainWindow = document.getElementById('main-window');
-        mainWindow.setAttribute('com_sppad_fstbh_toggle', 'true');
+        mainWindow.setAttribute('com_sppad_fstbh_toggle_top', 'true');
         
         window.addEventListener('dragover', self.checkMousePosition, false);
         window.addEventListener('mousemove', self.checkMousePosition, false);
@@ -406,7 +406,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.opened = false;
         
         let mainWindow = document.getElementById('main-window');
-        mainWindow.removeAttribute('com_sppad_fstbh_toggle');
+        mainWindow.removeAttribute('com_sppad_fstbh_toggle_top');
         
         window.removeEventListener('dragover', self.checkMousePosition);
         window.removeEventListener('mousemove', self.checkMousePosition);

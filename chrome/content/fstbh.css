@@ -2,6 +2,12 @@
 
 @import url("chrome://fstbh/skin/fstbh.css");
 
+/* Ignore -moz-collapsed to allow showing during fullscreen */
+#addon-bar:not([collapsed="true"]),
+#PersonalToolbar:not([collapsed="true"]) {
+	visibility: visible;
+}
+
 /*
  * Rules for when applied, causing navigator toolbox to show, etc.
  */
@@ -10,10 +16,20 @@
 	display: -moz-stack;
 }
 
-#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_toggle] #navigator-toolbox {
+#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_toggle_top] #navigator-toolbox,
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[customizing] {
 	margin-top: 0px !important;
 	transition-delay: 0s !important;
 	height: auto !important;
+}
+
+#main-window[com_sppad_fstbh_applied="true"] #PersonalToolbar:not([collapsed="true"]),
+#main-window[com_sppad_fstbh_applied="true"] #addon-bar[customizing] {
+	visibility: visible;
+}
+
+#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_bottom]) #addon-bar:not([customizing]) {
+	visibility: collapse;
 }
 
 #main-window[com_sppad_fstbh_applied="true"] .com_sppad_fstbh_toggler {
@@ -42,7 +58,7 @@
 }
 
 /* Hide toolbars other than TabsToolbar when com_sppad_fstbh_showTabsToolbar */
-#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"]:not([com_sppad_fstbh_toggle]) #navigator-toolbox > :not(#TabsToolbar) {
+#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"]:not([com_sppad_fstbh_toggle_top]) #navigator-toolbox > :not(#TabsToolbar) {
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
 	height: 0 !important;
 	max-height: 0 !important;
@@ -128,12 +144,6 @@
 /*
  * Misc
  */
-
-/* When inFullscreen and showPersonalToolbar is set, allow #PersonalToolbar to be shown */
-#main-window[inFullscreen] #navigator-toolbox[com_sppad_fstbh_showPersonalToolbar="hover"] #PersonalToolbar {
-	visibility: visible !important;
-	display: -moz-box;
-}
 
 #com_sppad_fstbh_windowControls {
 	display: none;

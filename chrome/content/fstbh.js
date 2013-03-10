@@ -54,9 +54,6 @@ com.sppad.fstbh.Main = new function() {
                 this.setShowTabsToolbar(value);
                 this.updateTabCount();
                 break;
-            case 'showPersonalToolbar':
-                this.setShowPersonalToolbar(value);
-                break;
             case 'normalMode':
                 this.setNormalMode(value);
                 break;
@@ -151,9 +148,11 @@ com.sppad.fstbh.Main = new function() {
             self.setupTheme();
             self.offsetBrowser();
             com.sppad.fstbh.NavBoxHandler.enable();
+            com.sppad.fstbh.BottomBoxHandler.enable();
         } else {
             self.clearTheme();
             com.sppad.fstbh.NavBoxHandler.disable();
+            com.sppad.fstbh.BottomBoxHandler.disable();
         }
         
         let showTabsContextItem = document.getElementById('com_sppad_fstbh_tcm_showTabsContextIem');
@@ -240,28 +239,6 @@ com.sppad.fstbh.Main = new function() {
         this.offsetBrowser();
     };
     
-    this.setShowPersonalToolbar = function(value) {
-        self.applyAttribute('navigator-toolbox', 'showPersonalToolbar', value);
-        
-        let menuitem = document.getElementById('com_sppad_fstbh_fullscreenPersonalToolbar');
-        if(value == 'hover')
-            menuitem.setAttribute('checked', 'true');
-        else
-            menuitem.removeAttribute('checked');
-        
-        // Force initialization of PersonalToolbar if it is hiding so that it
-        // populated when toolbars are popped open.
-        if(value == 'hover') {
-            let toolbar = document.getElementById('PersonalToolbar');
-            let hiding = toolbar.getAttribute('collapsed') == 'true';
-            
-            if(hiding) {
-                setToolbarVisibility(toolbar, true);
-                setToolbarVisibility(toolbar, false);
-            }
-        }
-    };
-    
     this.setNormalMode = function(value) {
         let menuitem = document.getElementById('com_sppad_fstbh_tcm_normalModeContextItem');
         if(value == 'hover')
@@ -285,11 +262,6 @@ com.sppad.fstbh.Main = new function() {
     this.setFullscreenTabs = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', checked ? 'always' : 'hoverOnly');
-    };
-    
-    this.setFullscreenPersonalToolbar = function(source) {
-        let checked = source.hasAttribute('checked');
-        com.sppad.fstbh.Preferences.setPreference('showPersonalToolbar', checked ? 'hover' : 'never');
     };
     
     this.setNormalAutohide = function(source) {
@@ -323,12 +295,21 @@ com.sppad.fstbh.Main = new function() {
         let prefs = ['transitionDelay', 'transitionProperty',
                      'showWhenTitleChanged', 'style.browserBottomBox',
                      'style.topChromeBackground', 'showTabsToolbar',
-                     'showPersonalToolbar', 'normalMode', 'maximizedMode',
-                     'showIdentityBox' ];
+                     'normalMode', 'maximizedMode', 'showIdentityBox' ];
         
         prefs.forEach(function(pref) {
             self.prefChanged(pref, com.sppad.fstbh.CurrentPrefs[pref]);
         });
+    };
+    
+    this.setupContext = function() {
+        let autohideContext = document.getElementById('autohide-context');
+        
+        autohideContext.addEventListener('popupshowing', function(aEvent) {
+            let insertPoint = document.getElementById('com_sppad_fstbh_fullscreen_context_separator');
+            onViewToolbarsPopupShowing(aEvent, insertPoint);
+        }, false);
+        
     };
     
     this.setup = function() {
@@ -344,6 +325,7 @@ com.sppad.fstbh.Main = new function() {
             .getService(Components.interfaces.nsIObserverService)
             .addObserver(this, "lightweight-theme-styling-update", false);
         
+        this.setupContext();
         this.loadPreferences();
         this.updateTabCount();
     };

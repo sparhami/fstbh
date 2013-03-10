@@ -14,6 +14,7 @@
 	<script type="application/x-javascript" src="addon.js" />
 	<script type="application/x-javascript" src="identity.js" />
 	<script type="application/x-javascript" src="navBoxHandler.js" />
+	<script type="application/x-javascript" src="bottomBoxHandler.js" />
 	<script type="application/x-javascript" src="fstbh.js" />
 
 	<vbox id="browser-bottombox" bottom="0" />
@@ -21,10 +22,12 @@
 	<toolbox id="navigator-toolbox" top="0" />
 
 	<vbox id="browser-panel">
-		<hbox id="com_sppad_fstbh_top_toggler" class="com_sppad_fstbh_toggler" top="0" />
-		<hbox id="com_sppad_fstbh_bottom_toggler" class="com_sppad_fstbh_toggler" bottom="0" />
-		
-		<vbox id="com_sppad_fstbh_ssl_info_boundry" top="0" left="0" >
+		<hbox id="com_sppad_fstbh_top_toggler" class="com_sppad_fstbh_toggler"
+			top="0" />
+		<hbox id="com_sppad_fstbh_bottom_toggler" class="com_sppad_fstbh_toggler"
+			bottom="0" />
+
+		<vbox id="com_sppad_fstbh_ssl_info_boundry" top="0" left="0">
 			<hbox id="com_sppad_fstbh_ssl_info" align="center">
 				<image id="com_sppad_fstbh_ssl_info_icon" />
 				<label id="com_sppad_fstbh_ssl_info_ca" />
@@ -65,8 +68,6 @@
 		<menuitem id="com_sppad_fstbh_fullscreenTabs" type="checkbox"
 			label="&com.sppad.fstbh.fullscreenTabs.label;" accesskey="&com.sppad.fstbh.fullscreenTabs.accesskey;"
 			oncommand="com.sppad.fstbh.Main.setFullscreenTabs(this);" ordinal="100" />
-		<menuitem id="com_sppad_fstbh_fullscreenPersonalToolbar" type="checkbox"
-			label="&com.sppad.fstbh.fullscreenPersonalToolbar.label;" accesskey="&com.sppad.fstbh.fullscreenPersonalToolbar.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setFullscreenPersonalToolbar(this);" ordinal="101" />
+		<menuseparator id="com_sppad_fstbh_fullscreen_context_separator" ordinal="101" />
 	</menupopup>
 </overlay>
