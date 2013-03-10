@@ -52,7 +52,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         if(self.enabled)
             return;
         
-        let tabContainer = window.gBrowser.tabContainer;
         let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
         let toolbarMenubar = document.getElementById('toolbar-menubar');
         let mainWindow = document.getElementById('main-window');
@@ -80,11 +79,11 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         // For show event and titlechange preferences
         TAB_EVENTS.forEach(function(eventName) {
-            tabContainer.addEventListener(eventName, self, false);
+            gBrowser.tabContainer.addEventListener(eventName, self, false);
         });
         
         // For URL change show event and updating SSL identity box
-        gBrowser.addProgressListener(this);
+        gBrowser.addProgressListener(self);
         
         // For showing when toolbar-menubar is toggled
         self.menubarObserver.observe(toolbarMenubar, { attributes: true });
@@ -102,7 +101,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         if(!self.enabled)
             return;
         
-        let tabContainer = window.gBrowser.tabContainer;
         let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
         let mainWindow = document.getElementById('main-window');
         
@@ -129,11 +127,11 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         // For show event and titlechange preferences
         TAB_EVENTS.forEach(function(eventName) {
-            tabContainer.removeEventListener(eventName, this);
+            gBrowser.tabContainer.removeEventListener(eventName, self);
         });
         
         // For URL change show event and updating SSL identity box
-        gBrowser.removeProgressListener(this);
+        gBrowser.removeProgressListener(self);
         
         // For showing when toolbar-menubar is toggled
         self.menubarObserver.disconnect();
