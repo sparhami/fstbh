@@ -93,7 +93,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.updateOpenedStatus();
         
         self.evalutateTitleChangeState();
-        self.setHiddenStyle();
         self.enabled = true;
     };
     

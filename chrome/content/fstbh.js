@@ -161,6 +161,7 @@ com.sppad.fstbh.Main = new function() {
         if(self.applied) {
             self.setupTheme();
             self.offsetBrowser();
+            com.sppad.fstbh.NavBoxHandler.setHiddenStyle();
             com.sppad.fstbh.NavBoxHandler.enable();
             com.sppad.fstbh.BottomBoxHandler.enable();
         } else {

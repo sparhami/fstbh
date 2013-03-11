@@ -1,9 +1,8 @@
-#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_separatedTitlebar="false"]:not([com_sppad_fstbh_toggle]):not([com_sppad_fstbh_showTabsToolbar="true"]) #titlebar {
+#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_separatedTitlebar="false"]:not([com_sppad_fstbh_toggle_top]):not([com_sppad_fstbh_showTabsToolbar="true"]) #titlebar {
 	visibility: hidden;
 }
 
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel[com_sppad_fstbh_tabCount="1"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="multipleTabs"],
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"][com_sppad_fstbh_showTabsToolbar="hoverOnly"] {
+#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"] {
  	background-color: rgba(0, 0, 0, 0.4);
 }
 
