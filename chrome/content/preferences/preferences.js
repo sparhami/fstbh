@@ -60,6 +60,11 @@ com.sppad.fstbh.PREFS = {
         // One of default, transparent - Windows only
         topChromeBackground : 'transparent',
     },
+    
+    tweaks: {
+        // Use at least one pixel for browser margin top to allow mouse events over plug-in content
+        onePixelPadding: true,
+    },
 
     // One of hoverOnly, multipleTabs, always
     showTabsToolbar : 'hoverOnly',

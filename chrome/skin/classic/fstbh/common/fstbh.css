@@ -1,6 +1,10 @@
 @import url("identity.css");
 @import url("chrome://fstbh-platform/skin/fstbh.css");
 
+#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_top]) #com_sppad_fstbh_top_toggler[onePixelPadding="true"] {
+	background-color: black;
+}
+
 #main-window[com_sppad_fstbh_applied="true"] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] {
 	background-color: rgba(0, 0, 0, .45) !important;
 	background-image: linear-gradient(to bottom, rgba(132, 132, 132, .3) 0%, rgba(149, 149, 149, .3) 85%, rgba(0, 0, 0, .1) 100%) !important;

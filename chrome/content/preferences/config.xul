@@ -161,21 +161,26 @@
 	</prefpane>
 
 	<prefpane
-		id="com_sppad_fstbh_MaximizedPrefPane"
-		label="&preference.maximizedPrefPane.label;"
+		id="com_sppad_fstbh_TweaksPrefPane"
+		label="&preference.tweaksPrefPane.label;"
 		image="chrome://fstbh/skin/images/maximize.svg">
 		<preferences>
 			<preference
 				id="extensions.fstbh.fullishScreen"
 				name="extensions.fstbh.fullishScreen"
 				type="bool" />
+			<preference
+				id="extensions.fstbh.tweaks.onePixelPadding"
+				name="extensions.fstbh.tweaks.onePixelPadding"
+				type="bool" />
 		</preferences>
 		<groupbox>
-			<caption label="&preference.maximizedTweaks.label;" />
-
 			<checkbox
 				label="&preference.fullishScreen.label;"
 				preference="extensions.fstbh.fullishScreen" />
+			<checkbox
+				label="&preference.tweaks.onePixelPadding.label;"
+				preference="extensions.fstbh.tweaks.onePixelPadding" />
 		</groupbox>
 	</prefpane>
 

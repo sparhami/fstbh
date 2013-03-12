@@ -69,6 +69,10 @@ com.sppad.fstbh.Main = new function() {
             case 'fullishScreen':
                 this.updateAppliedStatus();
                 break;
+            case 'tweaks.onePixelPadding':
+                this.offsetBrowser();
+                document.getElementById('com_sppad_fstbh_top_toggler').setAttribute('onePixelPadding', value);
+                break;
             default:
                 break;
         }
@@ -335,12 +339,14 @@ com.sppad.fstbh.Main = new function() {
      * always or multipleTabs.
      */
     this.offsetBrowser = function() {
+        let cp = com.sppad.fstbh.CurrentPrefs;
+        
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
         let browser = document.getElementById('browser');
         let tabsToolbar = document.getElementById('TabsToolbar');
         let addonsBar = document.getElementById('addon-bar');
         
-        let offsetTop = self.alwaysShowTabs ? tabsToolbar.boxObject.height : 0;
+        let offsetTop = self.alwaysShowTabs ? tabsToolbar.boxObject.height : cp['tweaks.onePixelPadding'] ? 1 : 0;
         let offsetBottom = self.alwaysShowAddonsBar ? addonsBar.boxObject.height : 0;
         
         sslBox.style.marginTop = offsetTop + "px";
@@ -353,7 +359,7 @@ com.sppad.fstbh.Main = new function() {
                      'showWhenTitleChanged', 'style.browserBottomBox',
                      'style.topChromeBackground', 'showTabsToolbar',
                      'showAddonsBar', 'normalMode', 'maximizedMode',
-                     'fullscreenMode', 'showIdentityBox' ];
+                     'fullscreenMode', 'showIdentityBox', 'tweaks.onePixelPadding' ];
         
         prefs.forEach(function(pref) {
             self.prefChanged(pref, com.sppad.fstbh.CurrentPrefs[pref]);
