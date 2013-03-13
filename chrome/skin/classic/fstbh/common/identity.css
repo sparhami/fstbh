@@ -45,6 +45,10 @@
 	list-style-image: url(chrome://browser/skin/identity-icons-generic.png);
 }
 
+#com_sppad_fstbh_ssl_info.chromeUI {
+	display: none;
+}
+
 #com_sppad_fstbh_ssl_info.verifiedDomain #com_sppad_fstbh_ssl_info_icon {
 	list-style-image: url(chrome://browser/skin/identity-icons-https.png);
 }

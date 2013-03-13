@@ -10,9 +10,7 @@ com.sppad.fstbh.Main = new function() {
     const MILLISECONDS_PER_SECOND = 1000;
     
     let self = this;
-    
-    self.alwaysShowTabs = 0;
-    self.evaluateTimer = null;
+    self.sizemodeTimer = null;
     
     this.handleEvent = function(aEvent) {
         switch (aEvent.type) {
@@ -136,6 +134,15 @@ com.sppad.fstbh.Main = new function() {
     this.applyAttribute = function(id, name, value) {
         document.getElementById(id).setAttribute("com_sppad_fstbh_" + name, value);
     };
+    
+    this.sizemodeChange = function() {
+        // Need to let browser apply all changes first so it can correctly calculate
+        // the bottom margin on the titlebar under Windows
+        window.clearTimeout(com.sppad.fstbh.sizemodeTimer);
+        com.sppad.fstbh.sizemodeTimer = window.setTimeout(function() {
+            com.sppad.fstbh.Main.updateAppliedStatus();
+        }, 10);
+    }
     
     /**
      * Updates the applied status, checking if the add-on should be applied or
@@ -391,6 +398,8 @@ com.sppad.fstbh.Main = new function() {
         tabContainer.addEventListener("TabClose", this, false);
         tabContainer.addEventListener("TabOpen", this, false);
         
+        window.addEventListener("sizemodechange", this.sizemodeChange, false);
+        
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
             .addObserver(this, "lightweight-theme-styling-update", false);
@@ -410,16 +419,15 @@ com.sppad.fstbh.Main = new function() {
         tabContainer.removeEventListener("TabClose", this);
         tabContainer.removeEventListener("TabOpen", this);
         
+        window.removeEventListener("sizemodechange", this.sizemodeChange);
+        
         self.addonbarObserver.disconnect();
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
             .removeObserver(this, "lightweight-theme-styling-update");
     };
-
 };
-
-com.sppad.fstbh.sizemodeTimer = null;
 
 window.addEventListener("load", function() {
     com.sppad.fstbh.Main.setup();
@@ -428,13 +436,4 @@ window.addEventListener("load", function() {
 window.addEventListener("unload", function() {
     com.sppad.fstbh.Main.cleanup();
     com.sppad.fstbh.Preferences.cleanup();
-}, false);
-
-window.addEventListener("sizemodechange", function () {
-    // Need to let browser apply all changes first so it can correctly calculate
-    // the bottom margin on the titlebar under Windows
-    window.clearTimeout(com.sppad.fstbh.sizemodeTimer);
-    com.sppad.fstbh.sizemodeTimer = window.setTimeout(function() {
-        com.sppad.fstbh.Main.updateAppliedStatus();
-    }, 10);
 }, false);
