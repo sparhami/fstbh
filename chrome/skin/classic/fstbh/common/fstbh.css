@@ -1,7 +1,7 @@
 @import url("identity.css");
 @import url("chrome://fstbh-platform/skin/fstbh.css");
 
-#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_top]) #com_sppad_fstbh_top_toggler[onePixelPadding="true"] {
+#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_top]) #com_sppad_fstbh_top_toggler[singlePixelPadding="true"] {
 	background-color: black;
 }
 

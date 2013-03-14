@@ -87,6 +87,8 @@ com.sppad.fstbh.Identity = new function() {
         self.tripX = sslBox.boxObject.screenX + sslBox.boxObject.width + IDENTITY_BOX_SHOW_PADDING_RIGHT;
         self.tripY = sslBox.boxObject.screenY + sslBox.boxObject.height + IDENTITY_BOX_SHOW_PADDING_BOTTOM;
         
+        // Even without extra padding for leaving, can't use mouseleave since 
+        // we must set pointer-events: none.
         window.addEventListener('mousemove', self.checkMousePosition, false);
         sslBox.setAttribute('hiding', true);
         self.entered = true;

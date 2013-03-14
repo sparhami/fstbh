@@ -69,7 +69,7 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'tweaks.onePixelPadding':
                 this.offsetBrowser();
-                document.getElementById('com_sppad_fstbh_top_toggler').setAttribute('onePixelPadding', value);
+                document.getElementById('com_sppad_fstbh_top_toggler').setAttribute('singlePixelPadding', value);
                 break;
             default:
                 break;
