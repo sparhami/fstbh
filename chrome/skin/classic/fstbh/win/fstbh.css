@@ -2,7 +2,7 @@
 	visibility: hidden;
 }
 
-#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"] {
+#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"] {
  	background-color: rgba(0, 0, 0, 0.4);
 }
 
