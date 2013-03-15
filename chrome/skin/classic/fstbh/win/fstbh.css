@@ -11,7 +11,10 @@
 	display: -moz-box !important;
 }
 
-#main-window[com_sppad_fstbh_applied="true"][sizemode="maximized"]:not([com_sppad_fstbh_separatedTitlebar="true"]) #titlebar-buttonbox-container,
-#main-window[com_sppad_fstbh_applied="true"][sizemode="maximized"]:not([com_sppad_fstbh_separatedTitlebar="true"]) .titlebar-placeholder[type="caption-buttons"] {
+#main-window[com_sppad_fstbh_applied="true"][sizemode="maximized"]:not([com_sppad_fstbh_separatedTitlebar="true"]) #titlebar-buttonbox-container {
 	display: none !important;
+}
+
+#main-window[sizemode="fullscreen"] #appmenu-button-container {
+	margin-right: 3px;
 }

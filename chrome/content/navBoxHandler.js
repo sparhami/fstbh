@@ -388,6 +388,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationIn'] / MILLISECONDS_PER_SECOND) + 's';
         gNavToolbox.style.transitionDuration = transitionDuration;
+        
+        self.setShowingStyle();
     };
     
     /**
@@ -417,9 +419,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     /**
-     * Sets the style for the navigator toolbox for the hidden state. Showing
-     * state is handled by CSS.
-     * <p>
      * For height, transition is from auto to 0, so transition properties don't
      * have an effect. Don't use visibility or display since we still want to be
      * able to use shortcut keys for navigation/search boxes.
@@ -432,9 +431,14 @@ com.sppad.fstbh.NavBoxHandler = new function() {
                 break;
             case 'height':
             default:
-                gNavToolbox.style.marginTop = '0';
+                gNavToolbox.style.marginTop = '';
                 gNavToolbox.style.height = '0';
                 break;
         }
+    };
+    
+    this.setShowingStyle = function() {
+        gNavToolbox.style.marginTop = '';
+        gNavToolbox.style.height = '';
     };
 };

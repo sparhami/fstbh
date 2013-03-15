@@ -170,13 +170,14 @@ com.sppad.fstbh.Main = new function() {
         self.windowingTweaks(maximized, applyInMaximized, fullscreen, applyInFullscreen);
     
         if(self.applied) {
-            self.setupTheme();
             self.offsetBrowser();
+            self.setupTheme();
             com.sppad.fstbh.NavBoxHandler.setHiddenStyle();
             com.sppad.fstbh.NavBoxHandler.enable();
             com.sppad.fstbh.BottomBoxHandler.enable();
         } else {
             self.clearTheme();
+            com.sppad.fstbh.NavBoxHandler.setShowingStyle();
             com.sppad.fstbh.NavBoxHandler.disable();
             com.sppad.fstbh.BottomBoxHandler.disable();
         }
@@ -229,6 +230,21 @@ com.sppad.fstbh.Main = new function() {
                 tabViewDeck.style.paddingTop = '';
             }
         }
+        
+        let appmenu = document.getElementById('appmenu-button-container');
+        if(appmenu) {
+            let tabstoolbar = document.getElementById('TabsToolbar');
+            let titlebar = document.getElementById('titlebar-content');
+            
+            if(fullscreen) {
+                appmenu.setAttribute('orient', 'vertical');
+                tabstoolbar.insertBefore(appmenu, tabstoolbar.firstChild);
+            } else {
+                appmenu.removeAttribute('orient', 'vertical');
+                titlebar.insertBefore(appmenu, titlebar.firstChild);
+            }
+        }
+       
     };
     
     /**

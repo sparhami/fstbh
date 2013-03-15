@@ -76,11 +76,13 @@
  * Rules for when not applied.
  */
 
-#main-window:not([com_sppad_fstbh_applied="true"]) #browser,
 #main-window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
+	margin-bottom: 0 !important;
+}
+
+#main-window:not([com_sppad_fstbh_applied="true"]) #browser {
 	margin-top: 0 !important;
 	margin-bottom: 0 !important;
-	height: auto !important;
 }
 
 #main-window:not([com_sppad_fstbh_applied="true"]) :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler) {
@@ -152,6 +154,7 @@
 
 #com_sppad_fstbh_windowControls {
 	display: none;
+	position: relative;
 }
 
 #main-window[com_sppad_fstbh_fullishScreen] #toolbar-menubar {

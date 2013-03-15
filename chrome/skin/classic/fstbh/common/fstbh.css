@@ -1,7 +1,7 @@
 @import url("identity.css");
 @import url("chrome://fstbh-platform/skin/fstbh.css");
 
-#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_top]) #com_sppad_fstbh_top_toggler[singlePixelPadding="true"] {
+#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_top]):not([com_sppad_fstbh_showTabsToolbar="true"]) #com_sppad_fstbh_top_toggler[singlePixelPadding="true"] {
 	background-color: black;
 }
 
@@ -49,7 +49,6 @@
 	background-color: rgb(230, 230, 240);
 	padding-left: 4px;
 	padding-right: 4px;
-	margin-bottom: 9px;
 	border-color: rgb(140, 140, 140);
 	border-style: solid;
 }
@@ -58,7 +57,6 @@
 	background-color: rgb(30, 30, 40);
 	padding-left: 15px;
 	padding-right: 15px;
-	margin-bottom: 9px;
 	border-color: rgb(140, 140, 140);
 	border-style: solid;
 }

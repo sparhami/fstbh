@@ -67,19 +67,25 @@
 		</vbox>
 	</vbox>
 
-	<toolbar id="TabsToolbar">
-		<hbox id="com_sppad_fstbh_windowControls" ordinal="1000">
-			<hbox id="com_sppad_fstbh_windowControls_min">
-				<toolbarbutton oncommand="window.minimize();" />
-			</hbox>
-			<hbox id="com_sppad_fstbh_windowControls_restore">
-				<toolbarbutton oncommand="window.restore();" />
-			</hbox>
-			<hbox id="com_sppad_fstbh_windowControls_close">
-				<toolbarbutton oncommand="BrowserTryToCloseWindow();" />
-			</hbox>
-		</hbox>
-	</toolbar>
+	<vbox id="titlebar">
+		<vbox id="titlebar-content">
+			<vbox>
+				<hbox
+					id="com_sppad_fstbh_windowControls"
+					ordinal="1000">
+					<hbox id="com_sppad_fstbh_windowControls_min">
+						<toolbarbutton oncommand="window.minimize();" />
+					</hbox>
+					<hbox id="com_sppad_fstbh_windowControls_restore">
+						<toolbarbutton oncommand="window.restore();" />
+					</hbox>
+					<hbox id="com_sppad_fstbh_windowControls_close">
+						<toolbarbutton oncommand="BrowserTryToCloseWindow();" />
+					</hbox>
+				</hbox>
+			</vbox>
+		</vbox>
+	</vbox>
 
 	<menupopup id="toolbar-context-menu">
 		<menuitem
