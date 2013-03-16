@@ -38,10 +38,6 @@ com.sppad.fstbh.Main = new function() {
             case 'transitionDelay':
                 this.setTransitionDelay(value);
                 break;
-            case 'transitionProperty':
-                this.setTransitionProperty(value);
-                com.sppad.fstbh.NavBoxHandler.setHiddenStyle();
-                break;
             case 'style.browserBottomBox':
                 this.applyAttribute('browser-bottombox', 'backgroundStyle', value);
                 break;
@@ -305,10 +301,6 @@ com.sppad.fstbh.Main = new function() {
         gNavToolbox.style.transitionDelay = transitionDelay;
     };
     
-    this.setTransitionProperty = function(value) {
-        gNavToolbox.style.transitionProperty = value;
-    };
-
     this.setShowTabsToolbar = function(value) {
         let contextItems = ['com_sppad_fstbh_alwaysShowTabs', 'com_sppad_fstbh_alwaysShowTabs_fullscreen'];
         contextItems.forEach(function(id) {

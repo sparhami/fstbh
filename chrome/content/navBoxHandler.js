@@ -429,15 +429,17 @@ com.sppad.fstbh.NavBoxHandler = new function() {
             ? 'height'
             : com.sppad.fstbh.CurrentPrefs['transitionProperty'];
         
+        gNavToolbox.style.transitionProperty = transitionProperty;
+        
         switch(transitionProperty) {
             case 'margin-top':
-                gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height) + "px";
                 gNavToolbox.style.height = '';
+                gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height) + "px";
                 break;
             case 'height':
             default:
-                gNavToolbox.style.marginTop = '';
                 gNavToolbox.style.height = '0';
+                gNavToolbox.style.marginTop = '';
                 break;
         }
     };
