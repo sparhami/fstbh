@@ -8,9 +8,12 @@ com.sppad.fstbh = com.sppad.fstbh || {};
 com.sppad.fstbh.Main = new function() {
 
     const MILLISECONDS_PER_SECOND = 1000;
+    const WINDOWS = "WINNT";
     
     let self = this;
     self.sizemodeTimer = null;
+    self.os = Components.classes["@mozilla.org/xre/app-info;1"]
+        .getService(Components.interfaces.nsIXULRuntime).OS;
     
     this.handleEvent = function(aEvent) {
         switch (aEvent.type) {
@@ -65,6 +68,7 @@ com.sppad.fstbh.Main = new function() {
                 this.setFullscreenMode(value);
                 break;
             case 'fullishScreen':
+            case 'fullscreenMenu':
                 this.updateAppliedStatus();
                 break;
             case 'tweaks.onePixelPadding':
@@ -93,7 +97,6 @@ com.sppad.fstbh.Main = new function() {
     
     this.setupTheme = function() {
         let mainWindow = document.getElementById('main-window');
-        let titlebar = document.getElementById('titlebar');
         
         gNavToolbox.style.color = mainWindow.style.backgroundImage;
         gNavToolbox.style.backgroundColor = mainWindow.style.backgroundColor;
@@ -108,7 +111,8 @@ com.sppad.fstbh.Main = new function() {
          * For PersonalTitlebar - don't show window controls when not tabs in
          * title bar by setting separatedTitlebar attribute.
          */
-        if(titlebar) {
+        if(self.os == WINDOWS) {
+            let titlebar = document.getElementById('titlebar');
             let marginBottom = titlebar.style.marginBottom;
             let separatedTitlebar = (marginBottom == '') 
                 || (marginBottom && marginBottom.startsWith('0'))
@@ -136,7 +140,8 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.sizemodeChange = function() {
-        // Need to let browser apply all changes first so it can correctly calculate
+        // Need to let browser apply all changes first so it can correctly
+        // calculate
         // the bottom margin on the titlebar under Windows
         window.clearTimeout(com.sppad.fstbh.sizemodeTimer);
         com.sppad.fstbh.sizemodeTimer = window.setTimeout(function() {
@@ -194,26 +199,13 @@ com.sppad.fstbh.Main = new function() {
         });
     };
     
-    /**
-     * Performs tweaks, mostly for Windows.
-     * <p>
-     * Handles the fullishScreen preference, which sets the window inFullscreen
-     * attribute to tell everyone that we are in fullscreen. They might still
-     * use sizemode, but that really isn't our problem.
-     * <p>
-     * XXX - Wait until there is a way to fix the titlebar controls. Currently,
-     * just add some buttons to take the same space as the ones Windows creates.
-     * Would like to use the fullscreen controls from Firefox, but Windows
-     * directly draws the buttons and we can't do anything with that space.
-     * <p>
-     * This originally came up for supporting the PersonalTitlebar add-on.
-     */
     this.windowingTweaks = function(maximized, applyInMaximized, fullscreen, applyInFullscreen) {
         let cp = com.sppad.fstbh.CurrentPrefs;
         
         let mainWindow = document.getElementById('main-window');
         let tabViewDeck = document.getElementById('tab-view-deck');
     
+        // fullishScreen preference
         if(maximized && applyInMaximized && cp['fullishScreen']) {
             mainWindow.setAttribute('com_sppad_fstbh_fullishScreen', 'true');
  
@@ -231,21 +223,64 @@ com.sppad.fstbh.Main = new function() {
             }
         }
         
-        let appmenu = document.getElementById('appmenu-button-container');
-        if(appmenu) {
-            let tabstoolbar = document.getElementById('TabsToolbar');
+        // Menu button / bar in fullscreen
+        if(self.os == WINDOWS) {
+            let menubar = document.getElementById('toolbar-menubar');
+            let appmenu = document.getElementById('appmenu-button-container');
+            let controls = document.getElementById('window-controls');
             let titlebar = document.getElementById('titlebar-content');
+            let fsTitlebar = document.getElementById('com_sppad_fstbh_fullscreen_titlebar');
+            let fstbhControls = document.getElementById('com_sppad_fstbh_windowControls');
+            let maximizedControls = document.getElementById('titlebar-buttonbox-container');
+            let tabstoolbar = document.getElementById('TabsToolbar');
             
-            if(fullscreen) {
+            self.applyAttribute('main-window', 'fullscreenMenu', cp['fullscreenMenu']);
+            
+            if(fullscreen && cp['fullscreenMenu']) {
+                fsTitlebar.appendChild(appmenu);
+                fsTitlebar.appendChild(controls);
+                
+                menubar.removeAttribute('moz-collapsed');
                 appmenu.setAttribute('orient', 'vertical');
-                tabstoolbar.insertBefore(appmenu, tabstoolbar.firstChild);
+                
+                let autohide = menubar.getAttribute('autohide');
+                self.applyAttribute('main-window', 'menubar_autohide', autohide);
             } else {
+                if(fullscreen)
+                    menubar.setAttribute('moz-collapsed', true);
+                
                 appmenu.removeAttribute('orient', 'vertical');
                 titlebar.insertBefore(appmenu, titlebar.firstChild);
+                tabstoolbar.appendChild(controls);
+            }
+            
+            let controlButtons = fullscreen ? controls : fstbhControls;
+            let placeholders = document.getElementsByClassName('titlebar-placeholder');
+            
+            for(let i=0; i<placeholders.length; i++) {
+                let placeholder = placeholders[i];
+                let type = placeholder.getAttribute('type');
+                
+                if(type == 'appmenu-button') {
+                    let width = appmenu.boxObject.width;
+                    placeholder.setAttribute('width', width);
+                } else if(type == 'caption-buttons') {
+                    let width = Math.max(maximizedControls.boxObject.width, controlButtons.boxObject.width);
+                    placeholder.setAttribute('width', width);
+                }
             }
         }
        
     };
+    
+    this.menubarObserver = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if(mutation.attributeName == 'autohide') {
+                let autohide = mutation.target.getAttribute('autohide');
+                self.applyAttribute('main-window', 'menubar_autohide', autohide);
+            }
+        });   
+    });
     
     /**
      * Updates based on the number of tabs open. Sets the attribute to keep tabs
@@ -420,7 +455,11 @@ com.sppad.fstbh.Main = new function() {
             .getService(Components.interfaces.nsIObserverService)
             .addObserver(this, "lightweight-theme-styling-update", false);
         
+        
+        let menubar = document.getElementById('toolbar-menubar');
         let addonbar = document.getElementById('addon-bar');
+
+        self.menubarObserver.observe(menubar, { attributes: true });
         self.addonbarObserver.observe(addonbar, { attributes: true });
         
         this.setupContextMenus();
@@ -437,6 +476,7 @@ com.sppad.fstbh.Main = new function() {
         
         window.removeEventListener("sizemodechange", this.sizemodeChange);
         
+        self.menubarObserver.disconnect();
         self.addonbarObserver.disconnect();
         
         Components.classes["@mozilla.org/observer-service;1"]

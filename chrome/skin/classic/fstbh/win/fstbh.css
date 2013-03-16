@@ -1,3 +1,4 @@
+#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_top]):not([com_sppad_fstbh_showTabsToolbar="true"]) #com_sppad_fstbh_fullscreen_titlebar,
 #main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_separatedTitlebar="false"]:not([com_sppad_fstbh_toggle_top]):not([com_sppad_fstbh_showTabsToolbar="true"]) #titlebar {
 	visibility: hidden;
 }
@@ -15,6 +16,28 @@
 	display: none !important;
 }
 
-#main-window[sizemode="fullscreen"] #appmenu-button-container {
-	margin-right: 3px;
+/* Menu button / menubar / window controls in fullscreen */
+
+#com_sppad_fstbh_fullscreen_titlebar,
+#com_sppad_fstbh_fullscreen_titlebar #window-controls,
+#com_sppad_fstbh_fullscreen_titlebar #appmenu-button-container {
+	position: fixed;
+	top: 0;
+}
+
+#com_sppad_fstbh_fullscreen_titlebar #appmenu-button-container {
+	left: 0;
+}
+
+#com_sppad_fstbh_fullscreen_titlebar #window-controls {
+	right: 0;
+}
+
+#main-window[sizemode="fullscreen"][com_sppad_fstbh_fullscreenMenu="true"] .titlebar-placeholder[type="caption-buttons"],
+#main-window[sizemode="fullscreen"][com_sppad_fstbh_fullscreenMenu="true"][com_sppad_fstbh_menubar_autohide="true"] .titlebar-placeholder[type="appmenu-button"] {
+	display: -moz-box !important;
+}
+
+#main-window[sizemode="fullscreen"][com_sppad_fstbh_fullscreenMenu="true"][com_sppad_fstbh_menubar_autohide="false"] #appmenu-button-container {
+	visibility: collapse;
 }

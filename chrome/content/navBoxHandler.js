@@ -53,7 +53,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
             return;
         
         let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
-        let toolbarMenubar = document.getElementById('toolbar-menubar');
+        let menubar = document.getElementById('toolbar-menubar');
         let mainWindow = document.getElementById('main-window');
         
         // Used for hiding when focused and escape is used
@@ -86,7 +86,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         gBrowser.addProgressListener(self);
         
         // For showing when toolbar-menubar is toggled
-        self.menubarObserver.observe(toolbarMenubar, { attributes: true });
+        self.menubarObserver.observe(menubar, { attributes: true });
         
         self.hovering = false;
         self.popupTarget = null;
@@ -424,7 +424,12 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      * able to use shortcut keys for navigation/search boxes.
      */
     this.setHiddenStyle = function() {
-        switch(com.sppad.fstbh.CurrentPrefs['transitionProperty']) {
+        // Slide-out doesn't work while in normal mode
+        let transitionProperty = window.windowState == window.STATE_NORMAL
+            ? 'height'
+            : com.sppad.fstbh.CurrentPrefs['transitionProperty'];
+        
+        switch(transitionProperty) {
             case 'margin-top':
                 gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height) + "px";
                 gNavToolbox.style.height = '';

@@ -86,6 +86,10 @@
 			</vbox>
 		</vbox>
 	</vbox>
+	
+	<window id="main-window">
+		<hbox id="com_sppad_fstbh_fullscreen_titlebar" />
+	</window>
 
 	<menupopup id="toolbar-context-menu">
 		<menuitem

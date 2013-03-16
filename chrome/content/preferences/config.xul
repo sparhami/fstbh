@@ -48,10 +48,6 @@
 				id="extensions.fstbh.bottomBuffer"
 				name="extensions.fstbh.bottomBuffer"
 				type="int" />
-			<preference
-				id="extensions.fstbh.showIdentityBox"
-				name="extensions.fstbh.showIdentityBox"
-				type="bool" />
 		</preferences>
 		<groupbox>
 			<caption label="&preference.transitionProperty.label;" />
@@ -152,11 +148,6 @@
 					preference="extensions.fstbh.bottomBuffer" />
 				<label value="&units.pixels;" />
 			</hbox>
-			<hbox align="center">
-				<checkbox
-					label="&preference.showIdentityBox.label;"
-					preference="extensions.fstbh.showIdentityBox" />
-			</hbox>
 		</groupbox>
 	</prefpane>
 
@@ -173,6 +164,14 @@
 				id="extensions.fstbh.tweaks.onePixelPadding"
 				name="extensions.fstbh.tweaks.onePixelPadding"
 				type="bool" />
+			<preference
+				id="extensions.fstbh.showIdentityBox"
+				name="extensions.fstbh.showIdentityBox"
+				type="bool" />
+			<preference
+				id="extensions.fstbh.fullscreenMenu"
+				name="extensions.fstbh.fullscreenMenu"
+				type="bool" />
 		</preferences>
 		<groupbox>
 			<checkbox
@@ -181,6 +180,12 @@
 			<checkbox
 				label="&preference.tweaks.onePixelPadding.label;"
 				preference="extensions.fstbh.tweaks.onePixelPadding" />
+			<checkbox
+				label="&preference.showIdentityBox.label;"
+				preference="extensions.fstbh.showIdentityBox" />
+			<checkbox id="com_sppad_fstbh_fullscreenMenu_checkbox"
+				label="&preference.fullscreenMenu.label;"
+				preference="extensions.fstbh.fullscreenMenu" />
 		</groupbox>
 	</prefpane>
 

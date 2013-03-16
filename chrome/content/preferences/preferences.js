@@ -83,6 +83,9 @@ com.sppad.fstbh.PREFS = {
     
     // Make it more like fullscreen
     fullishScreen : false,
+    
+    // Show the app menu button or Firefox menu in fullscreen
+    fullscreenMenu: true,
 
     // Show box iwth cert org and domain when hiding toolbars
     showIdentityBox: false,
