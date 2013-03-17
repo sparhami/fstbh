@@ -1,3 +1,5 @@
+@namespace fstbh url("http://sppad.com/ns/fstbh");
+
 #com_sppad_fstbh_fullscreenMenu_checkbox,
 #com_sppad_fstbh_topChromeBackground_groupbox {
 	display: none;

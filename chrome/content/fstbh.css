@@ -1,6 +1,7 @@
 @import url("chrome://global/skin/");
-
 @import url("chrome://fstbh/skin/fstbh.css");
+
+@namespace fstbh url("http://sppad.com/ns/fstbh");
 
 /* Ignore -moz-collapsed to allow showing during fullscreen */
 #addon-bar:not([collapsed="true"]),
@@ -12,32 +13,31 @@
  * Rules for when applied, causing navigator toolbox to show, etc.
  */
  
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel {
+#main-window[fstbh|applied="true"] #browser-panel {
 	display: -moz-stack;
 }
 
-#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_toggle_top] #navigator-toolbox,
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[customizing] {
+#main-window[fstbh|applied="true"] #navigator-toolbox[customizing] {
 	margin-top: 0px !important;
 	transition-delay: 0s !important;
 	height: auto !important;
 }
 
-#main-window[com_sppad_fstbh_applied="true"] #PersonalToolbar:not([collapsed="true"]),
-#main-window[com_sppad_fstbh_applied="true"] #addon-bar[customizing] {
+#main-window[fstbh|applied="true"] #PersonalToolbar:not([collapsed="true"]),
+#main-window[fstbh|applied="true"] #addon-bar[customizing] {
 	visibility: visible;
 }
 
-#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_bottom]) #addon-bar:not([customizing]) {
+#main-window[fstbh|applied="true"]:not([fstbh|toggle_bottom]) #addon-bar:not([customizing]) {
 	visibility: collapse;
 }
 
-#main-window[com_sppad_fstbh_applied="true"] .com_sppad_fstbh_toggler {
+#main-window[fstbh|applied="true"] .com_sppad_fstbh_toggler {
 	background-color: transparent;
 	height: 1px;
 }
 
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox {
+#main-window[fstbh|applied="true"] #navigator-toolbox {
 	/* Transition property, duration and delay set from javascript */
 	transition-timing-function: linear;
 	
@@ -48,7 +48,7 @@
 	overflow: hidden;
 }
 
-#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"] #navigator-toolbox {	
+#main-window[fstbh|applied="true"][fstbh|showTabsToolbar="true"] #navigator-toolbox {	
 	/* It looks odd if the slide in animation plays due to the margin-top offset on #browser */
 	transition-property: none;
 	
@@ -57,12 +57,12 @@
 	height: auto !important;
 }
 
-#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showAddonsBar="true"] #addon-bar:not([collapsed="true"]) {
+#main-window[fstbh|applied="true"][fstbh|showAddonsBar="true"] #addon-bar:not([collapsed="true"]) {
 	visibility: visible !important;
 }
 
 /* Hide toolbars other than TabsToolbar when com_sppad_fstbh_showTabsToolbar */
-#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_showTabsToolbar="true"]:not([com_sppad_fstbh_toggle_top]) #navigator-toolbox > :not(#TabsToolbar) {
+#main-window[fstbh|applied="true"][fstbh|showTabsToolbar="true"]:not([fstbh|toggle_top]) #navigator-toolbox > :not(#TabsToolbar) {
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
 	height: 0 !important;
 	max-height: 0 !important;
@@ -76,16 +76,16 @@
  * Rules for when not applied.
  */
 
-#main-window:not([com_sppad_fstbh_applied="true"]) #navigator-toolbox {
+#main-window:not([fstbh|applied="true"]) #navigator-toolbox {
 	margin-bottom: 0 !important;
 }
 
-#main-window:not([com_sppad_fstbh_applied="true"]) #browser {
+#main-window:not([fstbh|applied="true"]) #browser {
 	margin-top: 0 !important;
 	margin-bottom: 0 !important;
 }
 
-#main-window:not([com_sppad_fstbh_applied="true"]) :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler) {
+#main-window:not([fstbh|applied="true"]) :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler) {
 	display: none;
 }
 
@@ -96,27 +96,27 @@
  */
  
 /* Send everything to the back of the stack, things that are needed will be moved forward */
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel > * {
+#main-window[fstbh|applied="true"] #browser-panel > * {
 	-moz-box-ordinal-group: 0;
 }
 
 /* Browser should be behind everything else, regardless of element ordering */
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel > #browser {
+#main-window[fstbh|applied="true"] #browser-panel > #browser {
 	-moz-box-ordinal-group: 1;
 }
 
 /* SSL info on top of browser, but behind rest of UI */
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel > #com_sppad_fstbh_ssl_info_boundry {
+#main-window[fstbh|applied="true"] #browser-panel > #com_sppad_fstbh_ssl_info_boundry {
 	-moz-box-ordinal-group: 2;
 }
 
 /* Toggler goes behind the navigator-toolbox */
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel > .com_sppad_fstbh_toggler {
+#main-window[fstbh|applied="true"] #browser-panel > .com_sppad_fstbh_toggler {
 	-moz-box-ordinal-group: 999;
 }
 
 /* Everything else should be on top of #browser */
-#main-window[com_sppad_fstbh_applied="true"] #browser-panel > :-moz-any(#navigator-toolbox, #browser-bottombox) {
+#main-window[fstbh|applied="true"] #browser-panel > :-moz-any(#navigator-toolbox, #browser-bottombox) {
 	-moz-box-ordinal-group: 1000;
 }
 
@@ -142,7 +142,7 @@
 /* Hide 'show menu-bar' context menu item. Not set from Javascript since the
  * context menu item doesn't exist if context menu hasn't been opened yet.
  */
-#main-window[com_sppad_fstbh_fullishScreen] #toggle_toolbar-menubar {
+#main-window[fstbh|fullishScreen] #toggle_toolbar-menubar {
 	display: none;
 }
 
@@ -157,6 +157,6 @@
 	position: relative;
 }
 
-#main-window[com_sppad_fstbh_fullishScreen] #toolbar-menubar {
+#main-window[fstbh|fullishScreen] #toolbar-menubar {
 	display: none !important;
 }

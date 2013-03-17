@@ -5,6 +5,8 @@ if (typeof com == "undefined") {
 com.sppad = com.sppad || {};
 com.sppad.fstbh = com.sppad.fstbh || {};
 
+com.sppad.fstbh.ns = "http://sppad.com/ns/fstbh";
+
 com.sppad.fstbh.Main = new function() {
 
     const MILLISECONDS_PER_SECOND = 1000;
@@ -127,12 +129,8 @@ com.sppad.fstbh.Main = new function() {
         gNavToolbox.style.backgroundImage = '';
     };
     
-    /**
-     * Applies an attribute to a DOM node, prefixed with com_sppad_fstbh_ to
-     * avoid clashing with other addons.
-     */
     this.applyAttribute = function(id, name, value) {
-        document.getElementById(id).setAttribute("com_sppad_fstbh_" + name, value);
+        document.getElementById(id).setAttributeNS(com.sppad.fstbh.ns, name, value);
     };
     
     this.sizemodeChange = function() {

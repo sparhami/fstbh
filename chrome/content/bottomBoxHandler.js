@@ -182,7 +182,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         self.opened = true;
         
         let mainWindow = document.getElementById('main-window');
-        mainWindow.setAttribute('com_sppad_fstbh_toggle_bottom', 'true');
+        mainWindow.setAttributeNS(com.sppad.fstbh.ns, 'toggle_bottom', 'true');
         
         window.addEventListener('dragover', self.checkMousePosition, false);
         window.addEventListener('mousemove', self.checkMousePosition, false);
@@ -201,7 +201,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         self.opened = false;
         
         let mainWindow = document.getElementById('main-window');
-        mainWindow.removeAttribute('com_sppad_fstbh_toggle_bottom');
+        mainWindow.removeAttributeNS(com.sppad.fstbh.ns, 'toggle_bottom');
         
         window.removeEventListener('dragover', self.checkMousePosition);
         window.removeEventListener('mousemove', self.checkMousePosition);

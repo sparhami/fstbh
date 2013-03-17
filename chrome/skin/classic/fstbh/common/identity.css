@@ -1,3 +1,5 @@
+@namespace fstbh url("http://sppad.com/ns/fstbh");
+
 /*
  * Provides extra padding so that the identity box can be hidden before the 
  * mouse is actually over the identity box.

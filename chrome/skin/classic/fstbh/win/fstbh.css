@@ -1,18 +1,20 @@
-#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_top]):not([com_sppad_fstbh_showTabsToolbar="true"]) #com_sppad_fstbh_fullscreen_titlebar,
-#main-window[com_sppad_fstbh_applied="true"][com_sppad_fstbh_separatedTitlebar="false"]:not([com_sppad_fstbh_toggle_top]):not([com_sppad_fstbh_showTabsToolbar="true"]) #titlebar {
+@namespace fstbh url("http://sppad.com/ns/fstbh");
+
+#main-window[fstbh|applied="true"]:not([fstbh|toggle_top]):not([fstbh|showTabsToolbar="true"]) #com_sppad_fstbh_fullscreen_titlebar,
+#main-window[fstbh|applied="true"][fstbh|separatedTitlebar="false"]:not([fstbh|toggle_top]):not([fstbh|showTabsToolbar="true"]) #titlebar {
 	visibility: hidden;
 }
 
-#main-window[com_sppad_fstbh_applied="true"] #navigator-toolbox[com_sppad_fstbh_backgroundStyle="transparent"] {
+#main-window[fstbh|applied="true"] #navigator-toolbox[fstbh|backgroundStyle="transparent"] {
  	background-color: rgba(0, 0, 0, 0.4);
 }
 
-#main-window[com_sppad_fstbh_fullishScreen]:not([com_sppad_fstbh_separatedTitlebar="true"]) #com_sppad_fstbh_windowControls,
-#main-window[com_sppad_fstbh_applied="true"][sizemode="maximized"]:not([com_sppad_fstbh_separatedTitlebar="true"]) #com_sppad_fstbh_windowControls {
+#main-window[fstbh|fullishScreen]:not([fstbh|separatedTitlebar="true"]) #com_sppad_fstbh_windowControls,
+#main-window[fstbh|applied="true"][sizemode="maximized"]:not([fstbh|separatedTitlebar="true"]) #com_sppad_fstbh_windowControls {
 	display: -moz-box !important;
 }
 
-#main-window[com_sppad_fstbh_applied="true"][sizemode="maximized"]:not([com_sppad_fstbh_separatedTitlebar="true"]) #titlebar-buttonbox-container {
+#main-window[fstbh|applied="true"][sizemode="maximized"]:not([fstbh|separatedTitlebar="true"]) #titlebar-buttonbox-container {
 	display: none !important;
 }
 
@@ -33,11 +35,11 @@
 	right: 0;
 }
 
-#main-window[sizemode="fullscreen"][com_sppad_fstbh_fullscreenMenu="true"] .titlebar-placeholder[type="caption-buttons"],
-#main-window[sizemode="fullscreen"][com_sppad_fstbh_fullscreenMenu="true"][com_sppad_fstbh_menubar_autohide="true"] .titlebar-placeholder[type="appmenu-button"] {
+#main-window[sizemode="fullscreen"][fstbh|fullscreenMenu="true"] .titlebar-placeholder[type="caption-buttons"],
+#main-window[sizemode="fullscreen"][fstbh|fullscreenMenu="true"][fstbh|menubar_autohide="true"] .titlebar-placeholder[type="appmenu-button"] {
 	display: -moz-box !important;
 }
 
-#main-window[sizemode="fullscreen"][com_sppad_fstbh_fullscreenMenu="true"][com_sppad_fstbh_menubar_autohide="false"] #appmenu-button-container {
+#main-window[sizemode="fullscreen"][fstbh|fullscreenMenu="true"][fstbh|menubar_autohide="false"] #appmenu-button-container {
 	visibility: collapse;
 }

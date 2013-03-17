@@ -379,7 +379,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.opened = true;
         
         let mainWindow = document.getElementById('main-window');
-        mainWindow.setAttribute('com_sppad_fstbh_toggle_top', 'true');
+        mainWindow.setAttributeNS(com.sppad.fstbh.ns, 'toggle_top', 'true');
         
         window.addEventListener('dragover', self.checkMousePosition, false);
         window.addEventListener('mousemove', self.checkMousePosition, false);
@@ -405,7 +405,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.opened = false;
         
         let mainWindow = document.getElementById('main-window');
-        mainWindow.removeAttribute('com_sppad_fstbh_toggle_top');
+        mainWindow.removeAttributeNS(com.sppad.fstbh.ns, 'toggle_top');
         
         window.removeEventListener('dragover', self.checkMousePosition);
         window.removeEventListener('mousemove', self.checkMousePosition);

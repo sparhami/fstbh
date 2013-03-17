@@ -1,16 +1,18 @@
 @import url("identity.css");
 @import url("chrome://fstbh-platform/skin/fstbh.css");
 
-#main-window[com_sppad_fstbh_applied="true"]:not([com_sppad_fstbh_toggle_top]):not([com_sppad_fstbh_showTabsToolbar="true"]) #com_sppad_fstbh_top_toggler[singlePixelPadding="true"] {
+@namespace fstbh url("http://sppad.com/ns/fstbh");
+
+#main-window[fstbh|applied="true"]:not([fstbh|toggle_top]):not([fstbh|showTabsToolbar="true"]) #com_sppad_fstbh_top_toggler[singlePixelPadding="true"] {
 	background-color: black;
 }
 
-#main-window[com_sppad_fstbh_applied="true"] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] {
+#main-window[fstbh|applied="true"] #browser-bottombox[fstbh|backgroundStyle="transparent"] {
 	background-color: rgba(0, 0, 0, .45) !important;
 	background-image: linear-gradient(to bottom, rgba(132, 132, 132, .3) 0%, rgba(149, 149, 149, .3) 85%, rgba(0, 0, 0, .1) 100%) !important;
 }
 
-#main-window[com_sppad_fstbh_applied="true"] #browser-bottombox[com_sppad_fstbh_backgroundStyle="transparent"] [disabled="true"] {
+#main-window[fstbh|applied="true"] #browser-bottombox[fstbh|backgroundStyle="transparent"] [disabled="true"] {
 	color: rgb(195, 195, 195) !important;
 }
 
