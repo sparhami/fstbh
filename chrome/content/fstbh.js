@@ -181,16 +181,8 @@ com.sppad.fstbh.Main = new function() {
             com.sppad.fstbh.BottomBoxHandler.disable();
         }
         
-        let contextItems = ['com_sppad_fstbh_alwaysShowTabs',
-                            'com_sppad_fstbh_alwaysShowTabs_fullscreen',
-                            'com_sppad_fstbh_alwaysShowAddonsBar',
-                            'com_sppad_fstbh_alwaysShowAddonsBar_fullscreen'];
-        contextItems.forEach(function(id) {
-            if(self.applied)
-                document.getElementById(id).removeAttribute('disabled');
-            else
-                document.getElementById(id).setAttribute('disabled', 'true');
-        });
+        let addonbar = document.getElementById('addon-bar');
+        addonbar.setAttribute('context', fullscreen ? 'autohide-context' : 'toolbar-context-menu');
     };
     
     this.windowingTweaks = function(maximized, applyInMaximized, fullscreen, applyInFullscreen) {
