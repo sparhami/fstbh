@@ -193,20 +193,17 @@ com.sppad.fstbh.Main = new function() {
     
         // fullishScreen preference
         if(maximized && applyInMaximized && cp['fullishScreen']) {
-            mainWindow.setAttribute('com_sppad_fstbh_fullishScreen', 'true');
- 
             mainWindow.setAttribute('inFullscreen', 'true');
             gNavToolbox.setAttribute('inFullscreen', 'true');
+            
             tabViewDeck.style.paddingTop = -(mainWindow.boxObject.screenY) + "px";
         } else {
-            mainWindow.removeAttribute('com_sppad_fstbh_fullishScreen');   
-            tabViewDeck.style.paddingTop = "";
-            
             if(!fullscreen) {
                 mainWindow.removeAttribute('inFullscreen');
                 gNavToolbox.removeAttribute('inFullscreen');
-                tabViewDeck.style.paddingTop = '';
             }
+            
+            tabViewDeck.style.paddingTop = '';
         }
         
         // Menu button / bar in fullscreen
