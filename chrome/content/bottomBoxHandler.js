@@ -39,10 +39,10 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         self.findbarObserver.observe(gFindBar, { attributes: true });
         
         self.hovering = false;
+        self.findbarActive = false;
         self.popupTarget = null;
-        self.updateOpenedStatus();
-        
         self.setHiddenStyle();
+        
         self.enabled = true;
     };
     
@@ -66,9 +66,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         // For showing when FindToolbar is toggled
         self.findbarObserver.disconnect();
         
-        self.hovering = false;
-        self.popupTarget = null;
-        self.updateOpenedStatus();
+        self.setShowingStyle();
         
         self.enabled = false;
     };
@@ -181,9 +179,6 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         
         self.opened = true;
         
-        let mainWindow = document.getElementById('main-window');
-        mainWindow.setAttributeNS(com.sppad.fstbh.ns, 'toggle_bottom', 'true');
-        
         window.addEventListener('dragover', self.checkMousePosition, false);
         window.addEventListener('mousemove', self.checkMousePosition, false);
         document.addEventListener('popupshown', self.popupshown, false);
@@ -192,16 +187,15 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationIn'] / MILLISECONDS_PER_SECOND) + 's';
         let bottomBox = document.getElementById('browser-bottombox');
         bottomBox.style.transitionDuration = transitionDuration;
+        
+        self.setShowingStyle();
     };
     
     this.setClosed = function() {
-        if(!self.opened)
+        if(!self.opened || !self.enabled)
             return;
         
         self.opened = false;
-        
-        let mainWindow = document.getElementById('main-window');
-        mainWindow.removeAttributeNS(com.sppad.fstbh.ns, 'toggle_bottom');
         
         window.removeEventListener('dragover', self.checkMousePosition);
         window.removeEventListener('mousemove', self.checkMousePosition);
@@ -214,8 +208,14 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         
         self.setHiddenStyle();
     };
-
+    
     this.setHiddenStyle = function() {
-        // TODO
+        let mainWindow = document.getElementById('main-window');
+        mainWindow.removeAttributeNS(com.sppad.fstbh.ns, 'toggle_bottom');
+    };
+    
+    this.setShowingStyle = function() {
+        let mainWindow = document.getElementById('main-window');
+        mainWindow.setAttributeNS(com.sppad.fstbh.ns, 'toggle_bottom', 'true');
     };
 };

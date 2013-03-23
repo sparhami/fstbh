@@ -89,8 +89,12 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.menubarObserver.observe(menubar, { attributes: true });
         
         self.hovering = false;
+        self.focused = false;
+        self.menuActive = false;
         self.popupTarget = null;
-        self.updateOpenedStatus();
+        self.titlechange = false;
+        self.showEventActive = false;
+        self.setHiddenStyle();
         
         self.evalutateTitleChangeState();
         self.enabled = true;
@@ -135,9 +139,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         // For showing when toolbar-menubar is toggled
         self.menubarObserver.disconnect();
         
-        self.hovering = false;
-        self.popupTarget = null;
-        self.updateOpenedStatus();
+        self.setShowingStyle();
         
         self.enabled = false;
     };
@@ -378,9 +380,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         self.opened = true;
         
-        let mainWindow = document.getElementById('main-window');
-        mainWindow.setAttributeNS(com.sppad.fstbh.ns, 'toggle_top', 'true');
-        
         window.addEventListener('dragover', self.checkMousePosition, false);
         window.addEventListener('mousemove', self.checkMousePosition, false);
         document.addEventListener('popupshown', self.popupshown, false);
@@ -399,13 +398,10 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      * changed.
      */
     this.setClosed = function() {
-        if(!self.opened)
+        if(!self.opened || !self.enabled)
             return;
         
         self.opened = false;
-        
-        let mainWindow = document.getElementById('main-window');
-        mainWindow.removeAttributeNS(com.sppad.fstbh.ns, 'toggle_top');
         
         window.removeEventListener('dragover', self.checkMousePosition);
         window.removeEventListener('mousemove', self.checkMousePosition);
@@ -424,6 +420,9 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      * able to use shortcut keys for navigation/search boxes.
      */
     this.setHiddenStyle = function() {
+        let mainWindow = document.getElementById('main-window');
+        mainWindow.removeAttributeNS(com.sppad.fstbh.ns, 'toggle_top');
+        
         // Slide-out doesn't work while in normal mode
         let transitionProperty = window.windowState == window.STATE_NORMAL
             ? 'height'
@@ -445,6 +444,9 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     this.setShowingStyle = function() {
+        let mainWindow = document.getElementById('main-window');
+        mainWindow.setAttributeNS(com.sppad.fstbh.ns, 'toggle_top', 'true');
+        
         gNavToolbox.style.marginTop = '';
         gNavToolbox.style.height = '';
     };

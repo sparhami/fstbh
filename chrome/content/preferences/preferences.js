@@ -90,8 +90,9 @@ com.sppad.fstbh.PREFS = {
     // Show box iwth cert org and domain when hiding toolbars
     showIdentityBox: false,
     
-    // The saved value of the animateUp browser preference, for restoring later
-    animateUp_saved : -1,
+    // The saved value of the autohide browser preference, for restoring later
+    autohide_saved : false,
+    autohide_saved_value : true,
 };
 
 /**

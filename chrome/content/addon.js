@@ -16,30 +16,27 @@ com.sppad.fstbh.Addon = new function() {
     self.beingUninstalled = false;
     
     this.setupBrowserPreferences = function() {
-        // Save off browser.fullscreen.animateUp up setting, then set it to not
-        // animate
-        if (com.sppad.fstbh.CurrentPrefs['animateUp_saved'] != -1)
-            return;
-
-        let branch = null;
-        if (Services.prefs.prefHasUserValue('browser.fullscreen.animateUp'))
-            branch = Services.prefs.getBranch("browser.fullscreen.");
-        else
-            branch = Services.prefs.getDefaultBranch("browser.fullscreen.");
-
-        let animateUp = branch.getIntPref('animateUp');
-        com.sppad.fstbh.Preferences.setPreference('animateUp_saved', animateUp);
-
-        // Set to 0 (don't animate) as it interferes with the add-on
-        branch.setIntPref('animateUp', 0);
+        let userPref = Services.prefs.prefHasUserValue('browser.fullscreen.autohide');
+        let branch = userPref ? Services.prefs.getBranch("browser.fullscreen.")
+                              : Services.prefs.getDefaultBranch("browser.fullscreen.");
+        
+        if (com.sppad.fstbh.CurrentPrefs['autohide_saved'] == false) {
+            let autohide = branch.getBoolPref('autohide');
+            com.sppad.fstbh.Preferences.setPreference('autohide_saved', true);
+            com.sppad.fstbh.Preferences.setPreference('autohide_saved_value', autohide);
+        }
+       
+        // Set to disabled since fstbh handles autohiding
+        branch.setBoolPref('autohide', false);
     };
 
     this.restoreBrowserPreferences = function() {
         let branch = Services.prefs.getBranch("browser.fullscreen.");
-        branch.setIntPref('animateUp',
-                com.sppad.fstbh.CurrentPrefs['animateUp_saved']);
-
-        com.sppad.fstbh.Preferences.setPreference('animateUp_saved', -1);
+        
+        com.sppad.fstbh.Preferences.setPreference('autohide_saved', false);
+        
+        // restore the saved value
+        branch.setBoolPref('autohide', com.sppad.fstbh.CurrentPrefs['autohide_saved_value']);
     };
 
     /**

@@ -171,12 +171,10 @@ com.sppad.fstbh.Main = new function() {
         if(self.applied) {
             self.offsetBrowser();
             self.setupTheme();
-            com.sppad.fstbh.NavBoxHandler.setHiddenStyle();
             com.sppad.fstbh.NavBoxHandler.enable();
             com.sppad.fstbh.BottomBoxHandler.enable();
         } else {
             self.clearTheme();
-            com.sppad.fstbh.NavBoxHandler.setShowingStyle();
             com.sppad.fstbh.NavBoxHandler.disable();
             com.sppad.fstbh.BottomBoxHandler.disable();
         }
