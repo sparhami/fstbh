@@ -38,7 +38,7 @@
 }
 
 #main-window[fstbh|applied="true"][fstbh|toggle_top] #com_sppad_fstbh_top_toggler,
-#main-window[fstbh|applied="true"][fstbh|toggle_bottom] #com_sppad_fstbh_bottom_toggler, {
+#main-window[fstbh|applied="true"][fstbh|toggle_bottom] #com_sppad_fstbh_bottom_toggler {
 	pointer-events: none;
 }
 
