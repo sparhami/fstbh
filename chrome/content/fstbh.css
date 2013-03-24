@@ -37,6 +37,11 @@
 	height: 1px;
 }
 
+#main-window[fstbh|applied="true"][fstbh|toggle_top] #com_sppad_fstbh_top_toggler,
+#main-window[fstbh|applied="true"][fstbh|toggle_bottom] #com_sppad_fstbh_bottom_toggler, {
+	pointer-events: none;
+}
+
 #main-window[fstbh|applied="true"] #navigator-toolbox {
 	/* Transition property, duration and delay set from javascript */
 	transition-timing-function: linear;
@@ -110,16 +115,15 @@
 	-moz-box-ordinal-group: 2;
 }
 
-/* Toggler goes behind the navigator-toolbox */
-#main-window[fstbh|applied="true"] #browser-panel > .com_sppad_fstbh_toggler {
-	-moz-box-ordinal-group: 999;
-}
-
 /* Everything else should be on top of #browser */
 #main-window[fstbh|applied="true"] #browser-panel > :-moz-any(#navigator-toolbox, #browser-bottombox) {
 	-moz-box-ordinal-group: 1000;
 }
 
+/* Toggler goes on top of the navigator-toolbox so that we can detect mouse events on it separately */
+#main-window[fstbh|applied="true"] #browser-panel > .com_sppad_fstbh_toggler {
+	-moz-box-ordinal-group: 1001;
+}
 
 
 /*

@@ -64,6 +64,9 @@ com.sppad.fstbh.PREFS = {
     tweaks: {
         // Use at least one pixel for browser margin top to allow mouse events over plug-in content
         onePixelPadding: true,
+        
+        // Only show when mousing enter toggler rather than mousing into #navigator-toolbox
+        mouseEnterOnTogglerOnly: false,
     },
 
     // One of hoverOnly, multipleTabs, always

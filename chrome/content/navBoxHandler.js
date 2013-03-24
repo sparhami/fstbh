@@ -29,18 +29,21 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     
     const MILLISECONDS_PER_SECOND = 1000;
     const TAB_EVENTS = ['TabSelect', 'TabClose', 'TabOpen', 'TabPinned', 'TabUnpinned', 'TabAttrModified'];
-        
+    
+    const FLAGS_CLOSED =                     0x00;
+    const HOVERING_MASK =                    0x01;
+    const FOCUSED_MASK =                     0x02;
+    const MENU_ACTIVE_MASK =                 0x04;
+    const POPUP_ACTIVE_MASK =                0x08;
+    const TITLECHANGED_MASK =                0x10;
+    const SHOW_EVENT_ACTIVE_MASK =           0x20;
+    
     let self = this;
     self.opened = false;
     self.enabled = false;
 
-    // Used for determining whether to show are not
-    self.hovering = false;
-    self.focused = false;
-    self.menuActive = false;
     self.popupTarget = null;
-    self.titlechange = false;
-    self.showEventActive = false;
+    self.showingFlags = 0;
     
     self.showEventDelayTimer = null;
     self.eventTime = 0;
@@ -60,8 +63,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         document.addEventListener("keypress", self.keyevent, false);
         
         // Tracking mouse going out the top
-        gBrowser.addEventListener('mouseleave', self.mouseleave, false);
-        mainWindow.addEventListener('mouseleave', self.mouseleave, false);
+        gBrowser.addEventListener('mouseleave', self.mouseenter, false);
+        mainWindow.addEventListener('mouseleave', self.mouseenter, false);
         
         // For showing when mousing or dragging
         toggler.addEventListener('dragenter', self.mouseenter, false);
@@ -88,12 +91,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         // For showing when toolbar-menubar is toggled
         self.menubarObserver.observe(menubar, { attributes: true });
         
-        self.hovering = false;
-        self.focused = false;
-        self.menuActive = false;
-        self.popupTarget = null;
-        self.titlechange = false;
-        self.showEventActive = false;
+        self.showingFlags = 0;
         self.setHiddenStyle();
         
         self.evalutateTitleChangeState();
@@ -111,8 +109,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         document.removeEventListener("keypress", self.keyevent);
         
         // Tracking mouse going out the top
-        gBrowser.removeEventListener('mouseleave', self.mouseleave);
-        mainWindow.removeEventListener('mouseleave', self.mouseleave);
+        gBrowser.removeEventListener('mouseleave', self.mouseenter);
+        mainWindow.removeEventListener('mouseleave', self.mouseenter);
         
         // For showing when mousing or dragging
         toggler.removeEventListener('dragenter', self.mouseenter);
@@ -197,7 +195,11 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     this.menubarObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             if(mutation.attributeName == 'inactive') {
-                self.menuActive = !mutation.target.getAttribute('inactive');
+                if(!mutation.target.getAttribute('inactive'))
+                    self.showingFlags |= MENU_ACTIVE_MASK;
+                else
+                    self.showingFlags &= ~MENU_ACTIVE_MASK;
+                
                 self.updateOpenedStatus();
             }
         });   
@@ -228,7 +230,11 @@ com.sppad.fstbh.NavBoxHandler = new function() {
                     count++;
             }
             
-            self.titlechanged = count > 0;
+            if(count > 0)
+                self.showingFlags |= TITLECHANGED_MASK;
+            else
+                self.showingFlags &= ~TITLECHANGED_MASK;
+            
             self.updateOpenedStatus();
         }, 200);
     };
@@ -238,12 +244,12 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      * again.
      */
     this.triggerShowEvent = function() {
-        self.showEventActive = true;
+        self.showingFlags |= SHOW_EVENT_ACTIVE_MASK;
         self.updateOpenedStatus();
 
         window.clearTimeout(self.showEventDelayTimer);
         self.showEventDelayTimer = window.setTimeout(function() {
-            self.showEventActive = false;
+            self.showingFlags &= ~SHOW_EVENT_ACTIVE_MASK;
             self.updateOpenedStatus();
         }, com.sppad.fstbh.CurrentPrefs['showEvents.delay']);
     };
@@ -253,14 +259,17 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      * the toolbars can hide.
      */
     this.keyevent = function(aEvent) {
-        if(self.focused && (aEvent.keyCode == aEvent.DOM_VK_ESCAPE))
+        if((self.showingFlags & FOCUSED_MASK) && (aEvent.keyCode == aEvent.DOM_VK_ESCAPE))
             document.commandDispatcher.focusedElement = null;
     };
     
     this.checkfocus = function(aEvent) {
         let fe = document.commandDispatcher.focusedElement;
+        if(fe && fe.ownerDocument == document && fe.localName == "input")
+            self.showingFlags |= FOCUSED_MASK;
+        else
+            self.showingFlags &= ~FOCUSED_MASK;
         
-        self.focused = fe && fe.ownerDocument == document && fe.localName == "input";
         self.updateOpenedStatus();
     };
         
@@ -273,6 +282,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         if(self.popupTarget)
             return;
         
+        self.showingFlags |= POPUP_ACTIVE_MASK;
         self.popupTarget = aEvent.originalTarget;
         self.updateOpenedStatus();
     };
@@ -286,29 +296,22 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         if(self.popupTarget != aEvent.originalTarget)
             return;
         
+        self.showingFlags &= ~POPUP_ACTIVE_MASK;
         self.popupTarget = null;
         self.updateOpenedStatus();
     };
     
     /**
-     * Causes toolbars to show when the mouse is being moved too quickly out the
-     * top in order to trigger a mouse enter on the toggler.
-     */
-    this.mouseleave = function(aEvent) {
-        if(self.hovering)
-            return;
-        
-        let y = aEvent.screenY;
-        let tripPoint = aEvent.target.boxObject.screenY;
-        
-        if(y <= tripPoint) {
-            self.hovering = true;
-            self.updateOpenedStatus();
-        }
-    };
-    
-    /**
-     * Handles mouse entering either the toggler or navigator-toolbox.
+     * Handles mouse entering either the toggler or navigator-toolbox and mouse
+     * leaving the browser / main-window.
+     * <p>
+     * Mouse leave events covers two cases: task bar at the top of the screen
+     * and Windows. For the task bar, if the mouse leaves the screen too
+     * quickly, a mouseenter event might not be generated on the toggler or
+     * navigator-toolbox. For Windows, empty parts of the navigator-toolbox do
+     * not generate mouse events so mouseenter won't work when always showing
+     * tabs. In that case, we need to rely on the mouse leaving the browser
+     * instead.
      * <p>
      * Checks if the y location of the mouse to see if it is above the bottom of
      * toggler or navigator-toolbox. This is because a mouseenter event might
@@ -322,19 +325,20 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      * generated.
      */
     this.mouseenter = function(aEvent) {
-        if(self.hovering)
+        if(self.showingFlags & HOVERING_MASK)
             return;
-        
+
         let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
         
         let navBottom = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 
         let togglerBottom = toggler.boxObject.screenY + toggler.boxObject.height; 
         
         let y = aEvent.screenY;
-        let tripPoint = Math.max(navBottom, togglerBottom);
+        let togglerOnly = com.sppad.fstbh.CurrentPrefs['tweaks.mouseEnterOnTogglerOnly'];
+        let tripPoint = togglerOnly ? togglerBottom : Math.max(navBottom, togglerBottom);
         
         if(y <= tripPoint) {
-            self.hovering = true;
+            self.showingFlags |= HOVERING_MASK;
             self.updateOpenedStatus();
         }
     };
@@ -344,7 +348,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      * and remove hovering if so.
      */
     this.checkMousePosition = function(aEvent) {
-        if(!self.hovering)
+        if(!(self.showingFlags & HOVERING_MASK))
             return;
         
         let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
@@ -357,13 +361,13 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         let tripPoint = Math.max(navBottom, togglerBottom) + buffer;
         
         if(y > tripPoint) {
-            self.hovering = false;
+            self.showingFlags &= ~HOVERING_MASK;
             self.updateOpenedStatus();
         }
     };
 
     this.updateOpenedStatus = function() {
-        if(self.hovering || self.focused || self.popupTarget || self.showEventActive || self.menuActive || self.titlechanged)
+        if(self.showingFlags != FLAGS_CLOSED)
             self.setOpened();
         else
             self.setClosed();
@@ -446,7 +450,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     this.setShowingStyle = function() {
         let mainWindow = document.getElementById('main-window');
         mainWindow.setAttributeNS(com.sppad.fstbh.ns, 'toggle_top', 'true');
-        
+            
         gNavToolbox.style.marginTop = '';
         gNavToolbox.style.height = '';
     };

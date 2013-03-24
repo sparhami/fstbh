@@ -172,6 +172,10 @@
 				id="extensions.fstbh.fullscreenMenu"
 				name="extensions.fstbh.fullscreenMenu"
 				type="bool" />
+			<preference
+				id="extensions.fstbh.tweaks.mouseEnterOnTogglerOnly"
+				name="extensions.fstbh.tweaks.mouseEnterOnTogglerOnly"
+				type="bool" />
 		</preferences>
 		<groupbox>
 			<checkbox
@@ -183,9 +187,13 @@
 			<checkbox
 				label="&preference.showIdentityBox.label;"
 				preference="extensions.fstbh.showIdentityBox" />
-			<checkbox id="com_sppad_fstbh_fullscreenMenu_checkbox"
+			<checkbox
+				id="com_sppad_fstbh_fullscreenMenu_checkbox"
 				label="&preference.fullscreenMenu.label;"
 				preference="extensions.fstbh.fullscreenMenu" />
+			<checkbox
+				label="&preference.tweaks.mouseEnterOnTogglerOnly.label;"
+				preference="extensions.fstbh.tweaks.mouseEnterOnTogglerOnly" />
 		</groupbox>
 	</prefpane>
 
