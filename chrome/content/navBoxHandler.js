@@ -80,6 +80,9 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         gNavToolbox.addEventListener('popupshown', self.popupshown, false);
         gNavToolbox.addEventListener('popuphidden', self.popuphidden, false);
         
+        window.addEventListener("DOMMenuBarActive", self.menuActive, false);
+        window.addEventListener("DOMMenuBarInactive", self.menuInactive, false);
+        
         // For show event and titlechange preferences
         TAB_EVENTS.forEach(function(eventName) {
             gBrowser.tabContainer.addEventListener(eventName, self, false);
@@ -87,9 +90,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         // For URL change show event and updating SSL identity box
         gBrowser.addProgressListener(self);
-        
-        // For showing when toolbar-menubar is toggled
-        self.menubarObserver.observe(menubar, { attributes: true });
         
         self.showingFlags = 0;
         self.setHiddenStyle();
@@ -126,6 +126,9 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         gNavToolbox.removeEventListener('popupshown', self.popupshown);
         gNavToolbox.removeEventListener('popuphidden', self.popuphidden);
         
+        window.removeEventListener("DOMMenuBarActive", self.menuActive);
+        window.removeEventListener("DOMMenuBarInactive", self.menuInactive);
+        
         // For show event and titlechange preferences
         TAB_EVENTS.forEach(function(eventName) {
             gBrowser.tabContainer.removeEventListener(eventName, self);
@@ -133,9 +136,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         // For URL change show event and updating SSL identity box
         gBrowser.removeProgressListener(self);
-        
-        // For showing when toolbar-menubar is toggled
-        self.menubarObserver.disconnect();
         
         self.setShowingStyle();
         
@@ -188,22 +188,15 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     
     // end nsIWebProgressListener
     
-    /**
-     * Observe attribute changes on toolbar-menubar for showing when the menubar
-     * is active, such as when using alt (Windows) or F10.
-     */
-    this.menubarObserver = new MutationObserver(function(mutations) {
-        mutations.forEach(function(mutation) {
-            if(mutation.attributeName == 'inactive') {
-                if(!mutation.target.getAttribute('inactive'))
-                    self.showingFlags |= MENU_ACTIVE_MASK;
-                else
-                    self.showingFlags &= ~MENU_ACTIVE_MASK;
-                
-                self.updateOpenedStatus();
-            }
-        });   
-    });
+    this.menuActive = function(event) {
+        self.showingFlags |= MENU_ACTIVE_MASK;
+        self.updateOpenedStatus();
+    };
+    
+    this.menuInactive = function(event) {
+        self.showingFlags &= ~MENU_ACTIVE_MASK;
+        self.updateOpenedStatus();
+    };
     
     /**
      * Counts the number of tabs with a title change event. Used for showing the
