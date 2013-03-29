@@ -3,6 +3,8 @@
 #main-window[fstbh|applied="true"]:not([fstbh|toggle_top]):not([fstbh|showTabsToolbar="true"]) #com_sppad_fstbh_fullscreen_titlebar,
 #main-window[fstbh|applied="true"][fstbh|separatedTitlebar="false"]:not([fstbh|toggle_top]):not([fstbh|showTabsToolbar="true"]) #titlebar {
 	visibility: hidden;
+	/* Visibility: hidden doesn't seem to always work */
+	opacity: 0;
 }
 
 #main-window[fstbh|applied="true"] #navigator-toolbox[fstbh|backgroundStyle="transparent"] {
