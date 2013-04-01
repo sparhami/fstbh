@@ -81,8 +81,6 @@ com.sppad.fstbh.Main = new function() {
     this.observe = function (aSubject, aTopic, aData) {
         if(aTopic == 'lightweight-theme-styling-update')
             self.applied && self.setupTheme();
-        else if(aTopic == 'nsPref:changed' && aData == 'browser.fullscreen.autohide')
-            self.updateAppliedStatus();
     };
     
     this.addonbarObserver = new MutationObserver(function(mutations) {
@@ -135,8 +133,7 @@ com.sppad.fstbh.Main = new function() {
     
     this.sizemodeChange = function() {
         // Need to let browser apply all changes first so it can correctly
-        // calculate
-        // the bottom margin on the titlebar under Windows
+        // calculate the bottom margin on the titlebar under Windows
         window.clearTimeout(com.sppad.fstbh.sizemodeTimer);
         com.sppad.fstbh.sizemodeTimer = window.setTimeout(function() {
             com.sppad.fstbh.Main.updateAppliedStatus();
@@ -432,7 +429,6 @@ com.sppad.fstbh.Main = new function() {
             .getService(Components.interfaces.nsIObserverService)
             .addObserver(this, "lightweight-theme-styling-update", false);
         
-        
         let menubar = document.getElementById('toolbar-menubar');
         let addonbar = document.getElementById('addon-bar');
 
@@ -453,12 +449,12 @@ com.sppad.fstbh.Main = new function() {
         
         window.removeEventListener("sizemodechange", this.sizemodeChange);
         
-        self.menubarObserver.disconnect();
-        self.addonbarObserver.disconnect();
-        
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
             .removeObserver(this, "lightweight-theme-styling-update");
+        
+        self.menubarObserver.disconnect();
+        self.addonbarObserver.disconnect();
     };
 };
 
