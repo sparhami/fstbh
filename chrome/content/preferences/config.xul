@@ -289,6 +289,10 @@
 				id="extensions.fstbh.style.topChromeBackground"
 				name="extensions.fstbh.style.topChromeBackground"
 				type="string" />
+			<preference
+				id="extensions.fstbh.style.shadowWhenToggled"
+				name="extensions.fstbh.style.shadowWhenToggled"
+				type="bool" />
 		</preferences>
 		<groupbox>
 			<caption label="&preference.style.browserBottomBox.label;" />
@@ -317,6 +321,11 @@
 					value="default"
 					label="&preference.style.topChromeBackground.default.label;" />
 			</radiogroup>
+		</groupbox>
+		<groupbox>
+			<checkbox
+				label="&preference.style.shadowWhenToggled.label;"
+				preference="extensions.fstbh.style.shadowWhenToggled" />
 		</groupbox>
 	</prefpane>
 

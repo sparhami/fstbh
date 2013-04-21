@@ -49,6 +49,8 @@
 <!ENTITY preference.style.topChromeBackground.transparent.label "Transparent">
 <!ENTITY preference.style.topChromeBackground.default.label "None">
 
+<!ENTITY preference.style.shadowWhenToggled.label "Use bottom shadow on toolbars when showing">
+
 <!ENTITY preference.showTabsToolbar.label "Show Tabs">
 <!ENTITY preference.showTabsToolbar.hoverOnly.label "Normal (autohide)">
 <!ENTITY preference.showTabsToolbar.multipleTabs.label "When multiple tabs are open">

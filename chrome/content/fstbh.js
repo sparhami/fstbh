@@ -46,6 +46,9 @@ com.sppad.fstbh.Main = new function() {
             case 'style.topChromeBackground':
                 this.applyAttribute('navigator-toolbox', 'backgroundStyle', value);
                 break;
+            case 'style.shadowWhenToggled':
+                this.applyAttribute('navigator-toolbox', 'shadowWhenToggled', value);
+                break;
             case 'showIdentityBox':
                 document.getElementById('com_sppad_fstbh_ssl_info_boundry').setAttribute('hidden', !value);
                 break;
@@ -99,14 +102,14 @@ com.sppad.fstbh.Main = new function() {
         gNavToolbox.style.backgroundImage = mainWindow.style.backgroundImage;
         
         /*
-         * For Windows - if applied while window mode is normal (not
-         * maximized/fullscreen), titlebar will have part of the persona
-         * already. Don't want to repeat the start of the persona, to shift it
-         * up to align correctly.
-         * 
-         * For PersonalTitlebar - don't show window controls when not tabs in
-         * title bar by setting separatedTitlebar attribute.
-         */
+		 * For Windows - if applied while window mode is normal (not
+		 * maximized/fullscreen), titlebar will have part of the persona
+		 * already. Don't want to repeat the start of the persona, to shift it
+		 * up to align correctly.
+		 * 
+		 * For PersonalTitlebar - don't show window controls when not tabs in
+		 * title bar by setting separatedTitlebar attribute.
+		 */
         if(self.os == WINDOWS) {
             let titlebar = document.getElementById('titlebar');
             let marginBottom = titlebar.style.marginBottom;
@@ -141,9 +144,9 @@ com.sppad.fstbh.Main = new function() {
     }
     
     /**
-     * Updates the applied status, checking if the add-on should be applied or
-     * not. Sets everything up for auto-hide behavior to take effect.
-     */
+	 * Updates the applied status, checking if the add-on should be applied or
+	 * not. Sets everything up for auto-hide behavior to take effect.
+	 */
     this.updateAppliedStatus = function() {
         let cp = com.sppad.fstbh.CurrentPrefs;
         
@@ -261,12 +264,12 @@ com.sppad.fstbh.Main = new function() {
     });
     
     /**
-     * Updates based on the number of tabs open. Sets the attribute to keep tabs
-     * toolbar showing.
-     * 
-     * @param offset
-     *            If called while a tab is closing, do not count that tab.
-     */
+	 * Updates based on the number of tabs open. Sets the attribute to keep tabs
+	 * toolbar showing.
+	 * 
+	 * @param offset
+	 *            If called while a tab is closing, do not count that tab.
+	 */
     this.updateTabCount = function(offset) {
         let pref = com.sppad.fstbh.CurrentPrefs['showTabsToolbar'];
         let tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
@@ -365,11 +368,11 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-     * Offsets / un-offsets the browser by setting a top margin. This is done so
-     * that we can stay as display stack and always show TabsToolbar without
-     * covering page content. This is used when the showTabsToolbar is set to
-     * always or multipleTabs.
-     */
+	 * Offsets / un-offsets the browser by setting a top margin. This is done so
+	 * that we can stay as display stack and always show TabsToolbar without
+	 * covering page content. This is used when the showTabsToolbar is set to
+	 * always or multipleTabs.
+	 */
     this.offsetBrowser = function() {
         let cp = com.sppad.fstbh.CurrentPrefs;
         
@@ -387,11 +390,19 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.loadPreferences = function() {
-        let prefs = ['transitionDelay', 'transitionProperty',
-                     'showWhenTitleChanged', 'style.browserBottomBox',
-                     'style.topChromeBackground', 'showTabsToolbar',
-                     'showAddonsBar', 'normalMode', 'maximizedMode',
-                     'fullscreenMode', 'showIdentityBox', 'tweaks.onePixelPadding' ];
+        let prefs = ['transitionDelay',
+                     'transitionProperty',
+                     'showWhenTitleChanged',
+                     'style.browserBottomBox',
+                     'style.topChromeBackground',
+                     'style.shadowWhenToggled',
+                     'showTabsToolbar',
+                     'showAddonsBar',
+                     'normalMode',
+                     'maximizedMode',
+                     'fullscreenMode',
+                     'showIdentityBox',
+                     'tweaks.onePixelPadding'];
         
         prefs.forEach(function(pref) {
             self.prefChanged(pref, com.sppad.fstbh.CurrentPrefs[pref]);

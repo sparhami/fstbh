@@ -59,6 +59,9 @@ com.sppad.fstbh.PREFS = {
 
         // One of default, transparent - Windows only
         topChromeBackground : 'transparent',
+        
+        // Shadow under navigator-toolbox when toggled
+        shadowWhenToggled : true,
     },
     
     tweaks: {

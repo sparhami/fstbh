@@ -3,6 +3,10 @@
 
 @namespace fstbh url("http://sppad.com/ns/fstbh");
 
+#main-window[fstbh|applied="true"][fstbh|toggle_top] #navigator-toolbox[fstbh|shadowWhenToggled="true"] {
+	 box-shadow: 0px -20px 18px 10px rgba(0, 0, 0, 0.75);
+}
+
 #main-window[fstbh|applied="true"]:not([fstbh|toggle_top]):not([fstbh|showTabsToolbar="true"]) #com_sppad_fstbh_top_toggler[singlePixelPadding="true"] {
 	background-color: black;
 }
