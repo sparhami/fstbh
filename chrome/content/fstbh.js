@@ -34,8 +34,6 @@ com.sppad.fstbh.Main = new function() {
     };
 
     this.prefChanged = function(name, value) {
-        com.sppad.fstbh.Utils.dump("pref change: " + name + " -> " + value + "\n");
-
         switch (name) {
             case 'transitionDelay':
                 this.setTransitionDelay(value);
@@ -390,7 +388,8 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.loadPreferences = function() {
-        let prefs = ['transitionDelay',
+        let prefs = ['debug',
+                     'transitionDelay',
                      'transitionProperty',
                      'showWhenTitleChanged',
                      'style.browserBottomBox',

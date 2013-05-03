@@ -12,29 +12,7 @@ com.sppad.fstbh = com.sppad.fstbh || {};
  */
 com.sppad.fstbh.Utils = (function() {
 	
-	let debugEnabled = true;
-	
 	return {
-		
-		enableDebug: function(enable) {
-			debugEnabled = enable ? true : false;
-		},
-	
-		dump: function(messageString) {
-			if(debugEnabled)
-				dump(messageString);
-		},
-		
-		dumpObject: function(object) {
-			if(debugEnabled) {
-				var output = '';
-				for (property in object) {
-					output += property + ': ' + object[property] + '; \n';
-				}
-
-				dump(output);
-			}
-		},
 		
 		removeFromArray: function(array,  obj) {
 			for(let i = 0; i < array.length; i++)
@@ -68,8 +46,6 @@ com.sppad.fstbh.EventSupport = function() {
                 }
             } catch(err) {
                 // Make sure all other listeners still get to go
-                com.sppad.fstbh.Utils.dump("error while firing listener: " + err + "\n");
-                com.sppad.fstbh.Utils.dump(err.stack);
             }
         }
     };

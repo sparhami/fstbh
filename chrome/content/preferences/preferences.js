@@ -9,9 +9,6 @@ com.sppad.fstbh.PREF_WINDOW_FILE = "chrome://fstbh/content/preferences/config.xu
 com.sppad.fstbh.PREF_WINDOW_ID = "fstbh-preferences-window";
 com.sppad.fstbh.PREF_BRANCH = "extensions.fstbh.";
 com.sppad.fstbh.PREFS = {
-    // internal only
-    debug : false,
-
     // transition delay, milliseconds - only applies for slide out animation
     transitionDelay : 0,
 
