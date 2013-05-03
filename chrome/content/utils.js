@@ -68,8 +68,8 @@ com.sppad.fstbh.EventSupport = function() {
                 }
             } catch(err) {
                 // Make sure all other listeners still get to go
-                dump("error while firing listener: " + err + "\n");
-                dump(err.stack);
+                com.sppad.fstbh.Utils.dump("error while firing listener: " + err + "\n");
+                com.sppad.fstbh.Utils.dump(err.stack);
             }
         }
     };
