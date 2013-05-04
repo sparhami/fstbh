@@ -94,7 +94,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.showingFlags = 0;
         self.setHiddenStyle();
         
-        self.evalutateTitleChangeState();
+        self.evaluateTitleChangeState();
         self.enabled = true;
     };
     
@@ -163,7 +163,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
                 break;
         }
         
-        self.evalutateTitleChangeState();
+        self.evaluateTitleChangeState();
         
         if(trigger)
             self.triggerShowEvent();
@@ -202,7 +202,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      * Counts the number of tabs with a title change event. Used for showing the
      * navigator toolbox when there is a title change that hasn't been cleared.
      */
-    this.evalutateTitleChangeState = function() {
+    this.evaluateTitleChangeState = function() {
         let pref = com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged'];
         if(pref == "never")
             return;
