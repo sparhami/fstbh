@@ -106,7 +106,7 @@
 }
 
 /* Browser should be behind everything else, regardless of element ordering */
-#main-window[fstbh|applied="true"] #browser-panel > #browser {
+#main-window[fstbh|applied="true"] #browser-panel > :-moz-any(#browser, #content-deck) {
 	-moz-box-ordinal-group: 1;
 }
 
