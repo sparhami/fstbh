@@ -281,13 +281,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     this.popuphidden = function(aEvent) {
-        let targetName = aEvent.target.localName;
-        if(targetName == "tooltip" || targetName == "window")
-            return;
-        
-        // Check if sub-popup is closing and ignore it if it is
-        if(self.popupTarget != aEvent.originalTarget)
-            return;
+    	if(self.popupTarget && self.popupTarget.state == "open")
+    		return;
         
         self.showingFlags &= ~POPUP_ACTIVE_MASK;
         self.popupTarget = null;
