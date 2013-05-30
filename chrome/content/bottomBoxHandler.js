@@ -98,13 +98,9 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
     };
     
     this.popuphidden = function(aEvent) {
-        let targetName = aEvent.target.localName;
-        if(targetName == "tooltip" || targetName == "window")
-            return;
-        
-        // Check if sub-popup is closing and ignore it if it is
-        if(self.popupTarget != aEvent.originalTarget)
-            return;
+    	// Don't check originalTarget, doing it that way has been unreliable
+    	if(self.popupTarget && self.popupTarget.state == "open")
+    		return;
         
         self.popupTarget = null;
         self.updateOpenedStatus();

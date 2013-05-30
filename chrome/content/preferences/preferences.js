@@ -25,7 +25,7 @@ com.sppad.fstbh.PREFS = {
     // transition property - one of margin-top, height
     // NOTE - height corresponds to no transition since the height is
     // changing from auto to 0.
-    transitionProperty : 'margin-top',
+    transitionProperty : 'height',
     
     // Buffer zone for leaving toggled toolbar open, in pixels
     bottomBuffer : 0,

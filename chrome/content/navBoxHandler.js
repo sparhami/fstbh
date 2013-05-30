@@ -281,6 +281,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     this.popuphidden = function(aEvent) {
+    	// Don't check originalTarget, doing it that way has been unreliable
     	if(self.popupTarget && self.popupTarget.state == "open")
     		return;
         
