@@ -1,10 +1,3 @@
-if (typeof com == "undefined") {
-    var com = {};
-}
-
-com.sppad = com.sppad || {};
-com.sppad.fstbh = com.sppad.fstbh || {};
-
 Components.utils.import("resource://gre/modules/AddonManager.jsm");
 
 /**
@@ -13,6 +6,8 @@ Components.utils.import("resource://gre/modules/AddonManager.jsm");
 com.sppad.fstbh.Addon = new function() {
 
     let self = this;
+    self.prefs = com.sppad.fstbh.CurrentPrefs;
+    
     self.beingUninstalled = false;
     
     this.setupBrowserPreferences = function() {
@@ -20,7 +15,7 @@ com.sppad.fstbh.Addon = new function() {
         let branch = userPref ? Services.prefs.getBranch("browser.fullscreen.")
                               : Services.prefs.getDefaultBranch("browser.fullscreen.");
         
-        if (com.sppad.fstbh.CurrentPrefs['autohide_saved'] == false) {
+        if (self.prefs['autohide_saved'] == false) {
             let autohide = branch.getBoolPref('autohide');
             com.sppad.fstbh.Preferences.setPreference('autohide_saved', true);
             com.sppad.fstbh.Preferences.setPreference('autohide_saved_value', autohide);
@@ -36,7 +31,7 @@ com.sppad.fstbh.Addon = new function() {
         com.sppad.fstbh.Preferences.setPreference('autohide_saved', false);
         
         // restore the saved value
-        branch.setBoolPref('autohide', com.sppad.fstbh.CurrentPrefs['autohide_saved_value']);
+        branch.setBoolPref('autohide', self.prefs['autohide_saved_value']);
     };
 
     /**

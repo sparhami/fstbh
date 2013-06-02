@@ -1,10 +1,3 @@
-if (typeof com == "undefined") {
-  var com = {};
-}
-
-com.sppad = com.sppad || {};
-com.sppad.fstbh = com.sppad.fstbh || {};
-
 /**
  * A dreaded utils class, which contains odds and ends. Since we're not supposed
  * to use prototypes of built in types for extensions, prototype-y things go

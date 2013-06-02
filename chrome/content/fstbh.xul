@@ -12,6 +12,9 @@
 
 	<script
 		type="application/x-javascript"
+		src="ns.js" />
+	<script
+		type="application/x-javascript"
 		src="utils.js" />
 	<script
 		type="application/x-javascript"

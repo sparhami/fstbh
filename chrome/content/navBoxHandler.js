@@ -1,10 +1,3 @@
-if (typeof com == "undefined") {
-    var com = {};
-}
-
-com.sppad = com.sppad || {};
-com.sppad.fstbh = com.sppad.fstbh || {};
-
 /**
  * Handles showing #navigator-toolbox due to mouse, focus or other events when
  * the add-on is applied.
@@ -27,7 +20,6 @@ com.sppad.fstbh = com.sppad.fstbh || {};
  */
 com.sppad.fstbh.NavBoxHandler = new function() {
     
-    const MILLISECONDS_PER_SECOND = 1000;
     const TAB_EVENTS = ['TabSelect', 'TabClose', 'TabOpen', 'TabPinned', 'TabUnpinned', 'TabAttrModified'];
     
     const FLAGS_CLOSED =                     0x00;
@@ -39,6 +31,8 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     const SHOW_EVENT_ACTIVE_MASK =           0x20;
     
     let self = this;
+    self.prefs = com.sppad.fstbh.CurrentPrefs;
+    
     self.opened = false;
     self.enabled = false;
 
@@ -144,22 +138,21 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     
     this.handleEvent = function(aEvent) {
         let type = aEvent.type;
-        let cp = com.sppad.fstbh.CurrentPrefs;
         let now = Date.now();
         let trigger = false;
         
         switch(aEvent.type) {
             case 'TabOpen':
-                trigger = cp['showEvents.showOnTabOpen'];
+                trigger = self.prefs['showEvents.showOnTabOpen'];
                 self.eventTime = now;
                 break;
             case 'TabClose':
-                trigger = cp['showEvents.showOnTabClose'];
+                trigger = self.prefs['showEvents.showOnTabClose'];
                 self.eventTime = now;
                 break;
             case 'TabSelect':
                 let allowSelect = (now - self.eventTime) > self.ignoreSelectDelta;
-                trigger = allowSelect && cp['showEvents.showOnTabSelect'];
+                trigger = allowSelect && self.prefs['showEvents.showOnTabSelect'];
                 break;
         }
         
@@ -173,7 +166,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     this.QueryInterface = XPCOMUtils.generateQI(['nsIWebProgressListener', 'nsISupportsWeakReference']),
                         
     this.onLocationChange = function(aProgress, aRequest, aURI) {
-        if(com.sppad.fstbh.CurrentPrefs['showEvents.showOnLocationChange'])
+        if(self.prefs['showEvents.showOnLocationChange'])
             self.triggerShowEvent();
     };
 
@@ -203,7 +196,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      * navigator toolbox when there is a title change that hasn't been cleared.
      */
     this.evaluateTitleChangeState = function() {
-        let pref = com.sppad.fstbh.CurrentPrefs['showWhenTitleChanged'];
+        let pref = self.prefs['showWhenTitleChanged'];
         if(pref == "never")
             return;
         
@@ -244,7 +237,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.showEventDelayTimer = window.setTimeout(function() {
             self.showingFlags &= ~SHOW_EVENT_ACTIVE_MASK;
             self.updateOpenedStatus();
-        }, com.sppad.fstbh.CurrentPrefs['showEvents.delay']);
+        }, self.prefs['showEvents.delay']);
     };
     
     /**
@@ -323,7 +316,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         let togglerBottom = toggler.boxObject.screenY + toggler.boxObject.height; 
         
         let y = aEvent.screenY;
-        let togglerOnly = com.sppad.fstbh.CurrentPrefs['tweaks.mouseEnterOnTogglerOnly'];
+        let togglerOnly = self.prefs['tweaks.mouseEnterOnTogglerOnly'];
         let tripPoint = togglerOnly ? togglerBottom : Math.max(navBottom, togglerBottom);
         
         if(y <= tripPoint) {
@@ -346,7 +339,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         let togglerBottom = toggler.boxObject.screenY + toggler.boxObject.height; 
         
         let y = aEvent.screenY;
-        let buffer = com.sppad.fstbh.CurrentPrefs['bottomBuffer'];
+        let buffer = self.prefs['bottomBuffer'];
         let tripPoint = Math.max(navBottom, togglerBottom) + buffer;
         
         if(y > tripPoint) {
@@ -378,8 +371,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         document.addEventListener('popupshown', self.popupshown, false);
         document.addEventListener('popuphidden', self.popuphidden, false);
         
-        let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationIn'] / MILLISECONDS_PER_SECOND) + 's';
-        gNavToolbox.style.transitionDuration = transitionDuration;
+        gNavToolbox.style.transitionDuration = self.prefs['transitionDurationIn'] + 'ms';
         
         self.setShowingStyle();
     };
@@ -401,8 +393,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         document.removeEventListener('popupshown', self.popupshown);
         document.removeEventListener('popuphidden', self.popuphidden);
         
-        let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationOut'] / MILLISECONDS_PER_SECOND) + 's';
-        gNavToolbox.style.transitionDuration = transitionDuration;
+        gNavToolbox.style.transitionDuration = self.prefs['transitionDurationOut'] + 'ms';
         
         self.setHiddenStyle();
     };
@@ -414,12 +405,12 @@ com.sppad.fstbh.NavBoxHandler = new function() {
      */
     this.setHiddenStyle = function() {
         let mainWindow = document.getElementById('main-window');
-        mainWindow.removeAttributeNS(com.sppad.fstbh.ns, 'toggle_top');
+        mainWindow.removeAttributeNS(com.sppad.fstbh.xmlns, 'toggle_top');
         
         // Slide-out doesn't work while in normal mode
         let transitionProperty = window.windowState == window.STATE_NORMAL
             ? 'height'
-            : com.sppad.fstbh.CurrentPrefs['transitionProperty'];
+            : self.prefs['transitionProperty'];
         
         gNavToolbox.style.transitionProperty = transitionProperty;
         
@@ -438,7 +429,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     
     this.setShowingStyle = function() {
         let mainWindow = document.getElementById('main-window');
-        mainWindow.setAttributeNS(com.sppad.fstbh.ns, 'toggle_top', 'true');
+        mainWindow.setAttributeNS(com.sppad.fstbh.xmlns, 'toggle_top', 'true');
             
         gNavToolbox.style.marginTop = '';
         gNavToolbox.style.height = '';

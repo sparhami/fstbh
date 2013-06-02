@@ -1,10 +1,3 @@
-if (typeof com == "undefined") {
-    var com = {};
-}
-
-com.sppad = com.sppad || {};
-com.sppad.fstbh = com.sppad.fstbh || {};
-
 com.sppad.fstbh.PREF_WINDOW_FILE = "chrome://fstbh/content/preferences/config.xul";
 com.sppad.fstbh.PREF_WINDOW_ID = "fstbh-preferences-window";
 com.sppad.fstbh.PREF_BRANCH = "extensions.fstbh.";

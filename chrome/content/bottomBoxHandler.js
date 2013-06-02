@@ -1,15 +1,10 @@
-if (typeof com == "undefined") {
-    var com = {};
-}
-
-com.sppad = com.sppad || {};
-com.sppad.fstbh = com.sppad.fstbh || {};
-
 com.sppad.fstbh.BottomBoxHandler = new function() {
     
     const MILLISECONDS_PER_SECOND = 1000;
         
     let self = this;
+    self.prefs = com.sppad.fstbh.CurrentPrefs;
+    
     self.opened = false;
     self.enabled = false;
     
@@ -153,7 +148,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         let togglerTop = toggler.boxObject.screenY; 
         
         let y = aEvent.screenY;
-        let buffer = com.sppad.fstbh.CurrentPrefs['bottomBuffer'];
+        let buffer = self.prefs['bottomBuffer'];
         let tripPoint = Math.min(bottomBoxTop, togglerTop) - buffer;
         
         if(y < tripPoint) {
@@ -180,7 +175,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         document.addEventListener('popupshown', self.popupshown, false);
         document.addEventListener('popuphidden', self.popuphidden, false);
         
-        let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationIn'] / MILLISECONDS_PER_SECOND) + 's';
+        let transitionDuration = self.prefs['transitionDurationIn'] + 'ms';
         let bottomBox = document.getElementById('browser-bottombox');
         bottomBox.style.transitionDuration = transitionDuration;
         
@@ -198,7 +193,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         document.removeEventListener('popupshown', self.popupshown);
         document.removeEventListener('popuphidden', self.popuphidden);
         
-        let transitionDuration = (com.sppad.fstbh.CurrentPrefs['transitionDurationOut'] / MILLISECONDS_PER_SECOND) + 's';
+        let transitionDuration = self.prefs['transitionDurationOut'] + 'ms';
         let bottomBox = document.getElementById('browser-bottombox');
         bottomBox.style.transitionDuration = transitionDuration;
         
@@ -207,11 +202,11 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
     
     this.setHiddenStyle = function() {
         let mainWindow = document.getElementById('main-window');
-        mainWindow.removeAttributeNS(com.sppad.fstbh.ns, 'toggle_bottom');
+        mainWindow.removeAttributeNS(com.sppad.fstbh.xmlns, 'toggle_bottom');
     };
     
     this.setShowingStyle = function() {
         let mainWindow = document.getElementById('main-window');
-        mainWindow.setAttributeNS(com.sppad.fstbh.ns, 'toggle_bottom', 'true');
+        mainWindow.setAttributeNS(com.sppad.fstbh.xmlns, 'toggle_bottom', 'true');
     };
 };

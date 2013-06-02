@@ -1,18 +1,10 @@
-if (typeof com == "undefined") {
-    var com = {};
-}
-
-com.sppad = com.sppad || {};
-com.sppad.fstbh = com.sppad.fstbh || {};
-
-com.sppad.fstbh.ns = "http://sppad.com/ns/fstbh";
-
 com.sppad.fstbh.Main = new function() {
 
-    const MILLISECONDS_PER_SECOND = 1000;
     const WINDOWS = "WINNT";
     
     let self = this;
+    self.prefs = com.sppad.fstbh.CurrentPrefs;
+    
     self.sizemodeTimer = null;
     self.os = Components.classes["@mozilla.org/xre/app-info;1"]
         .getService(Components.interfaces.nsIXULRuntime).OS;
@@ -129,7 +121,7 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.applyAttribute = function(id, name, value) {
-        document.getElementById(id).setAttributeNS(com.sppad.fstbh.ns, name, value);
+        document.getElementById(id).setAttributeNS(com.sppad.fstbh.xmlns, name, value);
     };
     
     this.sizemodeChange = function() {
@@ -146,17 +138,15 @@ com.sppad.fstbh.Main = new function() {
 	 * not. Sets everything up for auto-hide behavior to take effect.
 	 */
     this.updateAppliedStatus = function() {
-        let cp = com.sppad.fstbh.CurrentPrefs;
-        
         let sizemode = window.windowState;
         
         let normal = sizemode == window.STATE_NORMAL;
         let maximized = sizemode == window.STATE_MAXIMIZED;
         let fullscreen = sizemode == window.STATE_FULLSCREEN;
 
-        let applyInNormal = cp['normalMode'] == 'hover';
-        let applyInMaximized = cp['maximizedMode'] == 'hover';
-        let applyInFullscreen = cp['fullscreenMode'] == 'hover';
+        let applyInNormal = self.prefs['normalMode'] == 'hover';
+        let applyInMaximized = self.prefs['maximizedMode'] == 'hover';
+        let applyInFullscreen = self.prefs['fullscreenMode'] == 'hover';
  
         self.applied = (normal && applyInNormal)
                     || (maximized && applyInMaximized)
@@ -182,13 +172,11 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.windowingTweaks = function(maximized, applyInMaximized, fullscreen, applyInFullscreen) {
-        let cp = com.sppad.fstbh.CurrentPrefs;
-        
         let mainWindow = document.getElementById('main-window');
         let tabViewDeck = document.getElementById('tab-view-deck');
     
         // fullishScreen preference
-        if(maximized && applyInMaximized && cp['fullishScreen']) {
+        if(maximized && applyInMaximized && self.prefs['fullishScreen']) {
             mainWindow.setAttribute('inFullscreen', 'true');
             gNavToolbox.setAttribute('inFullscreen', 'true');
             
@@ -213,14 +201,14 @@ com.sppad.fstbh.Main = new function() {
             let maximizedControls = document.getElementById('titlebar-buttonbox-container');
             let tabstoolbar = document.getElementById('TabsToolbar');
             
-            self.applyAttribute('main-window', 'fullscreenMenu', cp['fullscreenMenu']);
+            self.applyAttribute('main-window', 'fullscreenMenu', self.prefs['fullscreenMenu']);
             
-            if(fullscreen && cp['fullscreenMenu']) {
-                fsTitlebar.appendChild(appmenu);
+            if(fullscreen && self.prefs['fullscreenMenu']) {
+                appmenu && fsTitlebar.appendChild(appmenu);
                 fsTitlebar.appendChild(controls);
                 
                 menubar.removeAttribute('moz-collapsed');
-                appmenu.setAttribute('orient', 'vertical');
+                appmenu && appmenu.setAttribute('orient', 'vertical');
                 
                 let autohide = menubar.getAttribute('autohide');
                 self.applyAttribute('main-window', 'menubar_autohide', autohide);
@@ -228,8 +216,8 @@ com.sppad.fstbh.Main = new function() {
                 if(fullscreen)
                     menubar.setAttribute('moz-collapsed', true);
                 
-                appmenu.removeAttribute('orient', 'vertical');
-                titlebar.insertBefore(appmenu, titlebar.firstChild);
+                appmenu && appmenu.removeAttribute('orient', 'vertical');
+                appmenu && titlebar.insertBefore(appmenu, titlebar.firstChild);
                 tabstoolbar.appendChild(controls);
             }
             
@@ -269,7 +257,7 @@ com.sppad.fstbh.Main = new function() {
 	 *            If called while a tab is closing, do not count that tab.
 	 */
     this.updateTabCount = function(offset) {
-        let pref = com.sppad.fstbh.CurrentPrefs['showTabsToolbar'];
+        let pref = self.prefs['showTabsToolbar'];
         let tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
 
         self.alwaysShowTabs = (pref == 'always') || (pref == 'multipleTabs' && tabCount > 1);
@@ -279,9 +267,7 @@ com.sppad.fstbh.Main = new function() {
     };
     
     this.setTransitionDelay = function(value) {
-        let transitionDelay = (value / MILLISECONDS_PER_SECOND) + 's';
-        
-        gNavToolbox.style.transitionDelay = transitionDelay;
+        gNavToolbox.style.transitionDelay = value + 'ms';
     };
     
     this.setShowTabsToolbar = function(value) {
@@ -372,14 +358,12 @@ com.sppad.fstbh.Main = new function() {
 	 * always or multipleTabs.
 	 */
     this.offsetBrowser = function() {
-        let cp = com.sppad.fstbh.CurrentPrefs;
-        
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
         let browser = document.getElementById('browser');
         let tabsToolbar = document.getElementById('TabsToolbar');
         let addonsBar = document.getElementById('addon-bar');
         
-        let offsetTop = self.alwaysShowTabs ? tabsToolbar.boxObject.height : cp['tweaks.onePixelPadding'] ? 1 : 0;
+        let offsetTop = self.alwaysShowTabs ? tabsToolbar.boxObject.height : self.prefs['tweaks.onePixelPadding'] ? 1 : 0;
         let offsetBottom = self.alwaysShowAddonsBar ? addonsBar.boxObject.height : 0;
         
         sslBox.style.marginTop = offsetTop + "px";
@@ -404,7 +388,7 @@ com.sppad.fstbh.Main = new function() {
                      'tweaks.onePixelPadding'];
         
         prefs.forEach(function(pref) {
-            self.prefChanged(pref, com.sppad.fstbh.CurrentPrefs[pref]);
+            self.prefChanged(pref, self.prefs[pref]);
         });
     };
     

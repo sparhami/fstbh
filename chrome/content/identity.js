@@ -1,10 +1,3 @@
-if (typeof com == "undefined") {
-    var com = {};
-}
-
-com.sppad = com.sppad || {};
-com.sppad.fstbh = com.sppad.fstbh || {};
-
 /**
  * Handles an box showing the SSL cert issuer and domain. Hides when the mouse
  * approaches it so that the area of the browser is not rendered unusable.
@@ -18,6 +11,7 @@ com.sppad.fstbh.Identity = new function() {
     const IDENTITY_BOX_SHOW_PADDING_BOTTOM = 25;
     
     let self = this;
+    
     self.entered = false;
 
     // Coordinate for showing the identity box after hiding
