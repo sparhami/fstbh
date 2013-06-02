@@ -59,7 +59,7 @@
 <!ENTITY preference.fullishScreen.label "Hide application menu when maximized">
 <!ENTITY preference.fullscreenMenu.label "Show menu button / menubar in fullscreen">
 <!ENTITY preference.showIdentityBox.label "Show site identity information when toolbars are hidden">
-<!ENTITY preference.tweaks.onePixelPadding.label "Use a one pixel padding on the top of the page content when auto-hiding. Needed to show the toolbars when the mouse is over a plug-in such as flash.">
+<!ENTITY preference.tweaks.onePixelPadding.label "Use a one pixel padding on the top of the page content when auto-hiding.">
 <!ENTITY preference.tweaks.mouseEnterOnTogglerOnly.label "When always showing tabs, only show toolbars when mouse is at the top of the screen.">
 
 <!ENTITY preference.other.label "Misc">

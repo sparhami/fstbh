@@ -154,7 +154,7 @@
 	<prefpane
 		id="com_sppad_fstbh_TweaksPrefPane"
 		label="&preference.tweaksPrefPane.label;"
-		image="chrome://fstbh/skin/images/maximize.svg">
+		image="chrome://fstbh/skin/images/advanced.svg">
 		<preferences>
 			<preference
 				id="extensions.fstbh.fullishScreen"
