@@ -427,7 +427,7 @@ com.sppad.fstbh.Main = new function() {
         
         window.addEventListener("beforecustomization", this.evaluateAppliedStatus, false);
         window.addEventListener("aftercustomization", this.evaluateAppliedStatus, false);
-        window.addEventListener("evaluateAppliedStatus", this.evaluateAppliedStatus, false);
+        window.addEventListener("sizemode", this.evaluateAppliedStatus, false);
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
@@ -453,7 +453,7 @@ com.sppad.fstbh.Main = new function() {
         
         window.removeEventListener("beforecustomization", this.evaluateAppliedStatus);
         window.removeEventListener("aftercustomization", this.evaluateAppliedStatus);
-        window.removeEventListener("evaluateAppliedStatus", this.evaluateAppliedStatus);
+        window.removeEventListener("sizemode", this.evaluateAppliedStatus);
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
