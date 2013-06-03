@@ -124,13 +124,17 @@ com.sppad.fstbh.Main = new function() {
         document.getElementById(id).setAttributeNS(com.sppad.fstbh.xmlns, name, value);
     };
     
-    this.sizemodeChange = function() {
-        // Need to let browser apply all changes first so it can correctly
-        // calculate the bottom margin on the titlebar under Windows
+    /*
+	 * Need to let browser apply all changes first so it can correctly
+	 * calculate the bottom margin on the titlebar under Windows. Also need
+	 * to make sure customize attribute has been set if checking for
+	 * customize mode.
+	 */
+    this.evaluateAppliedStatus = function() {
         window.clearTimeout(com.sppad.fstbh.sizemodeTimer);
         com.sppad.fstbh.sizemodeTimer = window.setTimeout(function() {
             com.sppad.fstbh.Main.updateAppliedStatus();
-        }, 10);
+        }, 1);
     }
     
     /**
@@ -140,6 +144,8 @@ com.sppad.fstbh.Main = new function() {
     this.updateAppliedStatus = function() {
         let sizemode = window.windowState;
         
+        let mainWindow = document.getElementById('main-window');
+        
         let normal = sizemode == window.STATE_NORMAL;
         let maximized = sizemode == window.STATE_MAXIMIZED;
         let fullscreen = sizemode == window.STATE_FULLSCREEN;
@@ -148,9 +154,11 @@ com.sppad.fstbh.Main = new function() {
         let applyInMaximized = self.prefs['maximizedMode'] == 'hover';
         let applyInFullscreen = self.prefs['fullscreenMode'] == 'hover';
  
-        self.applied = (normal && applyInNormal)
+        self.applied = !gNavToolbox.hasAttribute('customizing')
+        			&& !mainWindow.hasAttribute('customizing')
+        			&& ((normal && applyInNormal)
                     || (maximized && applyInMaximized)
-                    || (fullscreen && applyInFullscreen);
+                    || (fullscreen && applyInFullscreen));
         
         self.applyAttribute('main-window', 'applied', self.applied);
         
@@ -417,7 +425,9 @@ com.sppad.fstbh.Main = new function() {
         tabContainer.addEventListener("TabClose", this, false);
         tabContainer.addEventListener("TabOpen", this, false);
         
-        window.addEventListener("sizemodechange", this.sizemodeChange, false);
+        window.addEventListener("beforecustomization", this.evaluateAppliedStatus, false);
+        window.addEventListener("aftercustomization", this.evaluateAppliedStatus, false);
+        window.addEventListener("evaluateAppliedStatus", this.evaluateAppliedStatus, false);
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
@@ -441,7 +451,9 @@ com.sppad.fstbh.Main = new function() {
         tabContainer.removeEventListener("TabClose", this);
         tabContainer.removeEventListener("TabOpen", this);
         
-        window.removeEventListener("sizemodechange", this.sizemodeChange);
+        window.removeEventListener("beforecustomization", this.evaluateAppliedStatus);
+        window.removeEventListener("aftercustomization", this.evaluateAppliedStatus);
+        window.removeEventListener("evaluateAppliedStatus", this.evaluateAppliedStatus);
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)

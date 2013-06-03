@@ -12,23 +12,15 @@
 /*
  * Rules for when applied, causing navigator toolbox to show, etc.
  */
- 
 #main-window[fstbh|applied="true"] #browser-panel {
 	display: -moz-stack;
 }
 
-#main-window[fstbh|applied="true"] #navigator-toolbox[customizing] {
-	margin-top: 0px !important;
-	transition-delay: 0s !important;
-	height: auto !important;
-}
-
-#main-window[fstbh|applied="true"] #PersonalToolbar:not([collapsed="true"]),
-#main-window[fstbh|applied="true"] #addon-bar[customizing] {
+#main-window[fstbh|applied="true"] #PersonalToolbar:not([collapsed="true"]) {
 	visibility: visible;
 }
 
-#main-window[fstbh|applied="true"]:not([fstbh|toggle_bottom]) #addon-bar:not([customizing]) {
+#main-window[fstbh|applied="true"]:not([fstbh|toggle_bottom]) #addon-bar {
 	visibility: collapse;
 }
 
