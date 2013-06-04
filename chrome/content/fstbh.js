@@ -142,7 +142,7 @@ com.sppad.fstbh.Main = new function() {
 	 * not. Sets everything up for auto-hide behavior to take effect.
 	 */
     this.updateAppliedStatus = function() {
-        let sizemode = window.windowState;
+    	let sizemode = window.windowState;
         
         let mainWindow = document.getElementById('main-window');
         
@@ -153,7 +153,7 @@ com.sppad.fstbh.Main = new function() {
         let applyInNormal = self.prefs['normalMode'] == 'hover';
         let applyInMaximized = self.prefs['maximizedMode'] == 'hover';
         let applyInFullscreen = self.prefs['fullscreenMode'] == 'hover';
- 
+        
         self.applied = !gNavToolbox.hasAttribute('customizing')
         			&& !mainWindow.hasAttribute('customizing')
         			&& ((normal && applyInNormal)
@@ -161,6 +161,7 @@ com.sppad.fstbh.Main = new function() {
                     || (fullscreen && applyInFullscreen));
         
         self.applyAttribute('main-window', 'applied', self.applied);
+        self.applyAttribute('main-window', 'domFS', document.mozFullScreen);
         
         self.windowingTweaks(maximized, applyInMaximized, fullscreen, applyInFullscreen);
     
@@ -428,6 +429,7 @@ com.sppad.fstbh.Main = new function() {
         window.addEventListener("beforecustomization", this.evaluateAppliedStatus, false);
         window.addEventListener("aftercustomization", this.evaluateAppliedStatus, false);
         window.addEventListener("sizemodechange", this.evaluateAppliedStatus, false);
+        window.addEventListener("MozEnteredDomFullscreen", this.evaluateAppliedStatus, false);
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
@@ -454,6 +456,7 @@ com.sppad.fstbh.Main = new function() {
         window.removeEventListener("beforecustomization", this.evaluateAppliedStatus);
         window.removeEventListener("aftercustomization", this.evaluateAppliedStatus);
         window.removeEventListener("sizemodechange", this.evaluateAppliedStatus);
+        window.removeEventListener("MozEnteredDomFullscreen", this.evaluateAppliedStatus);
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)

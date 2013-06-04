@@ -12,6 +12,10 @@
 /*
  * Rules for when applied, causing navigator toolbox to show, etc.
  */
+#main-window[fstbh|domFS="true"] :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler, #navigator-toolbox, #browser-bottombox) {
+	display: none !important;
+}
+ 
 #main-window[fstbh|applied="true"] #browser-panel {
 	display: -moz-stack;
 }
@@ -72,7 +76,6 @@
 /*
  * Rules for when not applied.
  */
-
 #main-window:not([fstbh|applied="true"]) #navigator-toolbox {
 	margin-bottom: 0 !important;
 }
