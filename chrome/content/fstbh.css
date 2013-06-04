@@ -11,8 +11,8 @@
 
 /*
  * Rules for when applied, causing navigator toolbox to show, etc.
- */
-#main-window[fstbh|domFS="true"] :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler, #navigator-toolbox, #browser-bottombox) {
+ */	
+#main-window[fstbh|domFS="true"] :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler, #navigator-tool#box, #browser-bottombox, #com_sppad_fstbh_fullscreen_titlebar) {
 	display: none !important;
 }
  
