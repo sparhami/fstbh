@@ -21,9 +21,6 @@
 		src="preferences/preferences.js" />
 	<script
 		type="application/x-javascript"
-		src="addon.js" />
-	<script
-		type="application/x-javascript"
 		src="identity.js" />
 	<script
 		type="application/x-javascript"
