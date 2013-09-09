@@ -41,6 +41,10 @@
 				name="extensions.fstbh.showTabsToolbar"
 				type="string" />
 			<preference
+				id="extensions.fstbh.showNavBar"
+				name="extensions.fstbh.showNavBar"
+				type="string" />
+			<preference
 				id="extensions.fstbh.showPersonalToolbar"
 				name="extensions.fstbh.showPersonalToolbar"
 				type="string" />
@@ -131,6 +135,20 @@
 				<radio
 					value="always"
 					label="&preference.showTabsToolbar.always.label;" />
+			</radiogroup>
+		</groupbox>
+		<groupbox>
+			<caption label="&preference.showNavBar.label;" />
+
+			<radiogroup
+				preference="extensions.fstbh.showNavBar"
+				orient="vertical">
+				<radio
+					value="hoverOnly"
+					label="&preference.showNavBar.hoverOnly.label;" />
+				<radio
+					value="always"
+					label="&preference.showNavBar.always.label;" />
 			</radiogroup>
 		</groupbox>
 		<groupbox>

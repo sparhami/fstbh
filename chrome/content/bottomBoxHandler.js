@@ -13,7 +13,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
     self.findbarActive = false;
     self.popupTarget = null;
     
-    this.enable = function() {
+    self.enable = function() {
         if(self.enabled)
             return;
         
@@ -41,7 +41,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         self.enabled = true;
     };
     
-    this.disable = function() {
+    self.disable = function() {
         if(!self.enabled)
             return;
         
@@ -70,7 +70,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
      * Observe attribute changes on FindToolbar for showing when the find bar
      * is active.
      */
-    this.findbarObserver = new MutationObserver(function(mutations) {
+    self.findbarObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             if(mutation.attributeName == 'hidden') {
                 self.findbarActive = !mutation.target.getAttribute('hidden');
@@ -79,7 +79,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         });   
     });
     
-    this.popupshown = function(aEvent) {
+    self.popupshown = function(aEvent) {
         let targetName = aEvent.target.localName;
         if(targetName == "tooltip" || targetName == "window")
             return;
@@ -92,7 +92,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         self.updateOpenedStatus();
     };
     
-    this.popuphidden = function(aEvent) {
+    self.popuphidden = function(aEvent) {
     	// Don't check originalTarget, doing it that way has been unreliable
     	if(self.popupTarget && self.popupTarget.state == "open")
     		return;
@@ -101,7 +101,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         self.updateOpenedStatus();
     };
     
-    this.mouseleave = function(aEvent) {
+    self.mouseleave = function(aEvent) {
         if(self.hovering)
             return;
         
@@ -114,7 +114,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         }
     };
     
-    this.mouseenter = function(aEvent) {
+    self.mouseenter = function(aEvent) {
         if(self.hovering)
             return;
         
@@ -137,7 +137,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
      * Checks the to see if the mouse has gone below the bottom of the toolbars
      * and remove hovering if so.
      */
-    this.checkMousePosition = function(aEvent) {
+    self.checkMousePosition = function(aEvent) {
         if(!self.hovering)
             return;
         
@@ -157,14 +157,14 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         }
     };
 
-    this.updateOpenedStatus = function() {
+    self.updateOpenedStatus = function() {
         if(self.hovering || self.popupTarget || self.findbarActive)
             self.setOpened();
         else
             self.setClosed();
     }
     
-    this.setOpened = function() {
+    self.setOpened = function() {
         if(self.opened)
             return;
         
@@ -182,7 +182,7 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         self.setShowingStyle();
     };
     
-    this.setClosed = function() {
+    self.setClosed = function() {
         if(!self.opened || !self.enabled)
             return;
         
@@ -200,12 +200,12 @@ com.sppad.fstbh.BottomBoxHandler = new function() {
         self.setHiddenStyle();
     };
     
-    this.setHiddenStyle = function() {
+    self.setHiddenStyle = function() {
         let mainWindow = document.getElementById('main-window');
         mainWindow.removeAttributeNS(com.sppad.fstbh.xmlns, 'toggle_bottom');
     };
     
-    this.setShowingStyle = function() {
+    self.setShowingStyle = function() {
         let mainWindow = document.getElementById('main-window');
         mainWindow.setAttributeNS(com.sppad.fstbh.xmlns, 'toggle_bottom', 'true');
     };

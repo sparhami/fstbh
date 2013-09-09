@@ -45,7 +45,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     /** How long to ignore a tab select for after a open or close */
     self.ignoreSelectDelta = 100;
     
-    this.enable = function() {
+    self.enable = function() {
         if(self.enabled)
             return;
         
@@ -92,7 +92,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.enabled = true;
     };
     
-    this.disable = function() {
+    self.disable = function() {
         if(!self.enabled)
             return;
         
@@ -136,7 +136,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.enabled = false;
     };
     
-    this.handleEvent = function(aEvent) {
+    self.handleEvent = function(aEvent) {
         let type = aEvent.type;
         let now = Date.now();
         let trigger = false;
@@ -163,39 +163,39 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     // nsIWebProgressListener
-    this.QueryInterface = XPCOMUtils.generateQI(['nsIWebProgressListener', 'nsISupportsWeakReference']),
+    self.QueryInterface = XPCOMUtils.generateQI(['nsIWebProgressListener', 'nsISupportsWeakReference']),
                         
-    this.onLocationChange = function(aProgress, aRequest, aURI) {
+    self.onLocationChange = function(aProgress, aRequest, aURI) {
         if(self.prefs['showEvents.showOnLocationChange'])
             self.triggerShowEvent();
     };
 
     // Nothing to do for these
-    this.onStateChange = function() {};
-    this.onProgressChange = function() {};
-    this.onStatusChange = function() {};
+    self.onStateChange = function() {};
+    self.onProgressChange = function() {};
+    self.onStatusChange = function() {};
     
-    this.onSecurityChange = function(aWebProgress, aRequest, aState) {
+    self.onSecurityChange = function(aWebProgress, aRequest, aState) {
         com.sppad.fstbh.Identity.updateState(aState);
     };
     
     // end nsIWebProgressListener
     
-    this.menuActive = function(event) {
+    self.menuActive = function(event) {
         self.showingFlags |= MENU_ACTIVE_MASK;
         self.updateOpenedStatus();
     };
     
-    this.menuInactive = function(event) {
+    self.menuInactive = function(event) {
         self.showingFlags &= ~MENU_ACTIVE_MASK;
         self.updateOpenedStatus();
     };
     
     /**
-     * Counts the number of tabs with a title change event. Used for showing the
-     * navigator toolbox when there is a title change that hasn't been cleared.
-     */
-    this.evaluateTitleChangeState = function() {
+	 * Counts the number of tabs with a title change event. Used for showing the
+	 * navigator toolbox when there is a title change that hasn't been cleared.
+	 */
+    self.evaluateTitleChangeState = function() {
         let pref = self.prefs['showWhenTitleChanged'];
         if(pref == "never")
             return;
@@ -226,10 +226,10 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     /**
-     * Causes the toolbars to show to due to a show event briefly before hiding
-     * again.
-     */
-    this.triggerShowEvent = function() {
+	 * Causes the toolbars to show to due to a show event briefly before hiding
+	 * again.
+	 */
+    self.triggerShowEvent = function() {
         self.showingFlags |= SHOW_EVENT_ACTIVE_MASK;
         self.updateOpenedStatus();
 
@@ -241,15 +241,15 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     /**
-     * Handle escape: clear the focused item, if something is focused, so that
-     * the toolbars can hide.
-     */
-    this.keyevent = function(aEvent) {
+	 * Handle escape: clear the focused item, if something is focused, so that
+	 * the toolbars can hide.
+	 */
+    self.keyevent = function(aEvent) {
         if((self.showingFlags & FOCUSED_MASK) && (aEvent.keyCode == aEvent.DOM_VK_ESCAPE))
             document.commandDispatcher.focusedElement = null;
     };
     
-    this.checkfocus = function(aEvent) {
+    self.checkfocus = function(aEvent) {
         let fe = document.commandDispatcher.focusedElement;
         if(fe && fe.ownerDocument == document && fe.localName == "input")
             self.showingFlags |= FOCUSED_MASK;
@@ -259,7 +259,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.updateOpenedStatus();
     };
         
-    this.popupshown = function(aEvent) {
+    self.popupshown = function(aEvent) {
         let targetName = aEvent.target.localName;
         if(targetName == "tooltip" || targetName == "window")
             return;
@@ -273,7 +273,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         self.updateOpenedStatus();
     };
     
-    this.popuphidden = function(aEvent) {
+    self.popuphidden = function(aEvent) {
     	// Don't check originalTarget, doing it that way has been unreliable
     	if(self.popupTarget && self.popupTarget.state == "open")
     		return;
@@ -284,29 +284,29 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     /**
-     * Handles mouse entering either the toggler or navigator-toolbox and mouse
-     * leaving the browser / main-window.
-     * <p>
-     * Mouse leave events covers two cases: task bar at the top of the screen
-     * and Windows. For the task bar, if the mouse leaves the screen too
-     * quickly, a mouseenter event might not be generated on the toggler or
-     * navigator-toolbox. For Windows, empty parts of the navigator-toolbox do
-     * not generate mouse events so mouseenter won't work when always showing
-     * tabs. In that case, we need to rely on the mouse leaving the browser
-     * instead.
-     * <p>
-     * Checks if the y location of the mouse to see if it is above the bottom of
-     * toggler or navigator-toolbox. This is because a mouseenter event might
-     * trigger when entering a popup. For example, if showing when the bookmarks
-     * menu has been triggered via keyboard. If mousing over the menu, a
-     * mouseenter event is generated. If the menu is closed, then hovering would
-     * be still true if we did not check the y coordinate.
-     * <p>
-     * Can't simply check if the target is a popup, since the user can move from
-     * the popup up into the navigator-toolbox without any additional events
-     * generated.
-     */
-    this.mouseenter = function(aEvent) {
+	 * Handles mouse entering either the toggler or navigator-toolbox and mouse
+	 * leaving the browser / main-window.
+	 * <p>
+	 * Mouse leave events covers two cases: task bar at the top of the screen
+	 * and Windows. For the task bar, if the mouse leaves the screen too
+	 * quickly, a mouseenter event might not be generated on the toggler or
+	 * navigator-toolbox. For Windows, empty parts of the navigator-toolbox do
+	 * not generate mouse events so mouseenter won't work when always showing
+	 * tabs. In that case, we need to rely on the mouse leaving the browser
+	 * instead.
+	 * <p>
+	 * Checks if the y location of the mouse to see if it is above the bottom of
+	 * toggler or navigator-toolbox. This is because a mouseenter event might
+	 * trigger when entering a popup. For example, if showing when the bookmarks
+	 * menu has been triggered via keyboard. If mousing over the menu, a
+	 * mouseenter event is generated. If the menu is closed, then hovering would
+	 * be still true if we did not check the y coordinate.
+	 * <p>
+	 * Can't simply check if the target is a popup, since the user can move from
+	 * the popup up into the navigator-toolbox without any additional events
+	 * generated.
+	 */
+    self.mouseenter = function(aEvent) {
         if(self.showingFlags & HOVERING_MASK)
             return;
 
@@ -326,10 +326,10 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
  
     /**
-     * Checks the to see if the mouse has gone below the bottom of the toolbars
-     * and remove hovering if so.
-     */
-    this.checkMousePosition = function(aEvent) {
+	 * Checks the to see if the mouse has gone below the bottom of the toolbars
+	 * and remove hovering if so.
+	 */
+    self.checkMousePosition = function(aEvent) {
         if(!(self.showingFlags & HOVERING_MASK))
             return;
         
@@ -348,7 +348,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         }
     };
 
-    this.updateOpenedStatus = function() {
+    self.updateOpenedStatus = function() {
         if(self.showingFlags != FLAGS_CLOSED)
             self.setOpened();
         else
@@ -356,11 +356,11 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     }
     
     /**
-     * Causes the navigator toolbox to show by setting the toggle attribute.
-     * Also sets up listeners to stay open when menus are open and mouse move
-     * for eventually closing.
-     */
-    this.setOpened = function() {
+	 * Causes the navigator toolbox to show by setting the toggle attribute.
+	 * Also sets up listeners to stay open when menus are open and mouse move
+	 * for eventually closing.
+	 */
+    self.setOpened = function() {
         if(self.opened)
             return;
         
@@ -377,12 +377,12 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     /**
-     * Causes the navigator toolbox to close by removing the toggle attribute.
-     * 
-     * Also re-calculates the top offset in case the size of gNavToolbox has
-     * changed.
-     */
-    this.setClosed = function() {
+	 * Causes the navigator toolbox to close by removing the toggle attribute.
+	 * 
+	 * Also re-calculates the top offset in case the size of gNavToolbox has
+	 * changed.
+	 */
+    self.setClosed = function() {
         if(!self.opened || !self.enabled)
             return;
         
@@ -399,18 +399,22 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     /**
-     * For height, transition is from auto to 0, so transition properties don't
-     * have an effect. Don't use visibility or display since we still want to be
-     * able to use shortcut keys for navigation/search boxes.
-     */
-    this.setHiddenStyle = function() {
+	 * For height, transition is from auto to 0, so transition properties don't
+	 * have an effect. Don't use visibility or display since we still want to be
+	 * able to use shortcut keys for navigation/search boxes.
+	 */
+    self.setHiddenStyle = function() {
         let mainWindow = document.getElementById('main-window');
         mainWindow.removeAttributeNS(com.sppad.fstbh.xmlns, 'toggle_top');
         
         // Slide-out doesn't work while in normal mode
-        let transitionProperty = window.windowState == window.STATE_NORMAL
-            ? 'height'
-            : self.prefs['transitionProperty'];
+        let transitionProperty = self.prefs['transitionProperty'];
+        
+        if(window.windowState == window.STATE_NORMAL
+        		|| self.prefs['showTabsToolbar'] != 'hoverOnly'
+        		|| self.prefs['showNavBar'] != 'hoverOnly') {
+        	transitionProperty = 'height';
+        }
         
         gNavToolbox.style.transitionProperty = transitionProperty;
         
@@ -419,19 +423,13 @@ com.sppad.fstbh.NavBoxHandler = new function() {
                 gNavToolbox.style.height = '';
                 gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height) + "px";
                 break;
-            case 'height':
-            default:
-                gNavToolbox.style.height = '0';
-                gNavToolbox.style.marginTop = '';
-                break;
         }
     };
     
-    this.setShowingStyle = function() {
+    self.setShowingStyle = function() {
         let mainWindow = document.getElementById('main-window');
         mainWindow.setAttributeNS(com.sppad.fstbh.xmlns, 'toggle_top', 'true');
             
         gNavToolbox.style.marginTop = '';
-        gNavToolbox.style.height = '';
     };
 };

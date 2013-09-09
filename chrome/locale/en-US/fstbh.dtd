@@ -56,11 +56,15 @@
 <!ENTITY preference.showTabsToolbar.multipleTabs.label "When multiple tabs are open">
 <!ENTITY preference.showTabsToolbar.always.label "Always">
 
+<!ENTITY preference.showNavBar.label "Show Navigation Bar">
+<!ENTITY preference.showNavBar.hoverOnly.label "Normal (autohide)">
+<!ENTITY preference.showNavBar.always.label "Always">
+
 <!ENTITY preference.fullishScreen.label "Hide application menu when maximized">
 <!ENTITY preference.fullscreenMenu.label "Show menu button / menubar in fullscreen">
 <!ENTITY preference.showIdentityBox.label "Show site identity information when toolbars are hidden">
-<!ENTITY preference.tweaks.onePixelPadding.label "Use a one pixel padding on the top of the page content when auto-hiding.">
-<!ENTITY preference.tweaks.mouseEnterOnTogglerOnly.label "When always showing tabs, only show toolbars when mouse is at the top of the screen.">
+<!ENTITY preference.tweaks.onePixelPadding.label "Use a one pixel padding on the top of the page content when auto-hiding">
+<!ENTITY preference.tweaks.mouseEnterOnTogglerOnly.label "Only trigger when mouse is at the top of the screen">
 
 <!ENTITY preference.other.label "Misc">
 <!ENTITY preference.bottomBuffer.label "Bottom buffer when showing">

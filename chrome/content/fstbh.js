@@ -9,61 +9,67 @@ com.sppad.fstbh.Main = new function() {
     self.os = Components.classes["@mozilla.org/xre/app-info;1"]
         .getService(Components.interfaces.nsIXULRuntime).OS;
     
-    this.handleEvent = function(aEvent) {
+    self.handleEvent = function(aEvent) {
         switch (aEvent.type) {
             case com.sppad.fstbh.Preferences.EVENT_PREFERENCE_CHANGED:
-                this.prefChanged(aEvent.name, aEvent.value);
+                self.prefChanged(aEvent.name, aEvent.value);
                 break;
             case 'TabClose':
-                this.updateTabCount(true);
+                self.updateShowTabs(true);
+                self.offsetBrowser();
                 break;
             case 'TabOpen':
-                this.updateTabCount();
+                self.updateShowTabs();
+                self.offsetBrowser();
                 break;
             default:
                 break;
         }
     };
 
-    this.prefChanged = function(name, value) {
+    self.prefChanged = function(name, value) {
         switch (name) {
             case 'transitionDelay':
-                this.setTransitionDelay(value);
+                self.setTransitionDelay(value);
                 break;
             case 'style.browserBottomBox':
-                this.applyAttribute('browser-bottombox', 'backgroundStyle', value);
+                self.applyAttribute('browser-bottombox', 'backgroundStyle', value);
                 break;
             case 'style.topChromeBackground':
-                this.applyAttribute('navigator-toolbox', 'backgroundStyle', value);
+                self.applyAttribute('navigator-toolbox', 'backgroundStyle', value);
                 break;
             case 'style.shadowWhenToggled':
-                this.applyAttribute('navigator-toolbox', 'shadowWhenToggled', value);
+                self.applyAttribute('navigator-toolbox', 'shadowWhenToggled', value);
                 break;
             case 'showIdentityBox':
                 document.getElementById('com_sppad_fstbh_ssl_info_boundry').setAttribute('hidden', !value);
                 break;
             case 'showTabsToolbar':
-                this.setShowTabsToolbar(value);
-                this.updateTabCount();
+                self.setShowTabsToolbar(value);
+                self.updateShowTabs();
+            	self.offsetBrowser();
                 break;
+            case 'showNavBar':
+            	self.updateShowNavBar();
+            	self.offsetBrowser();
             case 'showAddonsBar':
-                this.setShowAddonsBar(value);
+                self.setShowAddonsBar(value);
                 break;
             case 'normalMode':
-                this.setNormalMode(value);
+                self.setNormalMode(value);
                 break;
             case 'maximizedMode':
-                this.setMaximizedMode(value);
+                self.setMaximizedMode(value);
                 break;
             case 'fullscreenMode':
-                this.setFullscreenMode(value);
+                self.setFullscreenMode(value);
                 break;
             case 'fullishScreen':
             case 'fullscreenMenu':
-                this.updateAppliedStatus();
+                self.updateAppliedStatus();
                 break;
             case 'tweaks.onePixelPadding':
-                this.offsetBrowser();
+                self.offsetBrowser();
                 document.getElementById('com_sppad_fstbh_top_toggler').setAttribute('singlePixelPadding', value);
                 break;
             default:
@@ -71,12 +77,12 @@ com.sppad.fstbh.Main = new function() {
         }
     };
     
-    this.observe = function (aSubject, aTopic, aData) {
+    self.observe = function (aSubject, aTopic, aData) {
         if(aTopic == 'lightweight-theme-styling-update')
             self.applied && self.setupTheme();
     };
     
-    this.addonbarObserver = new MutationObserver(function(mutations) {
+    self.addonbarObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             if(mutation.attributeName == 'collapsed') {
                 self.offsetBrowser();
@@ -84,7 +90,7 @@ com.sppad.fstbh.Main = new function() {
         });   
     });
     
-    this.setupTheme = function() {
+    self.setupTheme = function() {
         let mainWindow = document.getElementById('main-window');
         
         gNavToolbox.style.color = mainWindow.style.backgroundImage;
@@ -114,13 +120,13 @@ com.sppad.fstbh.Main = new function() {
         }
     };
     
-    this.clearTheme = function() {
+    self.clearTheme = function() {
         gNavToolbox.style.color = '';
         gNavToolbox.style.backgroundColor = '';
         gNavToolbox.style.backgroundImage = '';
     };
     
-    this.applyAttribute = function(id, name, value) {
+    self.applyAttribute = function(id, name, value) {
         document.getElementById(id).setAttributeNS(com.sppad.fstbh.xmlns, name, value);
     };
     
@@ -130,7 +136,7 @@ com.sppad.fstbh.Main = new function() {
 	 * to make sure customize attribute has been set if checking for
 	 * customize mode.
 	 */
-    this.evaluateAppliedStatus = function() {
+    self.evaluateAppliedStatus = function() {
         window.clearTimeout(com.sppad.fstbh.sizemodeTimer);
         com.sppad.fstbh.sizemodeTimer = window.setTimeout(function() {
             com.sppad.fstbh.Main.updateAppliedStatus();
@@ -141,7 +147,7 @@ com.sppad.fstbh.Main = new function() {
 	 * Updates the applied status, checking if the add-on should be applied or
 	 * not. Sets everything up for auto-hide behavior to take effect.
 	 */
-    this.updateAppliedStatus = function() {
+    self.updateAppliedStatus = function() {
     	let sizemode = window.windowState;
         
         let mainWindow = document.getElementById('main-window');
@@ -180,7 +186,7 @@ com.sppad.fstbh.Main = new function() {
         addonbar.setAttribute('context', fullscreen ? 'autohide-context' : 'toolbar-context-menu');
     };
     
-    this.windowingTweaks = function(maximized, applyInMaximized, fullscreen, applyInFullscreen) {
+    self.windowingTweaks = function(maximized, applyInMaximized, fullscreen, applyInFullscreen) {
         let mainWindow = document.getElementById('main-window');
         let tabViewDeck = document.getElementById('tab-view-deck');
     
@@ -249,7 +255,7 @@ com.sppad.fstbh.Main = new function() {
        
     };
     
-    this.menubarObserver = new MutationObserver(function(mutations) {
+    self.menubarObserver = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
             if(mutation.attributeName == 'autohide') {
                 let autohide = mutation.target.getAttribute('autohide');
@@ -265,21 +271,27 @@ com.sppad.fstbh.Main = new function() {
 	 * @param offset
 	 *            If called while a tab is closing, do not count that tab.
 	 */
-    this.updateTabCount = function(offset) {
+    self.updateShowTabs = function(offset) {
         let pref = self.prefs['showTabsToolbar'];
         let tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
 
         self.alwaysShowTabs = (pref == 'always') || (pref == 'multipleTabs' && tabCount > 1);
-        self.applyAttribute('main-window', 'showTabsToolbar', self.alwaysShowTabs);
-        
-        self.offsetBrowser();
+        self.applyAttribute('TabsToolbar', 'forceShow', self.alwaysShowTabs);
+    };
+  
+    
+    self.updateShowNavBar = function() {
+        let pref = self.prefs['showNavBar'];
+    	
+        self.alwaysShowNavBar = (pref == 'always');
+        self.applyAttribute('nav-bar', 'forceShow', self.alwaysShowNavBar);
     };
     
-    this.setTransitionDelay = function(value) {
+    self.setTransitionDelay = function(value) {
         gNavToolbox.style.transitionDelay = value + 'ms';
     };
     
-    this.setShowTabsToolbar = function(value) {
+    self.setShowTabsToolbar = function(value) {
         let contextItems = ['com_sppad_fstbh_alwaysShowTabs', 'com_sppad_fstbh_alwaysShowTabs_fullscreen'];
         contextItems.forEach(function(id) {
             if(value == 'always')
@@ -291,7 +303,7 @@ com.sppad.fstbh.Main = new function() {
         self.offsetBrowser();
     };
     
-    this.setShowAddonsBar = function(value) {
+    self.setShowAddonsBar = function(value) {
         let contextItems = ['com_sppad_fstbh_alwaysShowAddonsBar', 'com_sppad_fstbh_alwaysShowAddonsBar_fullscreen'];
         contextItems.forEach(function(id) {
             if(value == 'always')
@@ -305,7 +317,7 @@ com.sppad.fstbh.Main = new function() {
         self.offsetBrowser();
     };
     
-    this.setNormalMode = function(value) {
+    self.setNormalMode = function(value) {
         let menuitem = document.getElementById('com_sppad_fstbh_normalModeContextItem');
         if(value == 'hover')
             menuitem.setAttribute('checked', 'true');
@@ -315,7 +327,7 @@ com.sppad.fstbh.Main = new function() {
         self.updateAppliedStatus();
     };
 
-    this.setMaximizedMode = function(value) {
+    self.setMaximizedMode = function(value) {
         let menuitem = document.getElementById('com_sppad_fstbh_maximizedModeContextItem');
         if(value == 'hover')
             menuitem.setAttribute('checked', 'true');
@@ -325,7 +337,7 @@ com.sppad.fstbh.Main = new function() {
         self.updateAppliedStatus();
     };
     
-    this.setFullscreenMode = function(value) {
+    self.setFullscreenMode = function(value) {
         let menuitem = document.getElementById('com_sppad_fstbh_fullscreenModeContextItem');
         if(value == 'hover')
             menuitem.setAttribute('checked', 'true');
@@ -335,38 +347,38 @@ com.sppad.fstbh.Main = new function() {
         self.updateAppliedStatus();
     };
     
-    this.setAlwaysShowTabs = function(source) {
+    self.setAlwaysShowTabs = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', checked ? 'always' : 'hoverOnly');
     };
     
-    this.setAlwaysShowAddonsBar = function(source) {
+    self.setAlwaysShowAddonsBar = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('showAddonsBar', checked ? 'always' : 'hoverOnly');
     };
     
-    this.setNormalAutohide = function(source) {
+    self.setNormalAutohide = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('normalMode', checked ? 'hover' : 'normal');
     };
     
-    this.setMaximizedAutohide = function(source) {
+    self.setMaximizedAutohide = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('maximizedMode', checked ? 'hover' : 'normal');
     };
     
-    this.setFullscreenAutohide = function(source) {
+    self.setFullscreenAutohide = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('fullscreenMode', checked ? 'hover' : 'normal');
     };
     
     /**
-	 * Offsets / un-offsets the browser by setting a top margin. This is done so
+	 * Offsets / un-offsets the browser by setting a top margin. self is done so
 	 * that we can stay as display stack and always show TabsToolbar without
-	 * covering page content. This is used when the showTabsToolbar is set to
+	 * covering page content. self is used when the showTabsToolbar is set to
 	 * always or multipleTabs.
 	 */
-    this.offsetBrowser = function() {
+    self.offsetBrowser = function() {
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
         let browser = document.getElementById('browser');
         let tabsToolbar = document.getElementById('TabsToolbar');
@@ -380,7 +392,7 @@ com.sppad.fstbh.Main = new function() {
         browser.style.marginBottom = offsetBottom + "px";
     };
     
-    this.loadPreferences = function() {
+    self.loadPreferences = function() {
         let prefs = ['debug',
                      'transitionDelay',
                      'transitionProperty',
@@ -389,6 +401,7 @@ com.sppad.fstbh.Main = new function() {
                      'style.topChromeBackground',
                      'style.shadowWhenToggled',
                      'showTabsToolbar',
+                     'showNavBar',
                      'showAddonsBar',
                      'normalMode',
                      'maximizedMode',
@@ -401,7 +414,7 @@ com.sppad.fstbh.Main = new function() {
         });
     };
     
-    this.setupContextMenus = function() {
+    self.setupContextMenus = function() {
         let autohideContext = document.getElementById('autohide-context');
         
         // Hide "Hide Toolbars" context menu item since we are going to use our
@@ -419,21 +432,21 @@ com.sppad.fstbh.Main = new function() {
         }, false);
     };
     
-    this.setup = function() {
-        com.sppad.fstbh.Preferences.addListener(this);
+    self.setup = function() {
+        com.sppad.fstbh.Preferences.addListener(self);
         
         let tabContainer = window.gBrowser.tabContainer;
-        tabContainer.addEventListener("TabClose", this, false);
-        tabContainer.addEventListener("TabOpen", this, false);
+        tabContainer.addEventListener("TabClose", self, false);
+        tabContainer.addEventListener("TabOpen", self, false);
         
-        window.addEventListener("beforecustomization", this.evaluateAppliedStatus, false);
-        window.addEventListener("aftercustomization", this.evaluateAppliedStatus, false);
-        window.addEventListener("sizemodechange", this.evaluateAppliedStatus, false);
-        window.addEventListener("MozEnteredDomFullscreen", this.evaluateAppliedStatus, false);
+        window.addEventListener("beforecustomization", self.evaluateAppliedStatus, false);
+        window.addEventListener("aftercustomization", self.evaluateAppliedStatus, false);
+        window.addEventListener("sizemodechange", self.evaluateAppliedStatus, false);
+        window.addEventListener("MozEnteredDomFullscreen", self.evaluateAppliedStatus, false);
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
-            .addObserver(this, "lightweight-theme-styling-update", false);
+            .addObserver(self, "lightweight-theme-styling-update", false);
         
         let menubar = document.getElementById('toolbar-menubar');
         let addonbar = document.getElementById('addon-bar');
@@ -441,26 +454,28 @@ com.sppad.fstbh.Main = new function() {
         self.menubarObserver.observe(menubar, { attributes: true });
         self.addonbarObserver.observe(addonbar, { attributes: true });
         
-        this.setupContextMenus();
-        this.loadPreferences();
-        this.updateTabCount();
+        self.setupContextMenus();
+        self.loadPreferences();
+        
+        self.updateShowTabs();
+        self.offsetBrowser();
     };
     
-    this.cleanup = function() {
-        com.sppad.fstbh.Preferences.removeListener(this);
+    self.cleanup = function() {
+        com.sppad.fstbh.Preferences.removeListener(self);
         
         let tabContainer = window.gBrowser.tabContainer;
-        tabContainer.removeEventListener("TabClose", this);
-        tabContainer.removeEventListener("TabOpen", this);
+        tabContainer.removeEventListener("TabClose", self);
+        tabContainer.removeEventListener("TabOpen", self);
         
-        window.removeEventListener("beforecustomization", this.evaluateAppliedStatus);
-        window.removeEventListener("aftercustomization", this.evaluateAppliedStatus);
-        window.removeEventListener("sizemodechange", this.evaluateAppliedStatus);
-        window.removeEventListener("MozEnteredDomFullscreen", this.evaluateAppliedStatus);
+        window.removeEventListener("beforecustomization", self.evaluateAppliedStatus);
+        window.removeEventListener("aftercustomization", self.evaluateAppliedStatus);
+        window.removeEventListener("sizemodechange", self.evaluateAppliedStatus);
+        window.removeEventListener("MozEnteredDomFullscreen", self.evaluateAppliedStatus);
         
         Components.classes["@mozilla.org/observer-service;1"]
             .getService(Components.interfaces.nsIObserverService)
-            .removeObserver(this, "lightweight-theme-styling-update");
+            .removeObserver(self, "lightweight-theme-styling-update");
         
         self.menubarObserver.disconnect();
         self.addonbarObserver.disconnect();

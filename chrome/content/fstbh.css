@@ -49,21 +49,12 @@
 	overflow: hidden;
 }
 
-#main-window[fstbh|applied="true"][fstbh|showTabsToolbar="true"] #navigator-toolbox {	
-	/* It looks odd if the slide in animation plays due to the margin-top offset on #browser */
-	transition-property: none;
-	
-	/* Don't hide so that tabs can stay showing */
-	margin-top: 0px !important;
-	height: auto !important;
-}
-
 #main-window[fstbh|applied="true"][fstbh|showAddonsBar="true"] #addon-bar:not([collapsed="true"]) {
 	visibility: visible !important;
 }
 
 /* Hide toolbars other than TabsToolbar when com_sppad_fstbh_showTabsToolbar */
-#main-window[fstbh|applied="true"][fstbh|showTabsToolbar="true"]:not([fstbh|toggle_top]) #navigator-toolbox > :not(#TabsToolbar) {
+#main-window[fstbh|applied="true"]:not([fstbh|toggle_top]) #navigator-toolbox > :not([fstbh|forceShow="true"]) {
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
 	height: 0 !important;
 	max-height: 0 !important;

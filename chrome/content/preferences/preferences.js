@@ -65,6 +65,9 @@ com.sppad.fstbh.PREFS = {
     // One of hoverOnly, multipleTabs, always
     showTabsToolbar : 'hoverOnly',
     
+    // One of hoverOnly, always (TODO - secureSites)
+    showNavBar: 'hoverOnly',
+    
     // One of hoverOnly, always
     showAddonsBar : 'hoverOnly',
 
