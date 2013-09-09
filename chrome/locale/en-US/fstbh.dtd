@@ -20,6 +20,8 @@
 <!ENTITY preference.eventsPrefPane.label "Events">
 <!ENTITY preference.stylePrefPane.label "Style">
 
+<!ENTITY requiresTransitionTypeNone.label "Requires transition type to be set to none">
+
 <!ENTITY preference.transitionProperty.label "Transition Type">
 <!ENTITY preference.transitionProperty.none.label "None (may be required for compatibility with some add-ons)">
 <!ENTITY preference.transitionProperty.slideIn.label "Slide-in">

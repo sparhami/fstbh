@@ -17,14 +17,13 @@ com.sppad.fstbh.Config = new function() {
      * animation.
      */
     this.transitionPropertyChange = function() {
-        let timingDisabled = document.getElementById('transitionDisabled').selected;
+        let td = document.getElementById('transitionDisabled').selected;
         
-        let nodes = document.getElementsByClassName('transitionTiming');
-        for(let i=0; i<nodes.length; i++) {
-            if(timingDisabled)
-                nodes[i].setAttribute('disabled', timingDisabled);
+        for(node of document.querySelectorAll('[transitionRequired]')) {
+            if(node.getAttribute('transitionRequired') == "true" ? td : !td)
+                node.setAttribute('disabled', true);
             else
-                nodes[i].removeAttribute('disabled');
+                node.removeAttribute('disabled');
         }
     };
 }

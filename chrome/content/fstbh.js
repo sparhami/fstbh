@@ -29,6 +29,8 @@ com.sppad.fstbh.Main = new function() {
 
     self.prefChanged = function(name, value) {
         switch (name) {
+        	case 'transitionProperty':
+    			self.applyAttribute('main-window', 'transitionProperty', value);
             case 'transitionDelay':
                 self.setTransitionDelay(value);
                 break;
@@ -283,7 +285,7 @@ com.sppad.fstbh.Main = new function() {
     self.updateShowNavBar = function() {
         let pref = self.prefs['showNavBar'];
     	
-        self.alwaysShowNavBar = (pref == 'always');
+        self.alwaysShowNavBar = (pref === 'always');
         self.applyAttribute('nav-bar', 'forceShow', self.alwaysShowNavBar);
     };
     
@@ -350,6 +352,9 @@ com.sppad.fstbh.Main = new function() {
     self.setAlwaysShowTabs = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', checked ? 'always' : 'hoverOnly');
+
+        if(checked)
+        	com.sppad.fstbh.Preferences.setPreference('transitionProperty', 'height');
     };
     
     self.setAlwaysShowAddonsBar = function(source) {

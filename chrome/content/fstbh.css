@@ -22,6 +22,12 @@
 
 #main-window[fstbh|applied="true"] #PersonalToolbar:not([collapsed="true"]) {
 	visibility: visible;
+
+}
+
+/* Since pinned tabs are position fixed, they will show even when not toggled */
+#main-window[fstbh|applied="true"]:not([fstbh|toggle_top]) #TabsToolbar:not([fstbh|forceShow="true"]) #tabbrowser-tabs[positionpinnedtabs] > .tabbrowser-tab[pinned] {
+	visibility: hidden;
 }
 
 #main-window[fstbh|applied="true"]:not([fstbh|toggle_bottom]) #addon-bar {
@@ -54,7 +60,7 @@
 }
 
 /* Hide toolbars other than TabsToolbar when com_sppad_fstbh_showTabsToolbar */
-#main-window[fstbh|applied="true"]:not([fstbh|toggle_top]) #navigator-toolbox > :not([fstbh|forceShow="true"]) {
+#main-window[fstbh|applied="true"][fstbh|transitionProperty="height"]:not([fstbh|toggle_top]) #navigator-toolbox > :not([fstbh|forceShow="true"]) {
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
 	height: 0 !important;
 	max-height: 0 !important;

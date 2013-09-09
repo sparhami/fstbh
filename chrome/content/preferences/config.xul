@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<?xml-stylesheet href="config.css" type="text/css"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://fstbh-platform/skin/preferences/config.css" type="text/css"?>
 
@@ -69,84 +70,95 @@
 					label="&preference.transitionProperty.slideIn.label;" />
 			</radiogroup>
 		</groupbox>
-		<groupbox class="transitionTiming">
+		<groupbox transitionRequired="true">
 			<caption label="&preference.timing.label;" />
 			<hbox align="center">
 				<label
-					class="transitionTiming"
+					transitionRequired="true"
 					value="&preference.transitionDurationIn.label;"
 					flex="1" />
 				<textbox
-					class="transitionTiming"
+					transitionRequired="true"
 					type="number"
 					min="0"
 					max="1000"
 					width="64"
 					preference="extensions.fstbh.transitionDurationIn" />
 				<label
-					class="transitionTiming"
+					transitionRequired="true"
 					value="&units.milliseconds;" />
 			</hbox>
 			<hbox align="center">
 				<label
-					class="transitionTiming"
+					transitionRequired="true"
 					value="&preference.transitionDurationOut.label;"
 					flex="1" />
 				<textbox
-					class="transitionTiming"
+					transitionRequired="true"
 					type="number"
 					min="0"
 					max="1000"
 					width="64"
 					preference="extensions.fstbh.transitionDurationOut" />
 				<label
-					class="transitionTiming"
+					transitionRequired="true"
 					value="&units.milliseconds;" />
 			</hbox>
 			<hbox align="center">
 				<label
-					class="transitionTiming"
+					transitionRequired="true"
 					value="&preference.transitionDelay.label;"
 					flex="1" />
 				<textbox
-					class="transitionTiming"
+					transitionRequired="true"
 					type="number"
 					min="0"
 					max="10000"
 					width="80"
 					preference="extensions.fstbh.transitionDelay" />
 				<label
-					class="transitionTiming"
+					transitionRequired="true"
 					value="&units.milliseconds;" />
 			</hbox>
 		</groupbox>
 		<groupbox>
 			<caption label="&preference.showTabsToolbar.label;" />
+			<label
+				class="note"
+				value="&requiresTransitionTypeNone.label;" />
 
 			<radiogroup
 				preference="extensions.fstbh.showTabsToolbar"
 				orient="vertical">
 				<radio
+					transitionRequired="false"
 					value="hoverOnly"
 					label="&preference.showTabsToolbar.hoverOnly.label;" />
 				<radio
+					transitionRequired="false"
 					value="multipleTabs"
 					label="&preference.showTabsToolbar.multipleTabs.label;" />
 				<radio
+					transitionRequired="false"
 					value="always"
 					label="&preference.showTabsToolbar.always.label;" />
 			</radiogroup>
 		</groupbox>
 		<groupbox>
 			<caption label="&preference.showNavBar.label;" />
+			<label
+				class="note"
+				value="&requiresTransitionTypeNone.label;" />
 
 			<radiogroup
 				preference="extensions.fstbh.showNavBar"
 				orient="vertical">
 				<radio
+					transitionRequired="false"
 					value="hoverOnly"
 					label="&preference.showNavBar.hoverOnly.label;" />
 				<radio
+					transitionRequired="false"
 					value="always"
 					label="&preference.showNavBar.always.label;" />
 			</radiogroup>
