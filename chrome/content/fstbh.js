@@ -381,10 +381,20 @@ com.sppad.fstbh.Main = new function() {
     self.offsetBrowser = function() {
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
         let browser = document.getElementById('browser');
-        let tabsToolbar = document.getElementById('TabsToolbar');
         let addonsBar = document.getElementById('addon-bar');
         
-        let offsetTop = self.alwaysShowTabs ? tabsToolbar.boxObject.height : self.prefs['tweaks.onePixelPadding'] ? 1 : 0;
+        let offsetTop = 0;
+        
+        ['TabsToolbar', 'nav-bar'].forEach(function(id) {
+        	let node = document.getElementById(id);
+        	
+        	if(node.getAttribute('forceShow') == 'true')
+        		offsetTop += node.boxObject.height;
+        });
+        
+        if(offsetTop == 0 && self.prefs['tweaks.onePixelPadding'])
+        	offsetTop = 1;
+        	
         let offsetBottom = self.alwaysShowAddonsBar ? addonsBar.boxObject.height : 0;
         
         sslBox.style.marginTop = offsetTop + "px";
