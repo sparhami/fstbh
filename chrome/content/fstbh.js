@@ -54,6 +54,9 @@ com.sppad.fstbh.Main = new function() {
             case 'showNavBar':
             	self.updateShowNavBar();
             	self.offsetBrowser();
+            case 'showBookmarksBar':
+            	self.updateShowBookmarksBar();
+            	self.offsetBrowser();
             case 'showAddonsBar':
                 self.setShowAddonsBar(value);
                 break;
@@ -277,16 +280,23 @@ com.sppad.fstbh.Main = new function() {
         let pref = self.prefs['showTabsToolbar'];
         let tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
 
-        self.alwaysShowTabs = (pref == 'always') || (pref == 'multipleTabs' && tabCount > 1);
-        self.applyAttribute('TabsToolbar', 'forceShow', self.alwaysShowTabs);
+        let forceShow = (pref == 'always') || (pref == 'multipleTabs' && tabCount > 1);
+        self.applyAttribute('TabsToolbar', 'forceShow', forceShow);
     };
   
     
     self.updateShowNavBar = function() {
         let pref = self.prefs['showNavBar'];
     	
-        self.alwaysShowNavBar = (pref === 'always');
-        self.applyAttribute('nav-bar', 'forceShow', self.alwaysShowNavBar);
+        let forceShow = (pref === 'always');
+        self.applyAttribute('nav-bar', 'forceShow', forceShow);
+    };
+    
+    self.updateShowBookmarksBar = function() {
+        let pref = self.prefs['showBookmarksBar'];
+    	
+        let forceShow = (pref === 'always');
+        self.applyAttribute('PersonalToolbar', 'forceShow', forceShow);
     };
     
     self.setTransitionDelay = function(value) {
@@ -389,13 +399,14 @@ com.sppad.fstbh.Main = new function() {
         let addonsBar = document.getElementById('addon-bar');
         
         let offsetTop = 0;
-        
-        ['TabsToolbar', 'nav-bar'].forEach(function(id) {
-        	let node = document.getElementById(id);
+        let nodes = gNavToolbox.childNodes;
+
+        for (let i = 0; i < nodes.length; i++) {
+        	let node = nodes[i];
         	
-        	if(node.getAttribute('forceShow') == 'true')
+        	if(node.getAttributeNS(com.sppad.fstbh.xmlns, 'forceShow') == 'true')
         		offsetTop += node.boxObject.height;
-        });
+        }
         
         if(offsetTop == 0 && self.prefs['tweaks.onePixelPadding'])
         	offsetTop = 1;
@@ -417,6 +428,7 @@ com.sppad.fstbh.Main = new function() {
                      'style.shadowWhenToggled',
                      'showTabsToolbar',
                      'showNavBar',
+                     'showBookmarksBar',
                      'showAddonsBar',
                      'normalMode',
                      'maximizedMode',

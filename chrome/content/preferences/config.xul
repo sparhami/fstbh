@@ -46,8 +46,8 @@
 				name="extensions.fstbh.showNavBar"
 				type="string" />
 			<preference
-				id="extensions.fstbh.showPersonalToolbar"
-				name="extensions.fstbh.showPersonalToolbar"
+				id="extensions.fstbh.showBookmarksBar"
+				name="extensions.fstbh.showBookmarksBar"
 				type="string" />
 			<preference
 				id="extensions.fstbh.bottomBuffer"
@@ -161,6 +161,25 @@
 					transitionRequired="false"
 					value="always"
 					label="&preference.showNavBar.always.label;" />
+			</radiogroup>
+		</groupbox>
+		<groupbox>
+			<caption label="&preference.showBookmarksBar.label;" />
+			<label
+				class="note"
+				value="&requiresTransitionTypeNone.label;" />
+
+			<radiogroup
+				preference="extensions.fstbh.showBookmarksBar"
+				orient="vertical">
+				<radio
+					transitionRequired="false"
+					value="hoverOnly"
+					label="&preference.showBookmarksBar.hoverOnly.label;" />
+				<radio
+					transitionRequired="false"
+					value="always"
+					label="&preference.showBookmarksBar.always.label;" />
 			</radiogroup>
 		</groupbox>
 		<groupbox>

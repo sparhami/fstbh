@@ -62,6 +62,10 @@
 <!ENTITY preference.showNavBar.hoverOnly.label "Normal (autohide)">
 <!ENTITY preference.showNavBar.always.label "Always">
 
+<!ENTITY preference.showBookmarksBar.label "Show Bookmarks Bar">
+<!ENTITY preference.showBookmarksBar.hoverOnly.label "Normal (autohide)">
+<!ENTITY preference.showBookmarksBar.always.label "Always">
+
 <!ENTITY preference.fullishScreen.label "Hide application menu when maximized">
 <!ENTITY preference.fullscreenMenu.label "Show menu button / menubar in fullscreen">
 <!ENTITY preference.showIdentityBox.label "Show site identity information when toolbars are hidden">
