@@ -12,7 +12,7 @@
 /*
  * Rules for when applied, causing navigator toolbox to show, etc.
  */	
-#main-window[fstbh|domFS="true"] :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler, #navigator-tool#box, #browser-bottombox) {
+#main-window[fstbh|domFS="true"] :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler, #navigator-toolbox, #browser-bottombox) {
 	display: none !important;
 }
  
@@ -59,7 +59,7 @@
 	visibility: visible !important;
 }
 
-/* Hide toolbars other than TabsToolbar when com_sppad_fstbh_showTabsToolbar */
+/* Hide any toolbars that aren't bing force shown */
 #main-window[fstbh|applied="true"][fstbh|transitionProperty="height"]:not([fstbh|toggle_top]) #navigator-toolbox > :not([fstbh|forceShow="true"]) {
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
 	height: 0 !important;

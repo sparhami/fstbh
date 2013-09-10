@@ -281,6 +281,7 @@ com.sppad.fstbh.Main = new function() {
         let tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
 
         let forceShow = (pref == 'always') || (pref == 'multipleTabs' && tabCount > 1);
+        self.applyAttribute('main-window', 'showTabsToolbar', forceShow);
         self.applyAttribute('TabsToolbar', 'forceShow', forceShow);
     };
   
