@@ -418,11 +418,14 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         gNavToolbox.style.transitionProperty = transitionProperty;
         
+        // height applies to children of gNavToolbox, not the toolbox itself
         switch(transitionProperty) {
             case 'margin-top':
-                gNavToolbox.style.height = '';
                 gNavToolbox.style.marginTop = -(gNavToolbox.getBoundingClientRect().height) + "px";
                 break;
+            case 'height' :
+                gNavToolbox.style.marginTop = '';
+                break;	
         }
     };
     
