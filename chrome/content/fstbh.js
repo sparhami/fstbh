@@ -30,7 +30,7 @@ com.sppad.fstbh.Main = new function() {
     self.prefChanged = function(name, value) {
         switch (name) {
         	case 'transitionProperty':
-    			self.applyAttribute('main-window', 'transitionProperty', value);
+        		self.updateTransitionProperty();
             case 'transitionDelay':
                 self.setTransitionDelay(value);
                 break;
@@ -257,7 +257,6 @@ com.sppad.fstbh.Main = new function() {
                 }
             }
         }
-       
     };
     
     self.menubarObserver = new MutationObserver(function(mutations) {
@@ -298,6 +297,19 @@ com.sppad.fstbh.Main = new function() {
     	
         let forceShow = (pref === 'always');
         self.applyAttribute('PersonalToolbar', 'forceShow', forceShow);
+    };
+    
+    self.updateTransitionProperty = function() {
+        let pref = self.prefs['transitionProperty'];
+    	
+		self.applyAttribute('main-window', 'transitionProperty', pref);
+		
+		if(pref !== 'height') {
+			com.sppad.fstbh.Preferences.setPreference('showNavBar', 'hoverOnly');
+			com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', 'hoverOnly');
+			com.sppad.fstbh.Preferences.setPreference('showBookmarksBar', 'hoverOnly');
+		}
+
     };
     
     self.setTransitionDelay = function(value) {
@@ -363,9 +375,10 @@ com.sppad.fstbh.Main = new function() {
     self.setAlwaysShowTabs = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', checked ? 'always' : 'hoverOnly');
-
-        if(checked)
+   
+        if(checked) {
         	com.sppad.fstbh.Preferences.setPreference('transitionProperty', 'height');
+        }
     };
     
     self.setAlwaysShowAddonsBar = function(source) {

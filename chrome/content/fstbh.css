@@ -68,6 +68,10 @@
 	overflow: hidden;
 }
 
+#main-window[fstbh|applied="true"][fstbh|transitionProperty="height"] #navigator-toolbox {
+	margin-top: 0 !important;
+}
+
 
 
 /*

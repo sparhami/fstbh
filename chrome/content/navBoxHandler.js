@@ -410,9 +410,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         // Slide-out doesn't work while in normal mode
         let transitionProperty = self.prefs['transitionProperty'];
         
-        if(window.windowState == window.STATE_NORMAL
-        		|| self.prefs['showTabsToolbar'] != 'hoverOnly'
-        		|| self.prefs['showNavBar'] != 'hoverOnly') {
+        if(window.windowState == window.STATE_NORMAL) {
         	transitionProperty = 'height';
         }
         
