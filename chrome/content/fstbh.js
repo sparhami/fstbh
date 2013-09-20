@@ -14,6 +14,9 @@ com.sppad.fstbh.Main = new function() {
             case com.sppad.fstbh.Preferences.EVENT_PREFERENCE_CHANGED:
                 self.prefChanged(aEvent.name, aEvent.value);
                 break;
+            case 'TabSelect':
+            	self.offsetBrowser();
+            	break;
             case 'TabClose':
                 self.updateShowTabs(true);
                 self.offsetBrowser();
@@ -477,6 +480,7 @@ com.sppad.fstbh.Main = new function() {
         com.sppad.fstbh.Preferences.addListener(self);
         
         let tabContainer = window.gBrowser.tabContainer;
+        tabContainer.addEventListener("TabSelect", self, false);
         tabContainer.addEventListener("TabClose", self, false);
         tabContainer.addEventListener("TabOpen", self, false);
         
@@ -506,6 +510,7 @@ com.sppad.fstbh.Main = new function() {
         com.sppad.fstbh.Preferences.removeListener(self);
         
         let tabContainer = window.gBrowser.tabContainer;
+        tabContainer.removeEventListener("TabSelect", self);
         tabContainer.removeEventListener("TabClose", self);
         tabContainer.removeEventListener("TabOpen", self);
         
