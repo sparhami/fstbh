@@ -34,8 +34,12 @@
 				name="extensions.fstbh.transitionDurationOut"
 				type="int" />
 			<preference
-				id="extensions.fstbh.transitionDelay"
-				name="extensions.fstbh.transitionDelay"
+				id="extensions.fstbh.transitionDelayIn"
+				name="extensions.fstbh.transitionDelayIn"
+				type="int" />
+			<preference
+				id="extensions.fstbh.transitionDelayOut"
+				name="extensions.fstbh.transitionDelayOut"
 				type="int" />
 			<preference
 				id="extensions.fstbh.showTabsToolbar"
@@ -107,7 +111,7 @@
 			<hbox align="center">
 				<label
 					transitionRequired="true"
-					value="&preference.transitionDelay.label;"
+					value="&preference.transitionDelayIn.label;"
 					flex="1" />
 				<textbox
 					transitionRequired="true"
@@ -115,7 +119,23 @@
 					min="0"
 					max="10000"
 					width="80"
-					preference="extensions.fstbh.transitionDelay" />
+					preference="extensions.fstbh.transitionDelayIn" />
+				<label
+					transitionRequired="true"
+					value="&units.milliseconds;" />
+			</hbox>
+			<hbox align="center">
+				<label
+					transitionRequired="true"
+					value="&preference.transitionDelayOut.label;"
+					flex="1" />
+				<textbox
+					transitionRequired="true"
+					type="number"
+					min="0"
+					max="10000"
+					width="80"
+					preference="extensions.fstbh.transitionDelayOut" />
 				<label
 					transitionRequired="true"
 					value="&units.milliseconds;" />

@@ -31,9 +31,7 @@ com.sppad.fstbh.Main = new function() {
         switch (name) {
         	case 'transitionProperty':
         		self.updateTransitionProperty();
-            case 'transitionDelay':
-                self.setTransitionDelay(value);
-                break;
+        		break;
             case 'style.browserBottomBox':
                 self.applyAttribute('browser-bottombox', 'backgroundStyle', value);
                 break;
@@ -54,9 +52,11 @@ com.sppad.fstbh.Main = new function() {
             case 'showNavBar':
             	self.updateShowNavBar();
             	self.offsetBrowser();
+            	break;
             case 'showBookmarksBar':
             	self.updateShowBookmarksBar();
             	self.offsetBrowser();
+            	break;
             case 'showAddonsBar':
                 self.setShowAddonsBar(value);
                 break;

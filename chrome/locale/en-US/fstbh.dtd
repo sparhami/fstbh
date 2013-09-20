@@ -29,7 +29,8 @@
 <!ENTITY preference.timing.label "Timing">
 <!ENTITY preference.transitionDurationIn.label "Transition time when appearing">
 <!ENTITY preference.transitionDurationOut.label "Transition time when hiding">
-<!ENTITY preference.transitionDelay.label "Delay before hiding">
+<!ENTITY preference.transitionDelayIn.label "Delay before appearing">
+<!ENTITY preference.transitionDelayOut.label "Delay before hiding">
 
 <!ENTITY preference.showWhenTitleChanged.label "Show on title change">
 <!ENTITY preference.showWhenTitleChanged.never.label "Never">
