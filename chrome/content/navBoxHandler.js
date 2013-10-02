@@ -86,6 +86,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         gBrowser.addProgressListener(self);
         
         self.showingFlags = 0;
+        self.opened = false;
         self.setHiddenStyle();
         
         self.evaluateTitleChangeState();
