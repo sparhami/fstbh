@@ -128,6 +128,7 @@
  
 /* Want to appear on top of the other context menu items. Can't use overlay
  * positioning, since the items are populated when the menu is first opened */
+#viewToolbarsMenu > menupopup *:-moz-any(menuitem, menuseparator),
 #toolbar-context-menu *:-moz-any(menuitem, menuseparator),
 #autohide-context *:-moz-any(menuitem, menuseparator) {
 	-moz-box-ordinal-group: 1000;

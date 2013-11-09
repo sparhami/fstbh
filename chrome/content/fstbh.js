@@ -424,6 +424,9 @@ com.sppad.fstbh.Main = new function() {
     self.setupContextMenus = function() {
         let autohideContext = document.getElementById('autohide-context');
         let toolbarContext = document.getElementById('toolbar-context-menu');
+        let viewToolbarsMenu = document.querySelector('#viewToolbarsMenu menupopup');
+        
+        let tmpl = document.getElementById('fstbh-menu-nodes');
         
         // Hide "Hide Toolbars" context menu item since we are going to use our
         // own. No id so need to do it another way.
@@ -435,12 +438,16 @@ com.sppad.fstbh.Main = new function() {
         }
         
         autohideContext.addEventListener('popupshowing', function(aEvent) {
-            let insertPoint = document.getElementById('com_sppad_fstbh_fullscreen_context_separator');
+            let insertPoint = aEvent.target.querySelector('menuseparator');
             onViewToolbarsPopupShowing(aEvent, insertPoint);
         }, false);
         
-        toolbarContext.addEventListener('popupshowing', self.popupmenuShowing, false);
-        autohideContext.addEventListener('popupshowing', self.popupmenuShowing, false);
+        [toolbarContext, autohideContext, viewToolbarsMenu].forEach(function(menupopup) {
+            for (let i=0; i<tmpl.childNodes.length; i++)
+                menupopup.insertBefore(tmpl.childNodes[i].cloneNode(true), null);
+            
+            menupopup.addEventListener('popupshowing', self.popupmenuShowing, false);
+        });
     };
     
     self.setup = function() {

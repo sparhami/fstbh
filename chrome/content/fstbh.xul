@@ -91,84 +91,44 @@
 		<hbox id="com_sppad_fstbh_fullscreen_titlebar" />
 	</window>
 
-	<menupopup id="toolbar-context-menu">
-		<menuitem
-			type="checkbox"
-			action="fullscreenMode"
-			label="&com.sppad.fstbh.fullscreenAutohide.label;"
-			accesskey="&com.sppad.fstbh.fullscreenAutohide.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setFullscreenAutohide(this);"
-			ordinal="99" />
-		<menuitem
-			action="normalMode"
-			type="checkbox"
-			label="&com.sppad.fstbh.normalAutohide.label;"
-			accesskey="&com.sppad.fstbh.normalAutohide.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setNormalAutohide(this);"
-			ordinal="100" />
-		<menuitem
-			action="maximizedMode"
-			type="checkbox"
-			label="&com.sppad.fstbh.maximizedAutohide.label;"
-			accesskey="&com.sppad.fstbh.maximizedAutohide.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setMaximizedAutohide(this);"
-			ordinal="101" />
-		<menuitem
-			action="showTabsToolbar"
-			type="checkbox"
-			label="&com.sppad.fstbh.alwaysShowTabs.label;"
-			accesskey="&com.sppad.fstbh.alwaysShowTabs.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setAlwaysShowTabs(this);"
-			ordinal="102" />
-		<menuitem
-			action="showAddonsBar"
-			type="checkbox"
-			label="&com.sppad.fstbh.alwaysShowAddonsBar.label;"
-			accesskey="&com.sppad.fstbh.alwaysShowAddonsBar.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setAlwaysShowAddonsBar(this);"
-			ordinal="102" />
-		<menuseparator
-			ordinal="103" />
-	</menupopup>
-
-	<menupopup id="autohide-context">
-		<menuitem
-			type="checkbox"
-			action="fullscreenMode"
-			label="&com.sppad.fstbh.fullscreenAutohide.label;"
-			accesskey="&com.sppad.fstbh.fullscreenAutohide.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setFullscreenAutohide(this);"
-			ordinal="99" />
-		<menuitem
-			action="normalMode"
-			type="checkbox"
-			label="&com.sppad.fstbh.normalAutohide.label;"
-			accesskey="&com.sppad.fstbh.normalAutohide.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setNormalAutohide(this);"
-			ordinal="100" />
-		<menuitem
-			action="maximizedMode"
-			type="checkbox"
-			label="&com.sppad.fstbh.maximizedAutohide.label;"
-			accesskey="&com.sppad.fstbh.maximizedAutohide.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setMaximizedAutohide(this);"
-			ordinal="101" />
-		<menuitem
-			action="showTabsToolbar"
-			type="checkbox"
-			label="&com.sppad.fstbh.alwaysShowTabs.label;"
-			accesskey="&com.sppad.fstbh.alwaysShowTabs.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setAlwaysShowTabs(this);"
-			ordinal="102" />
-		<menuitem
-			action="showAddonsBar"
-			type="checkbox"
-			label="&com.sppad.fstbh.alwaysShowAddonsBar.label;"
-			accesskey="&com.sppad.fstbh.alwaysShowAddonsBar.accesskey;"
-			oncommand="com.sppad.fstbh.Main.setAlwaysShowAddonsBar(this);"
-			ordinal="102" />
-		<menuseparator
-			id="com_sppad_fstbh_fullscreen_context_separator"
-			ordinal="103" />
-	</menupopup>
+	<popupset id="mainPopupSet">
+		<menupopup id="fstbh-menu-nodes">
+			<menuitem
+				type="checkbox"
+				action="fullscreenMode"
+				label="&com.sppad.fstbh.fullscreenAutohide.label;"
+				accesskey="&com.sppad.fstbh.fullscreenAutohide.accesskey;"
+				oncommand="com.sppad.fstbh.Main.setFullscreenAutohide(this);"
+				ordinal="99" />
+			<menuitem
+				action="normalMode"
+				type="checkbox"
+				label="&com.sppad.fstbh.normalAutohide.label;"
+				accesskey="&com.sppad.fstbh.normalAutohide.accesskey;"
+				oncommand="com.sppad.fstbh.Main.setNormalAutohide(this);"
+				ordinal="100" />
+			<menuitem
+				action="maximizedMode"
+				type="checkbox"
+				label="&com.sppad.fstbh.maximizedAutohide.label;"
+				accesskey="&com.sppad.fstbh.maximizedAutohide.accesskey;"
+				oncommand="com.sppad.fstbh.Main.setMaximizedAutohide(this);"
+				ordinal="101" />
+			<menuitem
+				action="showTabsToolbar"
+				type="checkbox"
+				label="&com.sppad.fstbh.alwaysShowTabs.label;"
+				accesskey="&com.sppad.fstbh.alwaysShowTabs.accesskey;"
+				oncommand="com.sppad.fstbh.Main.setAlwaysShowTabs(this);"
+				ordinal="102" />
+			<menuitem
+				action="showAddonsBar"
+				type="checkbox"
+				label="&com.sppad.fstbh.alwaysShowAddonsBar.label;"
+				accesskey="&com.sppad.fstbh.alwaysShowAddonsBar.accesskey;"
+				oncommand="com.sppad.fstbh.Main.setAlwaysShowAddonsBar(this);"
+				ordinal="102" />
+			<menuseparator ordinal="103" />
+		</menupopup>
+	</popupset>
 </overlay>
