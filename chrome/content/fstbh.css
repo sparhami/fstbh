@@ -134,8 +134,9 @@
 }
 
 /* Hide context menu items when not appropriate */
-#main-window:not([sizemode="normal"]) .normalAutohideContextItem,
-#main-window:not([sizemode="maximized"]) .maximizedAutohideContextItem {
+#main-window:not([sizemode="normal"]) [action="normalMode"],
+#main-window:not([sizemode="maximized"]) [action="maximizedMode"],
+#main-window:not([sizemode="fullscreen"]) [action="fullscreenMode"] {
 	display: none;
 }
 

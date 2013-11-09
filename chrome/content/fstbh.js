@@ -64,14 +64,8 @@ com.sppad.fstbh.Main = new function() {
                 self.setShowAddonsBar(value);
                 break;
             case 'normalMode':
-                self.setNormalMode(value);
-                break;
             case 'maximizedMode':
-                self.setMaximizedMode(value);
-                break;
             case 'fullscreenMode':
-                self.setFullscreenMode(value);
-                break;
             case 'fullishScreen':
             case 'fullscreenMenu':
                 self.updateAppliedStatus();
@@ -320,59 +314,13 @@ com.sppad.fstbh.Main = new function() {
     };
     
     self.setShowTabsToolbar = function(value) {
-        let contextItems = ['com_sppad_fstbh_alwaysShowTabs', 'com_sppad_fstbh_alwaysShowTabs_fullscreen'];
-        contextItems.forEach(function(id) {
-            if(value == 'always')
-                document.getElementById(id).setAttribute('checked', 'true');
-            else
-                document.getElementById(id).removeAttribute('checked');
-        });
-        
         self.offsetBrowser();
     };
     
     self.setShowAddonsBar = function(value) {
-        let contextItems = ['com_sppad_fstbh_alwaysShowAddonsBar', 'com_sppad_fstbh_alwaysShowAddonsBar_fullscreen'];
-        contextItems.forEach(function(id) {
-            if(value == 'always')
-                document.getElementById(id).setAttribute('checked', 'true');
-            else
-                document.getElementById(id).removeAttribute('checked');
-        });
-        
         self.alwaysShowAddonsBar = value == 'always';
         self.applyAttribute('main-window', 'showAddonsBar', self.alwaysShowAddonsBar);
         self.offsetBrowser();
-    };
-    
-    self.setNormalMode = function(value) {
-        let menuitem = document.getElementById('com_sppad_fstbh_normalModeContextItem');
-        if(value == 'hover')
-            menuitem.setAttribute('checked', 'true');
-        else
-            menuitem.removeAttribute('checked');
-        
-        self.updateAppliedStatus();
-    };
-
-    self.setMaximizedMode = function(value) {
-        let menuitem = document.getElementById('com_sppad_fstbh_maximizedModeContextItem');
-        if(value == 'hover')
-            menuitem.setAttribute('checked', 'true');
-        else
-            menuitem.removeAttribute('checked');
-        
-        self.updateAppliedStatus();
-    };
-    
-    self.setFullscreenMode = function(value) {
-        let menuitem = document.getElementById('com_sppad_fstbh_fullscreenModeContextItem');
-        if(value == 'hover')
-            menuitem.setAttribute('checked', 'true');
-        else
-            menuitem.removeAttribute('checked');
-        
-        self.updateAppliedStatus();
     };
     
     self.setAlwaysShowTabs = function(source) {
@@ -458,8 +406,24 @@ com.sppad.fstbh.Main = new function() {
         });
     };
     
+    self.popupmenuShowing = function(event) {
+        let popup = event.target;
+        
+        ['normalMode', 'maximizedMode', 'fullscreenMode', 'showAddonsBar', 'showTabsToolbar'].forEach(function(action) {
+            let value = self.prefs[action];
+            let menuitem = popup.querySelector('[action="' + action + '"]');
+            
+            if(value === 'hover' || value === 'always') {
+                menuitem.setAttribute('checked', 'true');
+            } else {
+                menuitem.removeAttribute('checked');
+            }
+        });
+    };
+    
     self.setupContextMenus = function() {
         let autohideContext = document.getElementById('autohide-context');
+        let toolbarContext = document.getElementById('toolbar-context-menu');
         
         // Hide "Hide Toolbars" context menu item since we are going to use our
         // own. No id so need to do it another way.
@@ -474,6 +438,9 @@ com.sppad.fstbh.Main = new function() {
             let insertPoint = document.getElementById('com_sppad_fstbh_fullscreen_context_separator');
             onViewToolbarsPopupShowing(aEvent, insertPoint);
         }, false);
+        
+        toolbarContext.addEventListener('popupshowing', self.popupmenuShowing, false);
+        autohideContext.addEventListener('popupshowing', self.popupmenuShowing, false);
     };
     
     self.setup = function() {
