@@ -48,7 +48,6 @@ com.sppad.fstbh.Main = new function() {
                 document.getElementById('com_sppad_fstbh_ssl_info_boundry').setAttribute('hidden', !value);
                 break;
             case 'showTabsToolbar':
-                self.setShowTabsToolbar(value);
                 self.updateShowTabs();
             	self.offsetBrowser();
                 break;
@@ -311,10 +310,6 @@ com.sppad.fstbh.Main = new function() {
     
     self.setTransitionDelay = function(value) {
         gNavToolbox.style.transitionDelay = value + 'ms';
-    };
-    
-    self.setShowTabsToolbar = function(value) {
-        self.offsetBrowser();
     };
     
     self.setShowAddonsBar = function(value) {
