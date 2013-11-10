@@ -369,7 +369,7 @@ com.sppad.fstbh.Main = new function() {
         for (let i = 0; i < nodes.length; i++) {
         	let node = nodes[i];
         	
-        	if(node.getAttributeNS(com.sppad.fstbh.xmlns, 'forceShow') == 'true')
+        	if(node.getAttributeNS(com.sppad.fstbh.xmlns, 'forceShow') == 'true' && !node.hasAttribute('treestyletab-mode'))
         		offsetTop += node.boxObject.height;
         }
         

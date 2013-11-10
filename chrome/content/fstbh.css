@@ -60,7 +60,9 @@
 }
 
 /* Hide any toolbars that aren't bing force shown */
-#main-window[fstbh|applied="true"][fstbh|transitionProperty="height"]:not([fstbh|toggle_top]) #navigator-toolbox > :not([fstbh|forceShow="true"]) {
+#main-window[fstbh|applied="true"][fstbh|transitionProperty="height"]:not([fstbh|toggle_top])
+   #navigator-toolbox > :not([fstbh|forceShow="true"]):not([treestyletab-mode="vertical"])
+{
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */
 	height: 0 !important;
 	max-height: 0 !important;
@@ -161,4 +163,8 @@
 
 #main-window[fstbh|fullishScreen] #toolbar-menubar {
 	display: none !important;
+}
+
+#main-window[fstbh|applied="true"] #TabsToolbar[treestyletab-mode="vertical"] {
+	z-index: -1;
 }
