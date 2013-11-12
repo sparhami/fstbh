@@ -73,6 +73,9 @@ com.sppad.fstbh.Main = new function() {
                 self.offsetBrowser();
                 document.getElementById('com_sppad_fstbh_top_toggler').setAttribute('singlePixelPadding', value);
                 break;
+            case 'tweaks.toggleWhenFocusedAndHasText':
+                com.sppad.fstbh.NavBoxHandler.disable();
+                self.updateAppliedStatus();
             default:
                 break;
         }

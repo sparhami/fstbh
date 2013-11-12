@@ -245,6 +245,10 @@
 				id="extensions.fstbh.tweaks.mouseEnterOnTogglerOnly"
 				name="extensions.fstbh.tweaks.mouseEnterOnTogglerOnly"
 				type="bool" />
+			<preference
+				id="extensions.fstbh.tweaks.toggleWhenFocusedAndHasText"
+				name="extensions.fstbh.tweaks.toggleWhenFocusedAndHasText"
+				type="bool" />
 		</preferences>
 		<groupbox>
 			<checkbox
@@ -263,6 +267,9 @@
 			<checkbox
 				label="&preference.tweaks.mouseEnterOnTogglerOnly.label;"
 				preference="extensions.fstbh.tweaks.mouseEnterOnTogglerOnly" />
+						<checkbox
+				label="&preference.tweaks.toggleWhenFocusedAndHasText.label;"
+				preference="extensions.fstbh.tweaks.toggleWhenFocusedAndHasText" />
 		</groupbox>
 	</prefpane>
 

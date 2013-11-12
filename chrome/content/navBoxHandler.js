@@ -70,6 +70,9 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         gNavToolbox.addEventListener('focus', self.checkfocus, true);
         gNavToolbox.addEventListener('blur', self.checkfocus, true);
         
+        if(self.prefs['tweaks.toggleWhenFocusedAndHasText'])
+            gNavToolbox.addEventListener('input', self.checkFocusText, true);
+        
         // For staying showing when a menu is open
         gNavToolbox.addEventListener('popupshown', self.popupshown, false);
         gNavToolbox.addEventListener('popuphidden', self.popuphidden, false);
@@ -116,6 +119,9 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         // For showing on input field focus
         gNavToolbox.removeEventListener('focus', self.checkfocus);
         gNavToolbox.removeEventListener('blur', self.checkfocus);
+        
+        if(self.prefs['tweaks.toggleWhenFocusedAndHasText'])
+            gNavToolbox.removeEventListener('input', self.checkFocusText);
         
         // For staying showing when a menu is open
         gNavToolbox.removeEventListener('popupshown', self.popupshown);
@@ -252,7 +258,17 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     
     self.checkfocus = function(aEvent) {
         let fe = document.commandDispatcher.focusedElement;
-        if(fe && fe.ownerDocument == document && fe.localName == "input")
+        
+        if(fe && fe.ownerDocument == document && fe.localName == "input" && (!self.prefs['tweaks.toggleWhenFocusedAndHasText'] || fe.value.length > 0))
+            self.showingFlags |= FOCUSED_MASK;
+        else
+            self.showingFlags &= ~FOCUSED_MASK;
+        
+        self.updateOpenedStatus();
+    };
+    
+    self.checkFocusText = function(aEvent) {
+        if(aEvent.target.value.length > 0)
             self.showingFlags |= FOCUSED_MASK;
         else
             self.showingFlags &= ~FOCUSED_MASK;

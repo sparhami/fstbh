@@ -39,7 +39,7 @@ com.sppad.fstbh.PREFS = {
         showOnLocationChange : false,
 
         // delay for staying open, milliseconds
-        delay : 1500,
+        delay : 1500
     },
 
     style : {
@@ -50,7 +50,7 @@ com.sppad.fstbh.PREFS = {
         topChromeBackground : 'transparent',
         
         // Shadow under navigator-toolbox when toggled
-        shadowWhenToggled : true,
+        shadowWhenToggled : true
     },
     
     tweaks: {
@@ -59,6 +59,9 @@ com.sppad.fstbh.PREFS = {
         
         // Only show when mousing enter toggler rather than mousing into #navigator-toolbox
         mouseEnterOnTogglerOnly: false,
+        
+        // Show when input has text and not on focus
+        toggleWhenFocusedAndHasText: false
     },
 
     // One of hoverOnly, multipleTabs, always
@@ -93,7 +96,7 @@ com.sppad.fstbh.PREFS = {
     
     // The saved value of the autohide browser preference, for restoring later
     autohide_saved : false,
-    autohide_saved_value : true,
+    autohide_saved_value : true
 };
 
 /**
