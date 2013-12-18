@@ -351,9 +351,9 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-	 * Offsets / un-offsets the browser by setting a top margin. self is done so
+	 * Offsets / un-offsets the browser by setting a top margin. This is done so
 	 * that we can stay as display stack and always show TabsToolbar without
-	 * covering page content. self is used when the showTabsToolbar is set to
+	 * covering page content. This is used when the showTabsToolbar is set to
 	 * always or multipleTabs.
 	 */
     self.offsetBrowser = function() {
