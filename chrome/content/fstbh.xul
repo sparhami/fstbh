@@ -31,6 +31,9 @@
 	<script
 		type="application/x-javascript"
 		src="fstbh.js" />
+	<script
+		type="application/x-javascript"
+		src="addon.js" />
 
 	<vbox
 		id="browser-bottombox"
