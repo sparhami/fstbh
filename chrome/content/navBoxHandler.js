@@ -326,7 +326,7 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     self.mouseenter = function(aEvent) {
         if(self.showingFlags & HOVERING_MASK)
             return;
-
+        
         let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
         
         let navBottom = gNavToolbox.boxObject.screenY + gNavToolbox.boxObject.height; 

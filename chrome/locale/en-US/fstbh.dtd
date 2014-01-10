@@ -67,12 +67,15 @@
 <!ENTITY preference.showBookmarksBar.hoverOnly.label "Normal (autohide)">
 <!ENTITY preference.showBookmarksBar.always.label "Always">
 
-<!ENTITY preference.fullishScreen.label "Hide application menu when maximized">
-<!ENTITY preference.fullscreenMenu.label "Show menu button / menubar in fullscreen">
+<!ENTITY preference.tweaks.mouse.label "Trigger at the top of the screen">
+<!ENTITY preference.tweaks.mouse.normal.label "Default">
+<!ENTITY preference.tweaks.mouse.onePixelPadding.label "Use a one pixel padding on the top of the page content when auto-hiding">
+<!ENTITY preference.tweaks.mouse.dontTriggerOnMouse.label "Don't show toolbars due to mouse events">
+
 <!ENTITY preference.showIdentityBox.label "Show site identity information when toolbars are hidden">
-<!ENTITY preference.tweaks.onePixelPadding.label "Use a one pixel padding on the top of the page content when auto-hiding">
-<!ENTITY preference.tweaks.mouseEnterOnTogglerOnly.label "Only trigger when mouse is at the top of the screen">
+<!ENTITY preference.tweaks.mouseEnterOnTogglerOnly.label "Only trigger when mouse is at the top of the screen when always showing a toolbar">
 <!ENTITY preference.tweaks.toggleWhenFocusedAndHasText.label "URL/search inputs only trigger if/when they have text">
+
 
 <!ENTITY preference.other.label "Misc">
 <!ENTITY preference.bottomBuffer.label "Bottom buffer when showing">

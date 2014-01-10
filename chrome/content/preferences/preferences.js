@@ -54,8 +54,8 @@ com.sppad.fstbh.PREFS = {
     },
     
     tweaks: {
-        // Use at least one pixel for browser margin top to allow mouse events over plug-in content
-        onePixelPadding: true,
+        // One of normal, onePixelPadding, dontTriggerOnMouse
+        mouse: 'normal',
         
         // Only show when mousing enter toggler rather than mousing into #navigator-toolbox
         mouseEnterOnTogglerOnly: false,
@@ -84,12 +84,6 @@ com.sppad.fstbh.PREFS = {
     
     // One of hover, normal
     fullscreenMode : 'normal',
-    
-    // Make it more like fullscreen
-    fullishScreen : false,
-    
-    // Show the app menu button or Firefox menu in fullscreen
-    fullscreenMenu: true,
 
     // Show box iwth cert org and domain when hiding toolbars
     showIdentityBox: false,

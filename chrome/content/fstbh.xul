@@ -90,10 +90,6 @@
 		</vbox>
 	</vbox>
 
-	<window id="main-window">
-		<hbox id="com_sppad_fstbh_fullscreen_titlebar" />
-	</window>
-
 	<popupset id="mainPopupSet">
 		<menupopup id="fstbh-menu-nodes">
 			<menuitem

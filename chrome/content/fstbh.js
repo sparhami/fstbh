@@ -65,13 +65,10 @@ com.sppad.fstbh.Main = new function() {
             case 'normalMode':
             case 'maximizedMode':
             case 'fullscreenMode':
-            case 'fullishScreen':
-            case 'fullscreenMenu':
                 self.updateAppliedStatus();
                 break;
-            case 'tweaks.onePixelPadding':
-                self.offsetBrowser();
-                document.getElementById('com_sppad_fstbh_top_toggler').setAttribute('singlePixelPadding', value);
+            case 'tweaks.mouse':
+                self.setMouseTweaks(value);
                 break;
             case 'tweaks.toggleWhenFocusedAndHasText':
                 com.sppad.fstbh.NavBoxHandler.disable();
@@ -173,8 +170,6 @@ com.sppad.fstbh.Main = new function() {
         self.applyAttribute('main-window', 'applied', self.applied);
         self.applyAttribute('main-window', 'domFS', document.mozFullScreen);
         
-        self.windowingTweaks(maximized, applyInMaximized, fullscreen, applyInFullscreen);
-    
         if(self.applied) {
             self.offsetBrowser();
             self.setupTheme();
@@ -188,74 +183,6 @@ com.sppad.fstbh.Main = new function() {
         
         let addonbar = document.getElementById('addon-bar');
         addonbar.setAttribute('context', fullscreen ? 'autohide-context' : 'toolbar-context-menu');
-    };
-    
-    self.windowingTweaks = function(maximized, applyInMaximized, fullscreen, applyInFullscreen) {
-        let mainWindow = document.getElementById('main-window');
-        let tabViewDeck = document.getElementById('tab-view-deck');
-    
-        // fullishScreen preference
-        if(maximized && applyInMaximized && self.prefs['fullishScreen']) {
-            mainWindow.setAttribute('inFullscreen', 'true');
-            gNavToolbox.setAttribute('inFullscreen', 'true');
-            
-            tabViewDeck.style.paddingTop = -(mainWindow.boxObject.screenY) + "px";
-        } else {
-            if(!fullscreen) {
-                mainWindow.removeAttribute('inFullscreen');
-                gNavToolbox.removeAttribute('inFullscreen');
-            }
-            
-            tabViewDeck.style.paddingTop = '';
-        }
-        
-        // Menu button / bar in fullscreen
-        if(self.os == WINDOWS) {
-            let menubar = document.getElementById('toolbar-menubar');
-            let appmenu = document.getElementById('appmenu-button-container');
-            let controls = document.getElementById('window-controls');
-            let titlebar = document.getElementById('titlebar-content');
-            let fsTitlebar = document.getElementById('com_sppad_fstbh_fullscreen_titlebar');
-            let fstbhControls = document.getElementById('com_sppad_fstbh_windowControls');
-            let maximizedControls = document.getElementById('titlebar-buttonbox-container');
-            let tabstoolbar = document.getElementById('TabsToolbar');
-            
-            self.applyAttribute('main-window', 'fullscreenMenu', self.prefs['fullscreenMenu']);
-            
-            if(fullscreen && self.prefs['fullscreenMenu']) {
-                appmenu && fsTitlebar.appendChild(appmenu);
-                fsTitlebar.appendChild(controls);
-                
-                menubar.removeAttribute('moz-collapsed');
-                appmenu && appmenu.setAttribute('orient', 'vertical');
-                
-                let autohide = menubar.getAttribute('autohide');
-                self.applyAttribute('main-window', 'menubar_autohide', autohide);
-            } else {
-                if(fullscreen)
-                    menubar.setAttribute('moz-collapsed', true);
-                
-                appmenu && appmenu.removeAttribute('orient', 'vertical');
-                appmenu && titlebar.insertBefore(appmenu, titlebar.firstChild);
-                tabstoolbar.appendChild(controls);
-            }
-            
-            let controlButtons = fullscreen ? controls : fstbhControls;
-            let placeholders = document.getElementsByClassName('titlebar-placeholder');
-            
-            for(let i=0; i<placeholders.length; i++) {
-                let placeholder = placeholders[i];
-                let type = placeholder.getAttribute('type');
-                
-                if(type == 'appmenu-button') {
-                    let width = appmenu.boxObject.width;
-                    placeholder.setAttribute('width', width);
-                } else if(type == 'caption-buttons') {
-                    let width = Math.max(maximizedControls.boxObject.width, controlButtons.boxObject.width);
-                    placeholder.setAttribute('width', width);
-                }
-            }
-        }
     };
     
     self.menubarObserver = new MutationObserver(function(mutations) {
@@ -321,6 +248,14 @@ com.sppad.fstbh.Main = new function() {
         self.offsetBrowser();
     };
     
+    self.setMouseTweaks = function(value) {
+        for(let node of document.getElementsByClassName('com_sppad_fstbh_toggler'))
+            node.setAttribute('hidden', value === "dontTriggerOnMouse");
+        
+        self.offsetBrowser();
+        document.getElementById('com_sppad_fstbh_top_toggler').setAttribute('singlePixelPadding', value === "onePixelPadding");
+    }
+    
     self.setAlwaysShowTabs = function(source) {
         let checked = source.hasAttribute('checked');
         com.sppad.fstbh.Preferences.setPreference('showTabsToolbar', checked ? 'always' : 'hoverOnly');
@@ -371,7 +306,7 @@ com.sppad.fstbh.Main = new function() {
         		offsetTop += node.boxObject.height;
         }
         
-        if(offsetTop == 0 && self.prefs['tweaks.onePixelPadding'])
+        if(offsetTop == 0 && self.prefs['tweaks.mouse'] === 'onePixelPadding')
         	offsetTop = 1;
         	
         let offsetBottom = self.alwaysShowAddonsBar ? addonsBar.boxObject.height : 0;
@@ -397,7 +332,7 @@ com.sppad.fstbh.Main = new function() {
                      'maximizedMode',
                      'fullscreenMode',
                      'showIdentityBox',
-                     'tweaks.onePixelPadding'];
+                     'tweaks.mouse'];
         
         prefs.forEach(function(pref) {
             self.prefChanged(pref, self.prefs[pref]);

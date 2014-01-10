@@ -22,7 +22,6 @@
 
 #main-window[fstbh|applied="true"] #PersonalToolbar:not([collapsed="true"]) {
 	visibility: visible;
-
 }
 
 /* Since pinned tabs are position fixed, they will show even when not toggled */
@@ -143,14 +142,6 @@
 	display: none;
 }
 
-/* Hide 'show menu-bar' context menu item. Not set from Javascript since the
- * context menu item doesn't exist if context menu hasn't been opened yet.
- */
-#main-window[fstbh|fullishScreen] #toggle_toolbar-menubar {
-	display: none;
-}
-
-
 
 /*
  * Misc
@@ -159,10 +150,6 @@
 #com_sppad_fstbh_windowControls {
 	display: none;
 	position: relative;
-}
-
-#main-window[fstbh|fullishScreen] #toolbar-menubar {
-	display: none !important;
 }
 
 #main-window[fstbh|applied="true"] #TabsToolbar[treestyletab-mode="vertical"] {

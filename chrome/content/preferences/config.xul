@@ -225,21 +225,14 @@
 		label="&preference.tweaksPrefPane.label;"
 		image="chrome://fstbh/skin/images/advanced.svg">
 		<preferences>
+		
 			<preference
-				id="extensions.fstbh.fullishScreen"
-				name="extensions.fstbh.fullishScreen"
-				type="bool" />
-			<preference
-				id="extensions.fstbh.tweaks.onePixelPadding"
-				name="extensions.fstbh.tweaks.onePixelPadding"
-				type="bool" />
+				id="extensions.fstbh.tweaks.mouse"
+				name="extensions.fstbh.tweaks.mouse"
+				type="string" />
 			<preference
 				id="extensions.fstbh.showIdentityBox"
 				name="extensions.fstbh.showIdentityBox"
-				type="bool" />
-			<preference
-				id="extensions.fstbh.fullscreenMenu"
-				name="extensions.fstbh.fullscreenMenu"
 				type="bool" />
 			<preference
 				id="extensions.fstbh.tweaks.mouseEnterOnTogglerOnly"
@@ -251,19 +244,28 @@
 				type="bool" />
 		</preferences>
 		<groupbox>
-			<checkbox
-				label="&preference.fullishScreen.label;"
-				preference="extensions.fstbh.fullishScreen" />
-			<checkbox
-				label="&preference.tweaks.onePixelPadding.label;"
-				preference="extensions.fstbh.tweaks.onePixelPadding" />
+			<caption label="&preference.tweaks.mouse.label;" />
+
+			<radiogroup
+				preference="extensions.fstbh.tweaks.mouse"
+				orient="vertical">
+				<radio
+					value="normal"
+					label="&preference.tweaks.mouse.normal.label;" />
+				<radio
+					value="onePixelPadding"
+					label="&preference.tweaks.mouse.onePixelPadding.label;" />
+				<radio
+					value="dontTriggerOnMouse"
+					label="&preference.tweaks.mouse.dontTriggerOnMouse.label;" />
+			</radiogroup>
+		</groupbox>
+		<groupbox>
+			<caption label="&preference.other.label;" />
+		
 			<checkbox
 				label="&preference.showIdentityBox.label;"
 				preference="extensions.fstbh.showIdentityBox" />
-			<checkbox
-				id="com_sppad_fstbh_fullscreenMenu_checkbox"
-				label="&preference.fullscreenMenu.label;"
-				preference="extensions.fstbh.fullscreenMenu" />
 			<checkbox
 				label="&preference.tweaks.mouseEnterOnTogglerOnly.label;"
 				preference="extensions.fstbh.tweaks.mouseEnterOnTogglerOnly" />
