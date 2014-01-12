@@ -17,6 +17,7 @@
 
 <!ENTITY preference.generalPrefPane.label "General">
 <!ENTITY preference.tweaksPrefPane.label "Advanced">
+<!ENTITY preference.toolbarsPrefPane.label "Toolbars">
 <!ENTITY preference.eventsPrefPane.label "Events">
 <!ENTITY preference.stylePrefPane.label "Style">
 

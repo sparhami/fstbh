@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:osb="http://www.openswatchbook.org/uri/2009/osb" height="512" width="512" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<svg xmlns="http://www.w3.org/2000/svg" height="512" width="512" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
 <defs>
 <clipPath id="clipPath3900" clipPathUnits="userSpaceOnUse">
 <rect height="256" width="256" y="-688.36218" x="-20" fill="#000"/>
 </clipPath>
 </defs>
-<metadata>
-<rdf:RDF>
-<cc:Work rdf:about="">
-<dc:format>image/svg+xml</dc:format>
-<dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
-<dc:title/>
-</cc:Work>
-</rdf:RDF>
-</metadata>
 <g transform="translate(0,-540.36218)" stroke="#505050" stroke-dasharray="none" stroke-miterlimit="4" fill="none">
 <rect height="373.33328" width="373.33334" y="663.02899" x="15.999999" stroke-width="31.99999619"/>
 <rect clip-path="url(#clipPath3900)" transform="matrix(-1.6666666,0,0,-1.6666664,596,-297.57454)" height="224" width="224" y="-736.36218" x="60" stroke-width="19.20000076"/>

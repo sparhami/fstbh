@@ -42,18 +42,6 @@
 				name="extensions.fstbh.transitionDelayOut"
 				type="int" />
 			<preference
-				id="extensions.fstbh.showTabsToolbar"
-				name="extensions.fstbh.showTabsToolbar"
-				type="string" />
-			<preference
-				id="extensions.fstbh.showNavBar"
-				name="extensions.fstbh.showNavBar"
-				type="string" />
-			<preference
-				id="extensions.fstbh.showBookmarksBar"
-				name="extensions.fstbh.showBookmarksBar"
-				type="string" />
-			<preference
 				id="extensions.fstbh.bottomBuffer"
 				name="extensions.fstbh.bottomBuffer"
 				type="int" />
@@ -142,67 +130,6 @@
 			</hbox>
 		</groupbox>
 		<groupbox>
-			<caption label="&preference.showTabsToolbar.label;" />
-			<label
-				class="note"
-				value="&requiresTransitionTypeNone.label;" />
-
-			<radiogroup
-				preference="extensions.fstbh.showTabsToolbar"
-				orient="vertical">
-				<radio
-					transitionRequired="false"
-					value="hoverOnly"
-					label="&preference.showTabsToolbar.hoverOnly.label;" />
-				<radio
-					transitionRequired="false"
-					value="multipleTabs"
-					label="&preference.showTabsToolbar.multipleTabs.label;" />
-				<radio
-					transitionRequired="false"
-					value="always"
-					label="&preference.showTabsToolbar.always.label;" />
-			</radiogroup>
-		</groupbox>
-		<groupbox>
-			<caption label="&preference.showNavBar.label;" />
-			<label
-				class="note"
-				value="&requiresTransitionTypeNone.label;" />
-
-			<radiogroup
-				preference="extensions.fstbh.showNavBar"
-				orient="vertical">
-				<radio
-					transitionRequired="false"
-					value="hoverOnly"
-					label="&preference.showNavBar.hoverOnly.label;" />
-				<radio
-					transitionRequired="false"
-					value="always"
-					label="&preference.showNavBar.always.label;" />
-			</radiogroup>
-		</groupbox>
-		<groupbox>
-			<caption label="&preference.showBookmarksBar.label;" />
-			<label
-				class="note"
-				value="&requiresTransitionTypeNone.label;" />
-
-			<radiogroup
-				preference="extensions.fstbh.showBookmarksBar"
-				orient="vertical">
-				<radio
-					transitionRequired="false"
-					value="hoverOnly"
-					label="&preference.showBookmarksBar.hoverOnly.label;" />
-				<radio
-					transitionRequired="false"
-					value="always"
-					label="&preference.showBookmarksBar.always.label;" />
-			</radiogroup>
-		</groupbox>
-		<groupbox>
 			<caption label="&preference.other.label;" />
 
 			<hbox align="center">
@@ -269,9 +196,90 @@
 			<checkbox
 				label="&preference.tweaks.mouseEnterOnTogglerOnly.label;"
 				preference="extensions.fstbh.tweaks.mouseEnterOnTogglerOnly" />
-						<checkbox
+			<checkbox
 				label="&preference.tweaks.toggleWhenFocusedAndHasText.label;"
 				preference="extensions.fstbh.tweaks.toggleWhenFocusedAndHasText" />
+		</groupbox>
+	</prefpane>
+	
+	<prefpane
+		id="com_sppad_fstbh_ToolbarsPrefPane"
+		label="&preference.toolbarsPrefPane.label;"
+		image="chrome://fstbh/skin/images/hammer.svg">
+		<preferences>
+			<preference
+				id="extensions.fstbh.showTabsToolbar"
+				name="extensions.fstbh.showTabsToolbar"
+				type="string" />
+			<preference
+				id="extensions.fstbh.showNavBar"
+				name="extensions.fstbh.showNavBar"
+				type="string" />
+			<preference
+				id="extensions.fstbh.showBookmarksBar"
+				name="extensions.fstbh.showBookmarksBar"
+				type="string" />
+		</preferences>
+		<groupbox>
+			<caption label="&preference.showTabsToolbar.label;" />
+			<label
+				class="note"
+				value="&requiresTransitionTypeNone.label;" />
+
+			<radiogroup
+				preference="extensions.fstbh.showTabsToolbar"
+				orient="vertical">
+				<radio
+					transitionRequired="false"
+					value="hoverOnly"
+					label="&preference.showTabsToolbar.hoverOnly.label;" />
+				<radio
+					transitionRequired="false"
+					value="multipleTabs"
+					label="&preference.showTabsToolbar.multipleTabs.label;" />
+				<radio
+					transitionRequired="false"
+					value="always"
+					label="&preference.showTabsToolbar.always.label;" />
+			</radiogroup>
+		</groupbox>
+		<groupbox>
+			<caption label="&preference.showNavBar.label;" />
+			<label
+				class="note"
+				value="&requiresTransitionTypeNone.label;" />
+
+			<radiogroup
+				preference="extensions.fstbh.showNavBar"
+				orient="vertical">
+				<radio
+					transitionRequired="false"
+					value="hoverOnly"
+					label="&preference.showNavBar.hoverOnly.label;" />
+				<radio
+					transitionRequired="false"
+					value="always"
+					label="&preference.showNavBar.always.label;" />
+			</radiogroup>
+		</groupbox>
+		<groupbox>
+			<caption label="&preference.showBookmarksBar.label;" />
+			<label
+				class="note"
+				value="&requiresTransitionTypeNone.label;" />
+
+			<radiogroup
+				preference="extensions.fstbh.showBookmarksBar"
+				orient="vertical">
+				<radio
+					transitionRequired="false"
+					value="hoverOnly"
+					label="&preference.showBookmarksBar.hoverOnly.label;" />
+				<radio
+					transitionRequired="false"
+					value="always"
+					label="&preference.showBookmarksBar.always.label;" />
+			</radiogroup>
 		</groupbox>
 	</prefpane>
 
@@ -401,6 +409,8 @@
 			</radiogroup>
 		</groupbox>
 		<groupbox>
+			<caption label="&preference.other.label;" />
+		
 			<checkbox
 				label="&preference.style.shadowWhenToggled.label;"
 				preference="extensions.fstbh.style.shadowWhenToggled" />
