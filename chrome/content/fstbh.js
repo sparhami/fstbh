@@ -64,7 +64,10 @@ com.sppad.fstbh.Main = new function() {
                 break;
             case 'normalMode':
             case 'maximizedMode':
+                self.updateAppliedStatus();
+                break;
             case 'fullscreenMode':
+                gPrefService.setBoolPref('browser.fullscreen.autohide', value === 'hover');
                 self.updateAppliedStatus();
                 break;
             case 'tweaks.mouse':
@@ -339,6 +342,38 @@ com.sppad.fstbh.Main = new function() {
         });
     };
     
+    /**
+     * Overwrites the browser's fullscreen function to do pretty everything but
+     * the autohide part. We used to just disable the browser's auto hide
+     * preference (browser.fullscreen.autohide), but others (e.g. Tree Style
+     * Tab) might want to check the preference. See:
+     * base/content/browser-fullScreen.js
+     */
+    self.overwriteBrowserFullscreenToggle = function() {
+        FullScreen.toggle = function(event) {
+            let enterFS = window.fullScreen;
+            let fullscreenCommand = document.getElementById("View:FullScreen");
+
+            if (event && event.type == "fullscreen")
+              enterFS = !enterFS;
+
+            if(enterFS) {
+                fullscreenCommand.setAttribute("checked", enterFS);
+                
+                (document.getElementById("enterFullScreenItem") || {}).hidden = enterFS;
+                (document.getElementById("exitFullScreenItem") || {}).hidden = !enterFS;
+                
+                if(FullScreen.useLionFullScreen && !document.mozFullScreen) {
+                    gNavToolbox.setAttribute("inFullscreen", true);
+                    document.documentElement.setAttribute("inFullscreen", true);
+                }
+            } else {
+                fullscreenCommand.removeAttribute("checked");
+                FullScreen.cleanup();
+            }
+        }
+    };
+    
     self.popupmenuShowing = function(event) {
         let popup = event.target;
         
@@ -411,6 +446,7 @@ com.sppad.fstbh.Main = new function() {
         
         self.updateShowTabs();
         self.offsetBrowser();
+        self.overwriteBrowserFullscreenToggle();
     };
     
     self.cleanup = function() {
