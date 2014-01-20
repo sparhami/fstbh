@@ -353,6 +353,16 @@ com.sppad.fstbh.Main = new function() {
         FullScreen.toggle = function(event) {
             let enterFS = window.fullScreen;
             let fullscreenCommand = document.getElementById("View:FullScreen");
+            
+            // For Tree Style Tab - it injects itself into the FullScreen.toggle
+            // function, but we completely replace it. If it was installed after
+            // us, it will work since we would load first and then they would
+            // modify the function. It is likely they could listen for
+            // sizemode/DOM fullscreen events instead, but until then, here is a
+            // workaround.
+            if(gBrowser.treeStyleTab) {
+                gBrowser.treeStyleTab.onBeforeFullScreenToggle();
+            }
 
             if (event && event.type == "fullscreen")
               enterFS = !enterFS;
@@ -441,12 +451,12 @@ com.sppad.fstbh.Main = new function() {
         self.menubarObserver.observe(menubar, { attributes: true });
         self.addonbarObserver.observe(addonbar, { attributes: true });
         
+        self.overwriteBrowserFullscreenToggle();
         self.setupContextMenus();
         self.loadPreferences();
         
         self.updateShowTabs();
         self.offsetBrowser();
-        self.overwriteBrowserFullscreenToggle();
     };
     
     self.cleanup = function() {
