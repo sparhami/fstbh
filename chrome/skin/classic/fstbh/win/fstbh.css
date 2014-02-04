@@ -22,29 +22,3 @@
 #main-window[fstbh|applied="true"][sizemode="maximized"]:not([fstbh|separatedTitlebar="true"]) #titlebar-buttonbox-container {
 	display: none !important;
 }
-
-/* Menu button / menubar / window controls in fullscreen */
-
-#com_sppad_fstbh_fullscreen_titlebar,
-#com_sppad_fstbh_fullscreen_titlebar #window-controls,
-#com_sppad_fstbh_fullscreen_titlebar #appmenu-button-container {
-	position: fixed;
-	top: 0;
-}
-
-#com_sppad_fstbh_fullscreen_titlebar #appmenu-button-container {
-	left: 0;
-}
-
-#com_sppad_fstbh_fullscreen_titlebar #window-controls {
-	right: 0;
-}
-
-#main-window[sizemode="fullscreen"][fstbh|fullscreenMenu="true"] .titlebar-placeholder[type="caption-buttons"],
-#main-window[sizemode="fullscreen"][fstbh|fullscreenMenu="true"][fstbh|menubar_autohide="true"] .titlebar-placeholder[type="appmenu-button"] {
-	display: -moz-box !important;
-}
-
-#main-window[sizemode="fullscreen"][fstbh|fullscreenMenu="true"][fstbh|menubar_autohide="false"] #appmenu-button-container {
-	visibility: collapse;
-}

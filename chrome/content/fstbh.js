@@ -381,6 +381,8 @@ com.sppad.fstbh.Main = new function() {
                 fullscreenCommand.removeAttribute("checked");
                 FullScreen.cleanup();
             }
+            
+            FullScreen.showXULChrome("toolbar", !enterFS);
         }
     };
     
