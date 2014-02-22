@@ -63,8 +63,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         // For showing when mousing or dragging
         toggler.addEventListener('dragenter', self.mouseenter, false);
         toggler.addEventListener('mouseenter', self.mouseenter, false);
-        gNavToolbox.addEventListener('dragenter', self.mouseenter, false);
-        gNavToolbox.addEventListener('mouseenter', self.mouseenter, false);
         
         // For showing on input field focus
         gNavToolbox.addEventListener('focus', self.checkfocus, true);
@@ -113,8 +111,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         // For showing when mousing or dragging
         toggler.removeEventListener('dragenter', self.mouseenter);
         toggler.removeEventListener('mouseenter', self.mouseenter);
-        gNavToolbox.removeEventListener('dragenter', self.mouseenter);
-        gNavToolbox.removeEventListener('mouseenter', self.mouseenter);
         
         // For showing on input field focus
         gNavToolbox.removeEventListener('focus', self.checkfocus);
@@ -325,6 +321,9 @@ com.sppad.fstbh.NavBoxHandler = new function() {
 	 */
     self.mouseenter = function(aEvent) {
         if(self.showingFlags & HOVERING_MASK)
+            return;
+        
+        if(self.prefs['tweaks.mouse'] === 'dontTriggerOnMouse')
             return;
         
         let toggler = document.getElementById('com_sppad_fstbh_top_toggler');
