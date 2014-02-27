@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg"  height="512" width="512" version="1.1">
-<g fill-rule="nonzero" transform="translate(0,-540.36218)">
-<rect transform="matrix(0.90314295,0.42933997,-0.42933997,0.90314295,0,0)" height="292.62476" width="70.731323" y="538.71851" x="397.3793" fill="#000"/>
-<rect transform="matrix(0.14231299,0.98982171,-0.98982171,0.14231299,0,0)" height="292.62476" width="70.731323" y="-368.70181" x="900.3493" fill="#dcdcdc"/>
-<rect transform="matrix(0.59136278,0.80640564,-0.80640564,0.59136278,0,0)" height="292.62476" width="70.731323" y="75.949577" x="834.4671" fill="#c8c8c8"/>
-<rect transform="matrix(0.9146742,0.40419192,-0.40419192,0.9146742,0,0)" height="292.62476" width="70.731323" y="476.40912" x="539.34271" fill="#b4b4b4"/>
-<rect height="292.62476" width="70.731323" y="657.76471" x="180.40096" fill="#000"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+<g fill-rule="nonzero" transform="matrix(0.09375,0,0,0.09375,0.32306853,-51.260508)">
+<rect transform="matrix(0.90314295,0.42933997,-0.42933997,0.90314295,0,0)" height="292.6" width="70.73" y="538.7" x="397.4" fill="#000"/>
+<rect transform="matrix(0.14231299,0.98982171,-0.98982171,0.14231299,0,0)" height="292.6" width="70.73" y="-368.7" x="900.3" fill="#dcdcdc"/>
+<rect transform="matrix(0.59136278,0.80640564,-0.80640564,0.59136278,0,0)" height="292.6" width="70.73" y="75.95" x="834.5" fill="#c8c8c8"/>
+<rect transform="matrix(0.9146742,0.40419192,-0.40419192,0.9146742,0,0)" height="292.6" width="70.73" y="476.4" x="539.3" fill="#b4b4b4"/>
+<rect height="292.6" width="70.73" y="657.8" x="180.4" fill="#000"/>
 </g>
 </svg>

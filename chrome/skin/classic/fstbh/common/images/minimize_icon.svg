@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg  xmlns="http://www.w3.org/2000/svg"  height="512" width="512" version="1.1">
-<g transform="translate(0,-540.36218)">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24">
+<g transform="matrix(0.046875,0,0,0.046875,6.944245e-8,-25.329477)">
 <g transform="matrix(1.6521034,0,0,1.6060078,250.28797,792.3739)">
-<rect fill-rule="nonzero" height="39.850368" width="309.90796" y="122.03445" x="-151.49655" fill="#505050"/>
+<rect fill-rule="nonzero" height="39.85" width="309.9" y="122" x="-151.5" fill="#505050"/>
 </g>
 </g>
 </svg>
