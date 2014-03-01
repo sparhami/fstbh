@@ -22,6 +22,7 @@
 <!ENTITY preference.stylePrefPane.label "Style">
 
 <!ENTITY preference.autohideMode.label "Auto hiding">
+<!ENTITY preference.autohideMode.hint.label "You can also change auto hide mode from the tabs toolbar right click menu">
 <!ENTITY preference.normalAutohide.label "In unmaximized window">
 <!ENTITY preference.maximizedAutohide.label "In maximized window">
 <!ENTITY preference.fullscreenAutohide.label "In full screen">

@@ -60,6 +60,7 @@
 		</preferences>
 		<groupbox>
 			<caption label="&preference.autohideMode.label;" />
+			<label class="note" value="&preference.autohideMode.hint.label;" />
 			
 			<checkbox
 				label="&preference.normalAutohide.label;"
