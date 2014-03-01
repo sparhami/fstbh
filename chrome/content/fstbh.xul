@@ -91,20 +91,20 @@
 		<menupopup id="fstbh-menu-nodes">
 			<menuitem
 				type="checkbox"
-				action="fullscreenMode"
+				action="fullscreenAutohide"
 				label="&com.sppad.fstbh.fullscreenAutohide.label;"
 				accesskey="&com.sppad.fstbh.fullscreenAutohide.accesskey;"
 				oncommand="com.sppad.fstbh.Main.setFullscreenAutohide(this);"
 				ordinal="99" />
 			<menuitem
-				action="normalMode"
+				action="normalAutohide"
 				type="checkbox"
 				label="&com.sppad.fstbh.normalAutohide.label;"
 				accesskey="&com.sppad.fstbh.normalAutohide.accesskey;"
 				oncommand="com.sppad.fstbh.Main.setNormalAutohide(this);"
 				ordinal="100" />
 			<menuitem
-				action="maximizedMode"
+				action="maximizedAutohide"
 				type="checkbox"
 				label="&com.sppad.fstbh.maximizedAutohide.label;"
 				accesskey="&com.sppad.fstbh.maximizedAutohide.accesskey;"

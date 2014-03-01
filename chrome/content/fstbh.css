@@ -136,9 +136,9 @@
 }
 
 /* Hide context menu items when not appropriate */
-#main-window:not([sizemode="normal"]) [action="normalMode"],
-#main-window:not([sizemode="maximized"]) [action="maximizedMode"],
-#main-window:not([sizemode="fullscreen"]) [action="fullscreenMode"] {
+#main-window:not([sizemode="normal"]) [action="normalAutohide"],
+#main-window:not([sizemode="maximized"]) [action="maximizedAutohide"],
+#main-window:not([sizemode="fullscreen"]) [action="fullscreenAutohide"] {
 	display: none;
 }
 

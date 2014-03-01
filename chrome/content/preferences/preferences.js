@@ -76,21 +76,17 @@ com.sppad.fstbh.PREFS = {
     // One of hoverOnly, always
     showAddonsBar : 'hoverOnly',
 
-    // One of hover, normal
-    normalMode : 'normal',
+    // Whether or not unmaximized autohide is enabled
+    normalAutohide : false,
     
-    // One of hover, normal
-    maximizedMode : 'normal',
+    // Whether or not maximized autohide is enabled
+    maximizedAutohide : false,
     
-    // One of hover, normal
-    fullscreenMode : 'normal',
+    // Whether or not fullscreen autohide is enabled
+    fullscreenAutohide : false,
 
     // Show box iwth cert org and domain when hiding toolbars
     showIdentityBox: false,
-    
-    // The saved value of the autohide browser preference, for restoring later
-    autohide_saved : false,
-    autohide_saved_value : true
 };
 
 /**

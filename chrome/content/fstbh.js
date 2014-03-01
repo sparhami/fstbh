@@ -62,11 +62,11 @@ com.sppad.fstbh.Main = new function() {
             case 'showAddonsBar':
                 self.setShowAddonsBar(value);
                 break;
-            case 'normalMode':
-            case 'maximizedMode':
+            case 'normalAutohide':
+            case 'maximizedAutohide':
                 self.updateAppliedStatus();
                 break;
-            case 'fullscreenMode':
+            case 'fullscreenAutohide':
                 gPrefService.setBoolPref('browser.fullscreen.autohide', value === 'hover');
                 self.updateAppliedStatus();
                 break;
@@ -160,9 +160,9 @@ com.sppad.fstbh.Main = new function() {
         let maximized = sizemode == window.STATE_MAXIMIZED;
         let fullscreen = sizemode == window.STATE_FULLSCREEN;
 
-        let applyInNormal = self.prefs['normalMode'] == 'hover';
-        let applyInMaximized = self.prefs['maximizedMode'] == 'hover';
-        let applyInFullscreen = self.prefs['fullscreenMode'] == 'hover';
+        let applyInNormal = self.prefs.normalAutohide;
+        let applyInMaximized = self.prefs.maximizedAutohide;
+        let applyInFullscreen = self.prefs.fullscreenAutohide;
         
         self.applied = !gNavToolbox.hasAttribute('customizing')
         			&& !mainWindow.hasAttribute('customizing')
@@ -275,17 +275,17 @@ com.sppad.fstbh.Main = new function() {
     
     self.setNormalAutohide = function(source) {
         let checked = source.hasAttribute('checked');
-        com.sppad.fstbh.Preferences.setPreference('normalMode', checked ? 'hover' : 'normal');
+        com.sppad.fstbh.Preferences.setPreference('normalAutohide', checked);
     };
     
     self.setMaximizedAutohide = function(source) {
         let checked = source.hasAttribute('checked');
-        com.sppad.fstbh.Preferences.setPreference('maximizedMode', checked ? 'hover' : 'normal');
+        com.sppad.fstbh.Preferences.setPreference('maximizedAutohide', checked);
     };
     
     self.setFullscreenAutohide = function(source) {
         let checked = source.hasAttribute('checked');
-        com.sppad.fstbh.Preferences.setPreference('fullscreenMode', checked ? 'hover' : 'normal');
+        com.sppad.fstbh.Preferences.setPreference('fullscreenAutohide', checked);
     };
     
     /**
@@ -331,9 +331,9 @@ com.sppad.fstbh.Main = new function() {
                      'showNavBar',
                      'showBookmarksBar',
                      'showAddonsBar',
-                     'normalMode',
-                     'maximizedMode',
-                     'fullscreenMode',
+                     'normalAutohide',
+                     'maximizedAutohide',
+                     'fullscreenAutohide',
                      'showIdentityBox',
                      'tweaks.mouse'];
         
@@ -393,7 +393,7 @@ com.sppad.fstbh.Main = new function() {
             let value = self.prefs[action];
             let menuitem = popup.querySelector('[action="' + action + '"]');
             
-            if(value === 'hover' || value === 'always') {
+            if(value === true || value === 'always') {
                 menuitem.setAttribute('checked', 'true');
             } else {
                 menuitem.removeAttribute('checked');
@@ -429,6 +429,7 @@ com.sppad.fstbh.Main = new function() {
             menupopup.addEventListener('popupshowing', self.popupmenuShowing, false);
         });
     };
+    
     
     self.setup = function() {
         com.sppad.fstbh.Preferences.addListener(self);
@@ -484,6 +485,14 @@ com.sppad.fstbh.Main = new function() {
 };
 
 window.addEventListener("load", function() {
+    // Migrate prefs
+    ['normal','maximized','fullscreen'].forEach(function(modeName) {
+        if(com.sppad.fstbh.CurrentPrefs[modeName + "Mode"] === "hover") {
+            com.sppad.fstbh.Preferences.setPreference(modeName + "Mode", "");
+            com.sppad.fstbh.Preferences.setPreference(modeName + "Autohide", true);  
+        }
+    });
+    
     com.sppad.fstbh.Main.setup();
 }, false);
 

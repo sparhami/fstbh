@@ -1,5 +1,5 @@
 <!ENTITY com.sppad.fstbh.preferences.title "Toolbar Autohide Preferences">
-<!ENTITY com.sppad.fstbh.normalAutohide.label "Autohide">
+<!ENTITY com.sppad.fstbh.normalAutohide.label "Unmaximized Autohide">
 <!ENTITY com.sppad.fstbh.normalAutohide.accesskey "H">
 <!ENTITY com.sppad.fstbh.maximizedAutohide.label "Maximized Autohide">
 <!ENTITY com.sppad.fstbh.maximizedAutohide.accesskey "H">
@@ -20,6 +20,11 @@
 <!ENTITY preference.toolbarsPrefPane.label "Toolbars">
 <!ENTITY preference.eventsPrefPane.label "Events">
 <!ENTITY preference.stylePrefPane.label "Style">
+
+<!ENTITY preference.autohideMode.label "Auto hiding">
+<!ENTITY preference.normalAutohide.label "In unmaximized window">
+<!ENTITY preference.maximizedAutohide.label "In maximized window">
+<!ENTITY preference.fullscreenAutohide.label "In full screen">
 
 <!ENTITY requiresTransitionTypeNone.label "Requires transition type to be set to none">
 
