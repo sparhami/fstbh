@@ -393,6 +393,10 @@ com.sppad.fstbh.Main = new function() {
             let value = self.prefs[action];
             let menuitem = popup.querySelector('[action="' + action + '"]');
             
+            if(!menuitem) {
+                return;
+            }
+            
             if(value === true || value === 'always') {
                 menuitem.setAttribute('checked', 'true');
             } else {
