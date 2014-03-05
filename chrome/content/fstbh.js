@@ -389,7 +389,7 @@ com.sppad.fstbh.Main = new function() {
     self.popupmenuShowing = function(event) {
         let popup = event.target;
         
-        ['normalMode', 'maximizedMode', 'fullscreenMode', 'showAddonsBar', 'showTabsToolbar'].forEach(function(action) {
+        ['normalAutohide', 'maximizedAutohide', 'fullscreenAutohide', 'showAddonsBar', 'showTabsToolbar'].forEach(function(action) {
             let value = self.prefs[action];
             let menuitem = popup.querySelector('[action="' + action + '"]');
             

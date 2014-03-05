@@ -102,14 +102,23 @@
 	-moz-box-ordinal-group: 0;
 }
 
-/* Browser should be behind everything else, regardless of element ordering */
-#main-window[fstbh|applied="true"] #browser-panel > :-moz-any(#browser, #content-deck) {
+/* 
+ * Browser should be behind everything else, regardless of element ordering. Note: give
+ * #content-deck a higher ordinal in case another add-on is using a xul overlay with
+ * #browser as a child of #browser-panel. That causes the newly created #browser element
+ * (in FF 27+) to display over #content-deck, making it impossible to click.
+ */
+#main-window[fstbh|applied="true"] #browser-panel > #browser {
 	-moz-box-ordinal-group: 1;
+}
+
+#main-window[fstbh|applied="true"] #browser-panel > #content-deck {
+	-moz-box-ordinal-group: 2;
 }
 
 /* SSL info on top of browser, but behind rest of UI */
 #main-window[fstbh|applied="true"] #browser-panel > #com_sppad_fstbh_ssl_info_boundry {
-	-moz-box-ordinal-group: 2;
+	-moz-box-ordinal-group: 3;
 }
 
 /* Everything else should be on top of #browser */
