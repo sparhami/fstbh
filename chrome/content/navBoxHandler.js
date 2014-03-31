@@ -424,15 +424,18 @@ com.sppad.fstbh.NavBoxHandler = new function() {
 	 * able to use shortcut keys for navigation/search boxes.
 	 */
     self.setHiddenStyle = function() {
-        let mainWindow = document.getElementById('main-window');
-        mainWindow.removeAttributeNS(com.sppad.fstbh.xmlns, 'toggle_top');
-        
         // Slide-out doesn't work while in normal mode
         let transitionProperty = self.prefs['transitionProperty'];
+        let transitionTime = self.prefs['transitionDelayOut'] + self.prefs['transitionDurationOut'];
         
         if(window.windowState == window.STATE_NORMAL) {
-        	transitionProperty = 'height';
+            transitionProperty = 'height';
+            transitionTime = 0;
         }
+        
+        let mainWindow = document.getElementById('main-window');
+        mainWindow.removeAttributeNS(com.sppad.fstbh.xmlns, 'toggle_top');
+        window.setTimeout(() => mainWindow.setAttributeNS(com.sppad.fstbh.xmlns, 'hidden_top', 'true'), transitionTime);
         
         gNavToolbox.style.transitionProperty = transitionProperty;
         
@@ -448,8 +451,15 @@ com.sppad.fstbh.NavBoxHandler = new function() {
     };
     
     self.setShowingStyle = function() {
+        let transitionTime = self.prefs['transitionDelayIn'];
+        
+        if(window.windowState == window.STATE_NORMAL) {
+            transitionTime = 0;
+        }
+        
         let mainWindow = document.getElementById('main-window');
         mainWindow.setAttributeNS(com.sppad.fstbh.xmlns, 'toggle_top', 'true');
+        window.setTimeout(() => mainWindow.removeAttributeNS(com.sppad.fstbh.xmlns, 'hidden_top'), transitionTime);
             
         gNavToolbox.style.marginTop = '';
     };

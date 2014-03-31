@@ -59,7 +59,7 @@
 }
 
 /* Hide any toolbars that aren't bing force shown */
-#main-window[fstbh|applied="true"][fstbh|transitionProperty="height"]:not([fstbh|toggle_top])
+#main-window[fstbh|applied="true"]:-moz-any([sizemode="normal"], [fstbh|transitionProperty="height"]):not([fstbh|toggle_top])
    #navigator-toolbox > :not([fstbh|forceShow="true"]):not([treestyletab-mode="vertical"])
 {
 	/* Don't use visibility or display as it changes the behavior when trying to use ctrl-l or ctrl-k */

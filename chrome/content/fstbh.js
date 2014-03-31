@@ -102,14 +102,14 @@ com.sppad.fstbh.Main = new function() {
         gNavToolbox.style.backgroundImage = mainWindow.style.backgroundImage;
         
         /*
-		 * For Windows - if applied while window mode is normal (not
-		 * maximized/fullscreen), titlebar will have part of the persona
-		 * already. Don't want to repeat the start of the persona, to shift it
-		 * up to align correctly.
-		 * 
-		 * For PersonalTitlebar - don't show window controls when not tabs in
-		 * title bar by setting separatedTitlebar attribute.
-		 */
+         * For Windows - if applied while window mode is normal (not
+         * maximized/fullscreen), titlebar will have part of the persona
+         * already. Don't want to repeat the start of the persona, to shift it
+         * up to align correctly.
+         * 
+         * For PersonalTitlebar - don't show window controls when not tabs in
+         * title bar by setting separatedTitlebar attribute.
+         */
         if(self.os == WINDOWS) {
             let titlebar = document.getElementById('titlebar');
             let marginBottom = titlebar.style.marginBottom;
@@ -135,11 +135,10 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /*
-	 * Need to let browser apply all changes first so it can correctly
-	 * calculate the bottom margin on the titlebar under Windows. Also need
-	 * to make sure customize attribute has been set if checking for
-	 * customize mode.
-	 */
+     * Need to let browser apply all changes first so it can correctly calculate
+     * the bottom margin on the titlebar under Windows. Also need to make sure
+     * customize attribute has been set if checking for customize mode.
+     */
     self.evaluateAppliedStatus = function() {
         window.clearTimeout(com.sppad.fstbh.sizemodeTimer);
         com.sppad.fstbh.sizemodeTimer = window.setTimeout(function() {
@@ -148,27 +147,26 @@ com.sppad.fstbh.Main = new function() {
     }
     
     /**
-	 * Updates the applied status, checking if the add-on should be applied or
-	 * not. Sets everything up for auto-hide behavior to take effect.
-	 */
+     * Updates the applied status, checking if the add-on should be applied or
+     * not. Sets everything up for auto-hide behavior to take effect.
+     */
     self.updateAppliedStatus = function() {
     	let sizemode = window.windowState;
         
         let mainWindow = document.getElementById('main-window');
         
-        let normal = sizemode == window.STATE_NORMAL;
-        let maximized = sizemode == window.STATE_MAXIMIZED;
-        let fullscreen = sizemode == window.STATE_FULLSCREEN;
+        let normal = sizemode === window.STATE_NORMAL;
+        let minimized = sizemode === window.STATE_MINIMIZED;
+        let maximized = sizemode === window.STATE_MAXIMIZED;
+        let fullscreen = sizemode === window.STATE_FULLSCREEN;
 
-        let applyInNormal = self.prefs.normalAutohide;
-        let applyInMaximized = self.prefs.maximizedAutohide;
-        let applyInFullscreen = self.prefs.fullscreenAutohide;
+        let applyInNormal = self.prefs.normalAutohide && normal;
+        let applyInMaximized = self.prefs.maximizedAutohide && maximized;
+        let applyInFullscreen = self.prefs.fullscreenAutohide && fullscreen;
         
         self.applied = !gNavToolbox.hasAttribute('customizing')
-        			&& !mainWindow.hasAttribute('customizing')
-        			&& ((normal && applyInNormal)
-                    || (maximized && applyInMaximized)
-                    || (fullscreen && applyInFullscreen));
+                    && !mainWindow.hasAttribute('customizing')
+                    && (minimized || applyInNormal || applyInMaximized || applyInFullscreen);
         
         self.applyAttribute('main-window', 'applied', self.applied);
         self.applyAttribute('main-window', 'domFS', document.mozFullScreen);
@@ -198,12 +196,12 @@ com.sppad.fstbh.Main = new function() {
     });
     
     /**
-	 * Updates based on the number of tabs open. Sets the attribute to keep tabs
-	 * toolbar showing.
-	 * 
-	 * @param offset
-	 *            If called while a tab is closing, do not count that tab.
-	 */
+     * Updates based on the number of tabs open. Sets the attribute to keep tabs
+     * toolbar showing.
+     * 
+     * @param offset
+     *            If called while a tab is closing, do not count that tab.
+     */
     self.updateShowTabs = function(offset) {
         let pref = self.prefs['showTabsToolbar'];
         let tabCount = gBrowser.tabContainer.itemCount + (offset ? -1 : 0);
@@ -289,11 +287,11 @@ com.sppad.fstbh.Main = new function() {
     };
     
     /**
-	 * Offsets / un-offsets the browser by setting a top margin. This is done so
-	 * that we can stay as display stack and always show TabsToolbar without
-	 * covering page content. This is used when the showTabsToolbar is set to
-	 * always or multipleTabs.
-	 */
+     * Offsets / un-offsets the browser by setting a top margin. This is done so
+     * that we can stay as display stack and always show TabsToolbar without
+     * covering page content. This is used when the showTabsToolbar is set to
+     * always or multipleTabs.
+     */
     self.offsetBrowser = function() {
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
         let browser = document.getElementById('browser');
