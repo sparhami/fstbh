@@ -1,0 +1,88 @@
+<!ENTITY com.sppad.fstbh.preferences.title "Options de Toolbar Autohide">
+<!ENTITY com.sppad.fstbh.normalAutohide.label "Fenêtre réduite : cacher automatiquement">
+<!ENTITY com.sppad.fstbh.normalAutohide.accesskey "c">
+<!ENTITY com.sppad.fstbh.maximizedAutohide.label "Fenêtre agrandie : cacher automatiquement">
+<!ENTITY com.sppad.fstbh.maximizedAutohide.accesskey "c">
+<!ENTITY com.sppad.fstbh.fullscreenAutohide.label "Plein écran : cacher automatiquement">
+<!ENTITY com.sppad.fstbh.fullscreenAutohide.accesskey "c">
+<!ENTITY com.sppad.fstbh.alwaysShowTabs.label "Toujours afficher les onglets">
+<!ENTITY com.sppad.fstbh.alwaysShowTabs.accesskey "n">
+<!ENTITY com.sppad.fstbh.alwaysShowAddonsBar.label "Toujours afficher la barre des modules">
+<!ENTITY com.sppad.fstbh.alwaysShowAddonsBar.accesskey "m">
+<!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.label "Barre personnelle">
+<!ENTITY com.sppad.fstbh.fullscreenPersonalToolbar.accesskey "p">
+
+<!ENTITY units.pixels "px">
+<!ENTITY units.milliseconds "ms">
+
+<!ENTITY preference.generalPrefPane.label "Général">
+<!ENTITY preference.tweaksPrefPane.label "Avancé">
+<!ENTITY preference.toolbarsPrefPane.label "Barres d'outils">
+<!ENTITY preference.eventsPrefPane.label "Évènements">
+<!ENTITY preference.stylePrefPane.label "Style">
+
+<!ENTITY preference.autohideMode.label "Dissimulation automatique">
+<!ENTITY preference.autohideMode.hint.label "Vous pouvez également modifier le mode de dissimulation automatique depuis le menu du clic droit de la barre des onglets">
+<!ENTITY preference.normalAutohide.label "Dans une fenêtre réduite">
+<!ENTITY preference.maximizedAutohide.label "Dans une fenêtre agrandie">
+<!ENTITY preference.fullscreenAutohide.label "En plein écran">
+
+<!ENTITY requiresTransitionTypeNone.label "Nécessite que le style de transition soit défini sur 'Aucun'">
+
+<!ENTITY preference.transitionProperty.label "Style de transition">
+<!ENTITY preference.transitionProperty.none.label "Aucun (peut être nécessaire afin d'être compatible avec certains modules complémentaires)">
+<!ENTITY preference.transitionProperty.slideIn.label "Glissade">
+
+<!ENTITY preference.timing.label "Délais">
+<!ENTITY preference.transitionDurationIn.label "Durée de la transition lors de l'apparition :">
+<!ENTITY preference.transitionDurationOut.label "Durée de la transition lors de la dissimulation :">
+<!ENTITY preference.transitionDelayIn.label "Délai avant d'apparaitre :">
+<!ENTITY preference.transitionDelayOut.label "Délai avant de se cacher :">
+
+<!ENTITY preference.showWhenTitleChanged.label "Afficher lors d'un changement de titre">
+<!ENTITY preference.showWhenTitleChanged.never.label "Jamais">
+<!ENTITY preference.showWhenTitleChanged.pinned.label "Seulement pour les onglets épinglés">
+<!ENTITY preference.showWhenTitleChanged.any.label "Pour n'importe quel onglet">
+
+<!ENTITY preference.showEvents.label "Afficher lors d'évènements">
+<!ENTITY preference.showEvents.showOnTabOpen.label "Ouverture d'onglet">
+<!ENTITY preference.showEvents.showOnTabClose.label "Fermeture d'onglet">
+<!ENTITY preference.showEvents.showOnTabSelect.label "Sélection d'onglet">
+<!ENTITY preference.showEvents.showOnLocationChange.label "Changement d'emplacement">
+<!ENTITY preference.showEvents.delay.label "Délai (supplémentaire) avant de se cacher :">
+
+<!ENTITY preference.style.browserBottomBox.label "Style de boite en bas de la fenêtre pendant l'application">
+<!ENTITY preference.style.browserBottomBox.transparent.label "Transparent">
+<!ENTITY preference.style.browserBottomBox.default.label "Par défaut">
+
+<!ENTITY preference.style.topChromeBackground.label "Arrière-plan de la barre des onglets">
+<!ENTITY preference.style.topChromeBackground.transparent.label "Transparent">
+<!ENTITY preference.style.topChromeBackground.default.label "Aucun">
+
+<!ENTITY preference.style.shadowWhenToggled.label "Montrer une ombre en bas des barres d'outils lors de leur affichage">
+
+<!ENTITY preference.showTabsToolbar.label "Afficher les onglets">
+<!ENTITY preference.showTabsToolbar.hoverOnly.label "Normal (cacher automatiquement)">
+<!ENTITY preference.showTabsToolbar.multipleTabs.label "Lorsque plusieurs onglets sont ouverts">
+<!ENTITY preference.showTabsToolbar.always.label "Toujours">
+
+<!ENTITY preference.showNavBar.label "Afficher la barre de navigation">
+<!ENTITY preference.showNavBar.hoverOnly.label "Normal (cacher automatiquement)">
+<!ENTITY preference.showNavBar.always.label "Toujours">
+
+<!ENTITY preference.showBookmarksBar.label "Afficher la barre personnelle">
+<!ENTITY preference.showBookmarksBar.hoverOnly.label "Normal (cacher automatiquement)">
+<!ENTITY preference.showBookmarksBar.always.label "Toujours">
+
+<!ENTITY preference.tweaks.mouse.label "Déclenchement en haut de l'écran">
+<!ENTITY preference.tweaks.mouse.normal.label "Par défaut">
+<!ENTITY preference.tweaks.mouse.onePixelPadding.label "Utiliser un décalage d'un pixel en haut du contenu de la page lors de la dissimulation automatique">
+<!ENTITY preference.tweaks.mouse.dontTriggerOnMouse.label "Ne pas afficher les barres d'outils en cas d'évènements réalisés à la souris">
+
+<!ENTITY preference.showIdentityBox.label "Afficher les informations d'identité du site lorsque les barres d'outils sont cachées">
+<!ENTITY preference.tweaks.mouseEnterOnTogglerOnly.label "Se déclencher uniquement lorsque la souris est en haut de l'écran lors de l'affichage permanent d'une barre d'outils">
+<!ENTITY preference.tweaks.toggleWhenFocusedAndHasText.label "Les barres d'adresse/de recherche déclenchent l'affichage uniquement si/lorsque du texte est entré">
+
+
+<!ENTITY preference.other.label "Divers">
+<!ENTITY preference.bottomBuffer.label "Hauteur de zone où les barres d'outils restent affichées :">
