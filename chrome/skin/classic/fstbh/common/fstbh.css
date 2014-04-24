@@ -39,30 +39,29 @@
 }
 
 #com_sppad_fstbh_windowControls_min toolbarbutton {
+	padding: 3px 7px;
 	list-style-image: url("chrome://fstbh/skin/images/minimize_icon.svg");
 }
 
 #com_sppad_fstbh_windowControls_restore toolbarbutton {
+	padding: 3px 7px;
 	list-style-image: url("chrome://fstbh/skin/images/restore_icon.svg");
 }
 
 #com_sppad_fstbh_windowControls_close toolbarbutton {
+	padding: 3px 18px;
 	list-style-image: url("chrome://fstbh/skin/images/close_icon.svg");
 }
 
 #com_sppad_fstbh_windowControls_min,
 #com_sppad_fstbh_windowControls_restore {
 	background-color: rgb(230, 230, 240);
-	padding-left: 4px;
-	padding-right: 4px;
 	border-color: rgb(140, 140, 140);
 	border-style: solid;
 }
 
 #com_sppad_fstbh_windowControls_close {
 	background-color: rgb(30, 30, 40);
-	padding-left: 15px;
-	padding-right: 15px;
 	border-color: rgb(140, 140, 140);
 	border-style: solid;
 }
