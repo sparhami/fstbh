@@ -94,6 +94,23 @@ com.sppad.fstbh.Main = new function() {
         });   
     });
     
+    self.QueryInterface = XPCOMUtils.generateQI(['nsIWebProgressListener', 'nsISupportsWeakReference']),
+    
+    self.onLocationChange = function(aProgress, aRequest, aURI) {
+        if(self.prefs['showEvents.showOnLocationChange'] && self.applied) {
+            com.sppad.fstbh.NavBoxHandler.triggerShowEvent();
+        }
+    };
+
+    // Nothing to do for these
+    self.onStateChange = function() {};
+    self.onProgressChange = function() {};
+    self.onStatusChange = function() {};
+    
+    self.onSecurityChange = function(aWebProgress, aRequest, aState) {
+        com.sppad.fstbh.Identity.updateState(aState);
+    };
+    
     self.setupTheme = function() {
         let mainWindow = document.getElementById('main-window');
         
@@ -456,6 +473,9 @@ com.sppad.fstbh.Main = new function() {
         self.menubarObserver.observe(menubar, { attributes: true });
         self.addonbarObserver.observe(addonbar, { attributes: true });
         
+        // For URL change show event and updating SSL identity box
+        gBrowser.addProgressListener(self);
+        
         self.overwriteBrowserFullscreenToggle();
         self.setupContextMenus();
         self.loadPreferences();
@@ -483,6 +503,9 @@ com.sppad.fstbh.Main = new function() {
         
         self.menubarObserver.disconnect();
         self.addonbarObserver.disconnect();
+        
+        // For URL change show event and updating SSL identity box
+        gBrowser.removeProgressListener(self);
     };
 };
 

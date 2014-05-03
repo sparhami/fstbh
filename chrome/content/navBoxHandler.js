@@ -83,9 +83,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
             gBrowser.tabContainer.addEventListener(eventName, self, false);
         });
         
-        // For URL change show event and updating SSL identity box
-        gBrowser.addProgressListener(self);
-        
         self.showingFlags = 0;
         self.opened = false;
         self.setHiddenStyle();
@@ -131,9 +128,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
             gBrowser.tabContainer.removeEventListener(eventName, self);
         });
         
-        // For URL change show event and updating SSL identity box
-        gBrowser.removeProgressListener(self);
-        
         self.setShowingStyle();
         
         self.enabled = false;
@@ -163,23 +157,6 @@ com.sppad.fstbh.NavBoxHandler = new function() {
         
         if(trigger)
             self.triggerShowEvent();
-    };
-    
-    // nsIWebProgressListener
-    self.QueryInterface = XPCOMUtils.generateQI(['nsIWebProgressListener', 'nsISupportsWeakReference']),
-                        
-    self.onLocationChange = function(aProgress, aRequest, aURI) {
-        if(self.prefs['showEvents.showOnLocationChange'])
-            self.triggerShowEvent();
-    };
-
-    // Nothing to do for these
-    self.onStateChange = function() {};
-    self.onProgressChange = function() {};
-    self.onStatusChange = function() {};
-    
-    self.onSecurityChange = function(aWebProgress, aRequest, aState) {
-        com.sppad.fstbh.Identity.updateState(aState);
     };
     
     // end nsIWebProgressListener
