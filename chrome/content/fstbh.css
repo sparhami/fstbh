@@ -11,11 +11,11 @@
 
 /*
  * Rules for when applied, causing navigator toolbox to show, etc.
- */	
+ */
 #main-window[fstbh|domFS="true"] :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler, #navigator-toolbox, #browser-bottombox) {
 	display: none !important;
 }
- 
+
 #main-window[fstbh|applied="true"] #browser-panel {
 	display: -moz-stack;
 }
@@ -46,10 +46,10 @@
 #main-window[fstbh|applied="true"] #navigator-toolbox {
 	/* Transition property, duration and delay set from javascript */
 	transition-timing-function: linear;
-	
+
 	/* For themes. Can be set from JavaScript if height needs to be offset */
 	background-position: 100% 0px;
-	
+
 	/* For no transition style, since hiding is done with height */
 	overflow: hidden;
 }
@@ -66,7 +66,7 @@
 	height: 0 !important;
 	max-height: 0 !important;
 	min-height: 0 !important;
-	overflow: hidden;
+	overflow: hidden !important;
 }
 
 #main-window[fstbh|applied="true"][fstbh|transitionProperty="height"] #navigator-toolbox {
@@ -96,13 +96,13 @@
 /*
  * #browser-panel child stacking order
  */
- 
+
 /* Send everything to the back of the stack, things that are needed will be moved forward */
 #main-window[fstbh|applied="true"] #browser-panel > * {
 	-moz-box-ordinal-group: 0;
 }
 
-/* 
+/*
  * Browser should be behind everything else, regardless of element ordering. Note: give
  * #content-deck a higher ordinal in case another add-on is using a xul overlay with
  * #browser as a child of #browser-panel. That causes the newly created #browser element
@@ -135,7 +135,7 @@
 /*
  * Context menu items
  */
- 
+
 /* Want to appear on top of the other context menu items. Can't use overlay
  * positioning, since the items are populated when the menu is first opened */
 #viewToolbarsMenu > menupopup *:-moz-any(menuitem, menuseparator),

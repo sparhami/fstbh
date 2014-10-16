@@ -61,7 +61,7 @@
 		<groupbox>
 			<caption label="&preference.autohideMode.label;" />
 			<label class="note" value="&preference.autohideMode.hint.label;" />
-			
+
 			<checkbox
 				label="&preference.normalAutohide.label;"
 				preference="extensions.fstbh.normalAutohide"/>
@@ -178,7 +178,7 @@
 		label="&preference.tweaksPrefPane.label;"
 		image="chrome://fstbh/skin/images/advanced.svg">
 		<preferences>
-		
+
 			<preference
 				id="extensions.fstbh.tweaks.mouse"
 				name="extensions.fstbh.tweaks.mouse"
@@ -215,7 +215,7 @@
 		</groupbox>
 		<groupbox>
 			<caption label="&preference.other.label;" />
-		
+
 			<checkbox
 				label="&preference.showIdentityBox.label;"
 				preference="extensions.fstbh.showIdentityBox" />
@@ -227,7 +227,7 @@
 				preference="extensions.fstbh.tweaks.toggleWhenFocusedAndHasText" />
 		</groupbox>
 	</prefpane>
-	
+
 	<prefpane
 		id="com_sppad_fstbh_ToolbarsPrefPane"
 		label="&preference.toolbarsPrefPane.label;"
@@ -402,6 +402,10 @@
 				name="extensions.fstbh.style.topChromeBackground"
 				type="string" />
 			<preference
+				id="extensions.fstbh.style.topChromeBackgroundStyle"
+				name="extensions.fstbh.style.topChromeBackgroundStyle"
+				type="string" />
+			<preference
 				id="extensions.fstbh.style.shadowWhenToggled"
 				name="extensions.fstbh.style.shadowWhenToggled"
 				type="bool" />
@@ -412,6 +416,7 @@
 			<radiogroup
 				preference="extensions.fstbh.style.browserBottomBox"
 				orient="vertical">
+
 				<radio
 					value="transparent"
 					label="&preference.style.browserBottomBox.transparent.label;" />
@@ -426,9 +431,17 @@
 			<radiogroup
 				preference="extensions.fstbh.style.topChromeBackground"
 				orient="vertical">
-				<radio
-					value="transparent"
-					label="&preference.style.topChromeBackground.transparent.label;" />
+
+				<hbox>
+					<radio
+						value="customized"
+						label="&preference.style.topChromeBackground.customized.label;" />
+					<textbox
+						type="text"
+						width="160"
+						preference="extensions.fstbh.style.topChromeBackgroundStyle" />
+				</hbox>
+
 				<radio
 					value="default"
 					label="&preference.style.topChromeBackground.default.label;" />
@@ -436,7 +449,7 @@
 		</groupbox>
 		<groupbox>
 			<caption label="&preference.other.label;" />
-		
+
 			<checkbox
 				label="&preference.style.shadowWhenToggled.label;"
 				preference="extensions.fstbh.style.shadowWhenToggled" />

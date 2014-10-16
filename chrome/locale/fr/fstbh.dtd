@@ -56,7 +56,7 @@
 <!ENTITY preference.style.browserBottomBox.default.label "Par défaut">
 
 <!ENTITY preference.style.topChromeBackground.label "Arrière-plan de la barre des onglets">
-<!ENTITY preference.style.topChromeBackground.transparent.label "Transparent">
+<!ENTITY preference.style.topChromeBackground.customized.label "Personnalisé">
 <!ENTITY preference.style.topChromeBackground.default.label "Aucun">
 
 <!ENTITY preference.style.shadowWhenToggled.label "Montrer une ombre en bas des barres d'outils lors de leur affichage">

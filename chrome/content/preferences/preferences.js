@@ -4,8 +4,8 @@ com.sppad.fstbh.PREF_BRANCH = "extensions.fstbh.";
 com.sppad.fstbh.PREFS = {
     // transition delay for showing, milliseconds
     transitionDelayIn : 0,
-		
-    // transition delay for hiding, milliseconds 
+
+    // transition delay for hiding, milliseconds
     transitionDelayOut : 0,
 
     // transition time for appearing, milliseconds
@@ -18,7 +18,7 @@ com.sppad.fstbh.PREFS = {
     // NOTE - height corresponds to no transition since the height is
     // changing from auto to 0.
     transitionProperty : 'height',
-    
+
     // Buffer zone for leaving toggled toolbar open, in pixels
     bottomBuffer : 0,
 
@@ -46,42 +46,45 @@ com.sppad.fstbh.PREFS = {
         // One of default, transparent
         browserBottomBox : 'transparent',
 
-        // One of default, transparent - Windows only
-        topChromeBackground : 'transparent',
-        
+        // One of default, customized - Windows only
+        topChromeBackground : 'customized',
+
+        // Background string - Windows only
+        topChromeBackgroundStyle : 'rgba(255, 255, 255, 0.85)',
+
         // Shadow under navigator-toolbox when toggled
         shadowWhenToggled : true
     },
-    
+
     tweaks: {
         // One of normal, onePixelPadding, dontTriggerOnMouse
         mouse: 'normal',
-        
+
         // Only show when mousing enter toggler rather than mousing into #navigator-toolbox
         mouseEnterOnTogglerOnly: false,
-        
+
         // Show when input has text and not on focus
         toggleWhenFocusedAndHasText: false
     },
 
     // One of hoverOnly, multipleTabs, always
     showTabsToolbar : 'hoverOnly',
-    
+
     // One of hoverOnly, always (TODO - secureSites)
     showNavBar : 'hoverOnly',
-    
+
     // One of hoverOnly, always (TODO - about:blank only)
     showBookmarksBar : 'hoverOnly',
-    
+
     // One of hoverOnly, always
     showAddonsBar : 'hoverOnly',
 
     // Whether or not unmaximized autohide is enabled
     normalAutohide : false,
-    
+
     // Whether or not maximized autohide is enabled
     maximizedAutohide : false,
-    
+
     // Whether or not fullscreen autohide is enabled
     fullscreenAutohide : false,
 
@@ -91,9 +94,9 @@ com.sppad.fstbh.PREFS = {
 
 /**
  * From https://developer.mozilla.org/en/Code_snippets/Preferences
- * 
+ *
  * @constructor
- * 
+ *
  * @param {string}
  *            branch_name
  * @param {Function}
@@ -157,7 +160,7 @@ com.sppad.fstbh.Preferences = new function() {
 
     /**
      * Sets the current preferences for a given branch.
-     * 
+     *
      * @param prefBranch
      *            The branch to set preferences for, e.g. extension.mine.
      * @param prefs
@@ -187,7 +190,7 @@ com.sppad.fstbh.Preferences = new function() {
 
     /**
      * Sets the default preferences for a given branch.
-     * 
+     *
      * @param prefBranch
      *            The branch to set preferences for, e.g. extension.mine.
      * @param prefs
@@ -239,7 +242,7 @@ com.sppad.fstbh.Preferences = new function() {
 
         /**
          * Sets a preference to the given value
-         * 
+         *
          * @param preference
          *            The preference key set
          * @param value
@@ -254,7 +257,7 @@ com.sppad.fstbh.Preferences = new function() {
 
         /**
          * Gets the value of a preference
-         * 
+         *
          * @param preference
          *            The preference to get
          */
@@ -266,7 +269,7 @@ com.sppad.fstbh.Preferences = new function() {
         /**
          * Toggles a boolean preference to have the opposite of the current
          * value.
-         * 
+         *
          * @param preference
          *            The preference key to toggle
          */
@@ -278,7 +281,7 @@ com.sppad.fstbh.Preferences = new function() {
          * Opens a preferences window. Note that on non-Windows platforms, it is
          * possible to have a window created here open as well as one from the
          * addons manager.
-         * 
+         *
          * @param aWindow
          *            A window object to use for opening up the preferences
          *            dialog.

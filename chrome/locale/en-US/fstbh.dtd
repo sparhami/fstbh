@@ -56,7 +56,7 @@
 <!ENTITY preference.style.browserBottomBox.default.label "Default">
 
 <!ENTITY preference.style.topChromeBackground.label "Tabs toolbar background">
-<!ENTITY preference.style.topChromeBackground.transparent.label "Transparent">
+<!ENTITY preference.style.topChromeBackground.customized.label "Customized">
 <!ENTITY preference.style.topChromeBackground.default.label "None">
 
 <!ENTITY preference.style.shadowWhenToggled.label "Use bottom shadow on toolbars when showing">

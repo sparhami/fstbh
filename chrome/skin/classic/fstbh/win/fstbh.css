@@ -11,10 +11,6 @@
 	display: none;
 }
 
-#main-window[fstbh|applied="true"] #navigator-toolbox[fstbh|backgroundStyle="transparent"] {
- 	background-color: rgba(0, 0, 0, 0.4);
-}
-
 #main-window[fstbh|applied="true"][sizemode="maximized"]:not([fstbh|separatedTitlebar="true"]) #com_sppad_fstbh_windowControls {
 	display: -moz-box !important;
 }
