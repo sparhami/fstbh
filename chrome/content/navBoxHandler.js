@@ -20,7 +20,7 @@
  */
 com.sppad.fstbh.NavBoxHandler = new function() {
 
-    const TAB_EVENTS = ['TabSelect', 'TabClose', 'TabOpen', 'TabPinned', 'TabUnpinned', 'TabAttrModified'];
+    const TAB_EVENTS = ['TabSelect', 'TabClose', 'TabOpen', 'TabPinned', 'TabUnpinned', 'TabAttrModified', 'TabMove'];
 
     const FLAGS_CLOSED =                     0x00;
     const HOVERING_MASK =                    0x01;
@@ -145,6 +145,10 @@ com.sppad.fstbh.NavBoxHandler = new function() {
                 break;
             case 'TabClose':
                 trigger = self.prefs['showEvents.showOnTabClose'];
+                self.eventTime = now;
+                break;
+            case 'TabMove':
+                trigger = self.prefs['showEvents.showOnTabMove'];
                 self.eventTime = now;
                 break;
             case 'TabSelect':

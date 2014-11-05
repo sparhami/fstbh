@@ -35,6 +35,9 @@ com.sppad.fstbh.PREFS = {
         // show when tab is selected
         showOnTabSelect : true,
 
+        // show when tab is moved
+        showOnTabMove : true,
+
         // show when location bar is changed (URI)
         showOnLocationChange : false,
 
