@@ -50,7 +50,7 @@ com.sppad.fstbh.PREFS = {
         browserBottomBox : 'transparent',
 
         // One of default, customized - Windows only
-        topChromeBackground : 'customized',
+        topChromeBackground : 'default',
 
         // Background string - Windows only
         topChromeBackgroundStyle : 'rgba(255, 255, 255, 0.85)',
