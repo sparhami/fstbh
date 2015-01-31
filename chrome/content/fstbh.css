@@ -4,7 +4,6 @@
 @namespace fstbh url("http://sppad.com/ns/fstbh");
 
 /* Ignore -moz-collapsed to allow showing during fullscreen */
-#addon-bar:not([collapsed="true"]),
 #PersonalToolbar:not([collapsed="true"]) {
 	visibility: visible;
 }
@@ -12,7 +11,7 @@
 /*
  * Rules for when applied, causing navigator toolbox to show, etc.
  */
-#main-window[fstbh|domFS="true"] :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler, #navigator-toolbox, #browser-bottombox) {
+#main-window[fstbh|domFS="true"] :-moz-any(#com_sppad_fstbh_ssl_info_boundry, .com_sppad_fstbh_toggler, #navigator-toolbox) {
 	display: none !important;
 }
 
@@ -29,17 +28,12 @@
 	visibility: hidden;
 }
 
-#main-window[fstbh|applied="true"]:not([fstbh|toggle_bottom]) #addon-bar {
-	visibility: collapse;
-}
-
 #main-window[fstbh|applied="true"] .com_sppad_fstbh_toggler {
 	background-color: transparent;
 	height: 1px;
 }
 
-#main-window[fstbh|applied="true"][fstbh|toggle_top] #com_sppad_fstbh_top_toggler,
-#main-window[fstbh|applied="true"][fstbh|toggle_bottom] #com_sppad_fstbh_bottom_toggler {
+#main-window[fstbh|applied="true"][fstbh|toggle_top] #com_sppad_fstbh_top_toggler {
 	pointer-events: none;
 }
 
@@ -52,10 +46,6 @@
 
 	/* For no transition style, since hiding is done with height */
 	overflow: hidden;
-}
-
-#main-window[fstbh|applied="true"][fstbh|showAddonsBar="true"] #addon-bar:not([collapsed="true"]) {
-	visibility: visible !important;
 }
 
 /* Hide any toolbars that aren't bing force shown */
