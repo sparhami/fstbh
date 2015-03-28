@@ -35,6 +35,9 @@ com.sppad.fstbh.Main = new function() {
         	case 'transitionProperty':
         		self.updateTransitionProperty();
         		break;
+            case 'style.browserBottomBox':
+                self.applyAttribute('browser-bottombox', 'backgroundStyle', value);
+                break;
             case 'style.topChromeBackground':
             case 'style.topChromeBackgroundStyle':
                 if(self.applied) {
@@ -201,9 +204,11 @@ com.sppad.fstbh.Main = new function() {
             self.offsetBrowser();
             self.setupTheme();
             com.sppad.fstbh.NavBoxHandler.enable();
+            com.sppad.fstbh.BottomBoxHandler.enable();
         } else {
             self.clearTheme();
             com.sppad.fstbh.NavBoxHandler.disable();
+            com.sppad.fstbh.BottomBoxHandler.disable();
         }
 
         let addonbar = document.getElementById('addon-bar');
@@ -346,6 +351,7 @@ com.sppad.fstbh.Main = new function() {
                      'transitionDelay',
                      'transitionProperty',
                      'showWhenTitleChanged',
+                     'style.browserBottomBox',
                      'style.topChromeBackground',
                      'style.shadowWhenToggled',
                      'showTabsToolbar',
