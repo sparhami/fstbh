@@ -211,7 +211,7 @@ com.sppad.fstbh.Main = new function() {
             com.sppad.fstbh.BottomBoxHandler.disable();
         }
 
-        let addonbar = document.getElementById('addon-bar');
+        let addonbar = document.getElementById('browser-bottombox');
         addonbar.setAttribute('context', fullscreen ? 'autohide-context' : 'toolbar-context-menu');
     };
 
@@ -324,7 +324,7 @@ com.sppad.fstbh.Main = new function() {
     self.offsetBrowser = function() {
         let sslBox = document.getElementById('com_sppad_fstbh_ssl_info_boundry');
         let browser = document.getElementById('browser');
-        let addonsBar = document.getElementById('addon-bar');
+        let addonsBar = document.getElementById('browser-bottombox');
 
         let offsetTop = 0;
         let nodes = gNavToolbox.childNodes;
@@ -480,7 +480,7 @@ com.sppad.fstbh.Main = new function() {
             .addObserver(self, "lightweight-theme-styling-update", false);
 
         let menubar = document.getElementById('toolbar-menubar');
-        let addonbar = document.getElementById('addon-bar');
+        let addonbar = document.getElementById('browser-bottombox');
 
         self.menubarObserver.observe(menubar, { attributes: true });
         self.addonbarObserver.observe(addonbar, { attributes: true });

@@ -4,7 +4,7 @@
 @namespace fstbh url("http://sppad.com/ns/fstbh");
 
 /* Ignore -moz-collapsed to allow showing during fullscreen */
-#addon-bar:not([collapsed="true"]),
+#GiT-addon-bar:not([collapsed="true"]),
 #PersonalToolbar:not([collapsed="true"]) {
 	visibility: visible;
 }
@@ -20,6 +20,10 @@
 	display: -moz-stack;
 }
 
+#main-window[fstbh|applied="true"] #browser-bottombox {
+	display: -moz-groupbox;
+}
+
 #main-window[fstbh|applied="true"] #PersonalToolbar:not([collapsed="true"]) {
 	visibility: visible;
 }
@@ -29,8 +33,8 @@
 	visibility: hidden;
 }
 
-#main-window[fstbh|applied="true"]:not([fstbh|toggle_bottom]) #addon-bar {
-	visibility: collapse;
+#main-window[fstbh|applied="true"]:not([fstbh|toggle_bottom]) #browser-bottombox {
+	display: none;
 }
 
 #main-window[fstbh|applied="true"] .com_sppad_fstbh_toggler {
@@ -54,8 +58,8 @@
 	overflow: hidden;
 }
 
-#main-window[fstbh|applied="true"][fstbh|showAddonsBar="true"] #addon-bar:not([collapsed="true"]) {
-	visibility: visible !important;
+#main-window[fstbh|applied="true"][fstbh|showAddonsBar="true"] #browser-bottombox:not([collapsed="true"]) {
+	display: -moz-groupbox;
 }
 
 /* Hide any toolbars that aren't bing force shown */
